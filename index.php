@@ -14,7 +14,7 @@
 <div class="col-sm-12">
     <div class="container d-flex align-items-center justify-content-left">
         <div>
-            <h1 class="display-4">Simplex</h1>
+            <h1 class="display-4">Simply</h1>
             <p class="lead">A lightweight PHP starter template for beginners designed for simple applications.</p>
             <?php include_once('errors.php') ?>
         </div>
