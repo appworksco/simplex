@@ -2,5 +2,6 @@
 
 class modelsFacade extends DBConnection {
 
-
 }
+
+?>
