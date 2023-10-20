@@ -6,9 +6,7 @@
         background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
         background-size: 21px 21px;
     }
-    .container {
-        height: 100vh;
-    }
+    .container {height: 100vh;}
 </style>
 
 <div class="col-sm-12">
@@ -16,7 +14,6 @@
         <div>
             <h1 class="display-4">Simply</h1>
             <p class="lead">A lightweight PHP starter template for beginners designed for simple applications.</p>
-            <?php include_once('errors.php') ?>
         </div>
     </div>
 </div>
