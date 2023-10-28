@@ -1,6 +1,6 @@
 <?php
 
-class modelsFacade extends DBConnection {
+class ModelsFacade extends DBConnection {
 
 }
 

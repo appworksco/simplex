@@ -8,6 +8,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
-    <title>Simply | A lightweight PHP starter template</title>
+    <link rel="stylesheet" href="dist/css/styles.min.css">
+    <title>One Cailum</title>
 </head>
 <body>

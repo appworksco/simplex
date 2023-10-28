@@ -2,7 +2,7 @@
   <div class="alert alert-danger p-2" role="alert">
   	<?php foreach ($invalid as $invalid) : ?>
 			<ul class="m-0">
-				<li><p class="small m-0"><?php echo $invalid ?></p></li>
+				<li><small class="m-0"><?php echo $invalid ?></small></li>
 			</ul>
   	<?php endforeach ?>
   </div>
