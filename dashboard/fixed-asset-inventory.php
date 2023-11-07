@@ -1,9 +1,13 @@
 <?php 
 
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
+include realpath(__DIR__ . '/../models/users-facade.php');
 include realpath(__DIR__ . '/../models/departments-facade.php');
+include realpath(__DIR__ . '/../models/assets-facade.php');
 
+$usersFacade = new UsersFacade;
 $departmentsFacade = new DepartmentsFacade;
+$assetsFacade = new AssetsFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -27,23 +31,29 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_department"])) {
-    $departmentName = $_POST["department_name"];
-    $departmentCode = $_POST["department_code"];
+if (isset($_POST["add_asset"])) {
+    $employee = $_POST["employee"];
+    $empDepartment = $_POST["department"];
+    $assetName = $_POST["asset_name"];
+    $description = $_POST["description"];
+    $quantity = $_POST["qty"];
+    $condition = $_POST["condition"];
+    $remarks = $_POST["remarks"];
+    $addedBy = $_POST["added_by"];
+    $addedOn = $_POST["added_on"];
 
-    if (empty($departmentName)) {
-        array_push($invalid, 'Department Name should not be empty.');
-    } if (empty($departmentCode)) {
-        array_push($invalid, 'Department Code should not be empty.');
+    if (empty($employee)) {
+        array_push($invalid, 'Employee should not be empty.');
+    } if (empty($assetName)) {
+        array_push($invalid, 'Name of Item / Asset should not be empty.');
+    } if (empty($description)) {
+        array_push($invalid, 'Description should not be empty.');
+    } if (empty($quantity)) {
+        array_push($invalid, 'Quantity should not be empty.');
     } else {
-        $verifyDepartmentCode = $departmentsFacade->verifyDepartmentCode($departmentCode);
-        if ($verifyDepartmentCode > 0) {
-            array_push($invalid, 'Department has already been added.');
-        } else {
-            $addDepartment = $departmentsFacade->addDepartment($departmentName, $departmentCode);
-            if ($addDepartment) {
-                array_push($success, 'Department has been added successfully');
-            }
+        $addAsset = $assetsFacade->addAsset($employee, $empDepartment, $assetName, $description, $quantity, $condition, $remarks, $addedBy, $addedOn);
+        if ($addAsset) {
+            array_push($success, 'Asset has been added successfully');
         }
     }
 }
@@ -119,39 +129,76 @@ if (isset($_POST["add_department"])) {
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <!-- Administrator View Start -->
-                                <?php if ($userRole == 1) { ?>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDepartment">Add Department</button>
-                                <?php } ?>
+                                <div class="d-flex">
+                                    <!-- Administrator View Start -->
+                                    <?php if ($department == 'ICT') { ?>
+                                        <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#addAsset">Add Asset</button>
+                                    <?php } ?>
+                                </div>
                             </div>
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
                             </div>
                             <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
+                            <table id="assetOverview" class="display nowrap" style="width:100%">
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Department Name</h6>
+                                                <h6 class="fw-semibold mb-0">Employee</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Department Code</h6>
+                                                <h6 class="fw-semibold mb-0">Department</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Name of Item / Asset</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Description</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Quantity</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Condition</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Remarks</h6>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $fetchDepartments = $departmentsFacade->FetchDepartments();
-                                    while ($row = $fetchDepartments->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    $fetchAssets = $assetsFacade->fetchAssets();
+                                    while ($row = $fetchAssets->fetch(PDO::FETCH_ASSOC)) { ?>
                                         <tr>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["department_name"]?></p>                         
+                                                <p class="mb-0 fw-normal"><?= $row["employee"]?></p>                         
                                             </td>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["department_code"]?></p>
+                                                <?php
+                                                $departmentCode = $row["department"];
+                                                $fetchDepartmentByCode = $departmentsFacade->fetchDepartmentByCode($departmentCode);
+                                                while ($dept = $fetchDepartmentByCode->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                    <p class="mb-0 fw-normal"><?= $dept["department_name"]?></p>  
+                                                <?php } ?>
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal"><?= $row["asset_name"]?></p>                         
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal"><?= $row["description"]?></p>                         
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal"><?= $row["quantity"]?></p>                         
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal"><?= $row["con"]?></p>                         
+                                            </td>
+                                            <td class="border-bottom-0">
+                                                <p class="mb-0 fw-normal"><?= $row["remarks"]?></p>                         
                                             </td>
                                         </tr> 
-                                    <?php } ?>                 
+                                    <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -166,5 +213,5 @@ if (isset($_POST["add_department"])) {
     </div>
 </div>
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-department-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-asset-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>

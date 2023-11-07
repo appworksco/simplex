@@ -11,11 +11,11 @@
                         <form action="departments" method="post">
                             <div class="mb-3">
                                 <label for="departmentName" class="form-label">Department Name</label>
-                                <input type="text" class="form-control" id="departmentName">
+                                <input type="text" class="form-control" id="departmentName" name="department_name">
                             </div>
                             <div class="mb-3">
                                 <label for="departmentCode" class="form-label">Department Code</label>
-                                <input type="password" class="form-control" id="departmentCode">
+                                <input type="text" class="form-control" id="departmentCode" name="department_code">
                             </div>
                             <button type="submit" class="btn btn-primary" name="add_department">Add Department</button>
                         </form>
