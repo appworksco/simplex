@@ -3,7 +3,7 @@
 class AssetsFacade extends DBConnection {
 
     public function fetchAssets() {
-        $sql = $this->connect()->prepare("SELECT * FROM assets");
+        $sql = $this->connect()->prepare("SELECT * FROM assets ORDER BY 'added_date' AND 'department'");
         $sql->execute();
         return $sql;
     }
@@ -13,6 +13,12 @@ class AssetsFacade extends DBConnection {
         $sql->execute([$employee, $empDepartment, $assetName, $description, $quantity, $condition, $remarks, $addedBy, $addedOn]);
         return $sql;
     }
+
+    public function deleteAsset($assetNum)  {
+        $sql = $this->connect()->prepare("DELETE FROM assets WHERE id = $assetNum");
+        $sql->execute();
+        return $sql;
+      }
 
 }
 

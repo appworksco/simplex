@@ -1,4 +1,4 @@
-<div class="modal fade" id="addAsset" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="addAssetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="card">
                     <div class="card-body">
-                        <form action="fixed-asset-inventory" method="post">
+                        <form id="addAssetForm" action="fixed-asset-inventory?is_submitted=1" method="post" onsubmit="openModal()">
                             <div class="mb-3">
                                 <label for="employee" class="form-label">Employee</label>
                                 <input class="form-control" list="employees" id="employee" placeholder="Type to search..." name="employee">
@@ -45,8 +45,9 @@
                             <div class="mb-3">
                                 <label for="condition" class="form-label">Condition</label>
                                 <select id="condition" class="form-select" name="condition">
-                                    <option value="Good Condition">Good Condition</option>
-                                    <option value="Depreciated">Depreciated</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Fair">Fair</option>
+                                    <option value="Scrap">Scrap</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -73,7 +74,7 @@
                             </div>
                             <input type="hidden" value="<?= $firstName . ' ' . $lastName ?>" name="added_by">
                             <input type="hidden" value="<?= date("m-d-y") ?>" name="added_on">
-                            <button type="submit" class="btn btn-primary" name="add_asset">Add Asset</button>
+                            <button type="submit" class="btn btn-info" name="add_asset">Save & Add Another</button>
                         </form>
                     </div>
                 </div>
