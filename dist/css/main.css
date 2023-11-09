@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'barcode';
+    src: url('../fonts/3OF9_NEW.TTF');
+}
+
+.barcode {
+    font-family: barcode;
+}

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>One Centro</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Appworks Co.">
@@ -12,6 +13,5 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="../dist/css/styles.min.css">
     <link rel="stylesheet" href="../dist/css/main.css">
-    <title>One Centro</title>
 </head>
 <body>

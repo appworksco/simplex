@@ -144,7 +144,7 @@ if (isset($_POST["add_asset"])) {
                                 <?php include('../errors.php') ?>
                             </div>
                             <div class="table-responsive">
-                                <table id="assetOverview" class="display nowrap table table-hover data-table" style="width:100%">
+                                <table id="assetOverview" class="display nowrap" style="width:100%">
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
@@ -177,7 +177,7 @@ if (isset($_POST["add_asset"])) {
                                     <?php
                                     $fetchAssets = $assetsFacade->fetchAssets();
                                     while ($row = $fetchAssets->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tr role="row" class="odd">
+                                        <tr>
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal"><?= $row["employee"]?></p>                         
                                             </td>

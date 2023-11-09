@@ -143,75 +143,8 @@ if (isset($_POST["add_asset"])) {
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
                             </div>
-                            <div class="table-responsive">
-                                <table id="assetOverview" class="display nowrap" style="width:100%">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Employee</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Department</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Name of Item / Asset</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Description</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Quantity</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Condition</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Remarks</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $fetchAssets = $assetsFacade->fetchAssets();
-                                    while ($row = $fetchAssets->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["employee"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <?php
-                                                $departmentCode = $row["department"];
-                                                $fetchDepartmentByCode = $departmentsFacade->fetchDepartmentByCode($departmentCode);
-                                                while ($dept = $fetchDepartmentByCode->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                    <p class="mb-0 fw-normal"><?= $dept["department_name"]?></p>  
-                                                <?php } ?>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["asset_name"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["description"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["quantity"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["con"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["remarks"]?></p>                         
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <!-- <a href="" class="btn btn-info">Update</a> -->
-                                                <a href="delete-asset?asset_num=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this asset?');">Delete</a>
-                                            </td>
-                                        </tr> 
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
+                            <div class="table-responsive" style="height: 650px; overflow: hidden">
+                                <iframe src="./asset-overview.php" class="w-100" height="100%"></iframe>
                             </div>
                         </div>
                     </div>
@@ -228,7 +161,6 @@ if (isset($_POST["add_asset"])) {
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php	
-
     // Open modal if add asset form is submitted
     if (isset($_GET["is_submitted"])) {
         $isSubmitted = $_GET["is_submitted"];

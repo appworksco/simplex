@@ -45,6 +45,7 @@
                             <div class="mb-3">
                                 <label for="condition" class="form-label">Condition</label>
                                 <select id="condition" class="form-select" name="condition">
+                                    <option value="">None</option>
                                     <option value="Good">Good</option>
                                     <option value="Fair">Fair</option>
                                     <option value="Scrap">Scrap</option>
@@ -53,6 +54,7 @@
                             <div class="mb-3">
                                 <label for="remarks" class="form-label">Remarks</label>
                                 <select id="remarks" class="form-select" name="remarks">
+                                    <option value="">None</option>
                                     <option value="2007">2007</option>
                                     <option value="2008">2008</option>
                                     <option value="2009">2009</option>
