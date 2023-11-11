@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Asset Overview</title>
+    <title> - Asset Overview</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
@@ -76,10 +76,17 @@
                 page-break-after: always;
             }
         }
+
+        @media print {
+            @page {
+            size: auto;
+            margin-bottom: 5mm;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="data-table-container">
+<div class="data-table-container" style="overflow: hidden">
     <table class="table table-hover data-table">
         <thead>
             <tr>
@@ -189,10 +196,10 @@
                     $(win.document.body).find( 'tbody > tr > td:last-child' )
                         .addClass( 'barcode')
                         .addClass( 'd-flex')
-                        .css( 'font-size', '20px' );
+                        .css( 'font-size', '32px' );
                     $(win.document.body).find( 'tbody > tr' )
-                        .wrap( "<div class='col-xs-2 p-0'></div>" );
-                    $(win.document.body).find( '.col-xs-2 > tr' )
+                        .wrap( "<div class='col-xs-3 p-0'></div>" );
+                    $(win.document.body).find( '.col-xs-3 > tr' )
                         .wrap( "<div class='padding m-0'></div>" );
                     var divs = $(win.document.body).find( 'tbody > .col-xs-4' );
                 

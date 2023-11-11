@@ -25,10 +25,6 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
-if (isset($_GET["delete_asset"])) {
-    $deleteAsset = $_GET["delete_asset"];
-    array_push($success, $deleteAsset);
-}
 
 // Redirect user if user id is empty
 if ($userId == 0) {
@@ -43,6 +39,9 @@ if (isset($_POST["add_asset"])) {
     $quantity = $_POST["qty"];
     $condition = $_POST["condition"];
     $remarks = $_POST["remarks"];
+    $series = $_POST["barcode"] + 1;
+    $barcode = date('Y') . '-' . sprintf('%08d', $series);
+    $updatedSeries = sprintf('%08d', $series);
     $addedBy = strtoupper($_POST["added_by"]);
     $addedOn = strtoupper($_POST["added_on"]);
 
@@ -55,8 +54,9 @@ if (isset($_POST["add_asset"])) {
     } if (empty($quantity)) {
         array_push($invalid, 'Quantity should not be empty.');
     } else {
-        $addAsset = $assetsFacade->addAsset($employee, $empDepartment, $assetName, $description, $quantity, $condition, $remarks, $addedBy, $addedOn);
+        $addAsset = $assetsFacade->addAsset($employee, $empDepartment, $assetName, $description, $quantity, $condition, $remarks, $barcode, $addedBy, $addedOn);
         if ($addAsset) {
+            $updateSeries = $assetsFacade->updateSeries($updatedSeries);
             array_push($success, 'Asset has been added successfully');
         }
     }
