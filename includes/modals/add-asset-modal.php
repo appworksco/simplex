@@ -16,7 +16,7 @@
                                         <input class="form-control" list="employees" id="employee" placeholder="Type to search..." name="employee">
                                         <datalist id="employees">
                                             <?php
-                                            $fetchUsers = $usersFacade->FetchUsers();
+                                            $fetchUsers = $usersFacade->fetchUsers();
                                             while ($row = $fetchUsers->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value="<?= $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] ?>">
                                             <?php } ?> 
@@ -26,7 +26,7 @@
                                         <label for="department" class="form-label">Department</label>
                                         <select id="department" class="form-select" name="department">
                                             <?php
-                                            $fetchDepartments = $departmentsFacade->FetchDepartments();
+                                            $fetchDepartments = $departmentsFacade->fetchDepartments();
                                             while ($row = $fetchDepartments->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value="<?= $row["department_code"] ?>"><?= $row["department_name"] ?></option>
                                             <?php } ?>

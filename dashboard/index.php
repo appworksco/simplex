@@ -121,9 +121,11 @@ if ($userId == 0) {
 
                 <div class="card w-100">
                     <div class="card-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Applications</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Modules</h5>
                     </div>
                     <div class="card-body">
+                        <h5>Fixed Asset Inventory</h5>
+                        <p>A fixed asset inventory, also known as a fixed asset register or asset management system, is a record of a company's tangible assets that are expected to provide benefits for more than one year. Fixed assets typically include things like buildings, machinery, vehicles, computers, and other long-term assets used in the production or supply of goods and services.</p>
                         <h5>RFID Attendance System</h5>
                         <p>Minimize absenteeism & enhance punctuality of employees by tracking & maintaining accurate attendance records using employees ID.</p>
                     </div>

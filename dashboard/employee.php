@@ -96,7 +96,15 @@ if ($userId == 0) {
                 <div class="col-lg-12 d-flex align-items-strech">
                     <div class="card w-100">
                         <div class="card-body p-4">
-                            <h5 class="card-title fw-semibold mb-4">Overview</h5>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title fw-semibold my-2">Overview</h5>
+                                <div class="d-flex">
+                                    <!-- Administrator View Start -->
+                                    <?php if ($department == 'HR') { ?>
+                                        <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
+                                    <?php } ?>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
@@ -171,4 +179,5 @@ if ($userId == 0) {
     </div>
 </div>
 
+<?php include realpath(__DIR__ . '/../includes/modals/add-employee-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>

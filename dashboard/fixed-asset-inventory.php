@@ -134,7 +134,7 @@ if (isset($_POST["add_asset"])) {
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
                                 <div class="d-flex">
-                                    <!-- Administrator View Start -->
+                                    <!-- ICT View Start -->
                                     <?php if ($department == 'ICT') { ?>
                                         <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#addAssetModal">Add Asset</button>
                                     <?php } ?>

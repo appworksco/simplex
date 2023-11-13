@@ -21,6 +21,13 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
+if (isset($_GET["is_updated"])) {
+    $departmentId = $_GET["is_updated"];
+}
+if (isset($_GET["delete_msg"])) {
+    $msg = $_GET["delete_msg"];
+    array_push($success, $msg);
+}
 
 // Redirect user if user id is empty
 if ($userId == 0) {
@@ -43,6 +50,28 @@ if (isset($_POST["add_department"])) {
             $addDepartment = $departmentsFacade->addDepartment($departmentName, $departmentCode);
             if ($addDepartment) {
                 array_push($success, 'Department has been added successfully');
+            }
+        }
+    }
+}
+
+if (isset($_POST["update_department"])) {
+    $departmentId = $_POST["department_id"];
+    $departmentName = $_POST["department_name"];
+    $departmentCode = $_POST["department_code"];
+
+    if (empty($departmentName)) {
+        array_push($invalid, 'Department Name should not be empty.');
+    } if (empty($departmentCode)) {
+        array_push($invalid, 'Department Code should not be empty.');
+    } else {
+        $verifyDepartmentCode = $departmentsFacade->verifyDepartmentCode($departmentCode);
+        if ($verifyDepartmentCode > 0) {
+            array_push($invalid, 'Department has already been added.');
+        } else {
+            $updateDepartment = $departmentsFacade->updateDepartment($departmentName, $departmentCode, $departmentId);
+            if ($updateDepartment) {
+                array_push($success, 'Department has been updated successfully');
             }
         }
     }
@@ -121,7 +150,7 @@ if (isset($_POST["add_department"])) {
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
                                 <!-- Administrator View Start -->
                                 <?php if ($userRole == 1) { ?>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDepartment">Add Department</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">Add Department</button>
                                 <?php } ?>
                             </div>
                             <div class="py-2">
@@ -134,9 +163,14 @@ if (isset($_POST["add_department"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Department Name</h6>
                                             </th>
+                                            <?php if ($userRole == 1) { ?>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Department Code</h6>
                                             </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -147,9 +181,15 @@ if (isset($_POST["add_department"])) {
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal"><?= $row["department_name"]?></p>                         
                                             </td>
+                                            <?php if ($userRole == 1) { ?>
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal"><?= $row["department_code"]?></p>
                                             </td>
+                                            <td class="border-bottom-0">
+                                                <a href="departments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                <a href="delete-department?department_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this department?');">Delete</a>
+                                            </td>
+                                            <?php } ?>
                                         </tr> 
                                     <?php } ?>                 
                                     </tbody>
@@ -167,4 +207,21 @@ if (isset($_POST["add_department"])) {
 </div>
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-department-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-department-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
+
+<?php	
+    // Open modal if add asset form is submitted
+    if (isset($_GET["is_updated"])) {
+        $departmentId = $_GET["is_updated"];
+        if ($departmentId) {
+            echo '<script type="text/javascript">
+                $(document).ready(function(){
+                    $("#updateDepartmentModal").modal("show");
+                });
+            </script>';
+        } else {
+
+        }
+    }
+?>

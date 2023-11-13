@@ -165,7 +165,7 @@
 
 <script type="text/javascript">
     $('table.data-table').DataTable({
-        paging: false,
+        paging: true,
         columnDefs: [{
             targets: 'no-sort',
             orderable: false
@@ -196,10 +196,10 @@
                     $(win.document.body).find( 'tbody > tr > td:last-child' )
                         .addClass( 'barcode')
                         .addClass( 'd-flex')
-                        .css( 'font-size', '32px' );
+                        .css( 'font-size', '20px' );
                     $(win.document.body).find( 'tbody > tr' )
-                        .wrap( "<div class='col-xs-3 p-0'></div>" );
-                    $(win.document.body).find( '.col-xs-3 > tr' )
+                        .wrap( "<div class='col-xs-2 p-0'></div>" );
+                    $(win.document.body).find( '.col-xs-2 > tr' )
                         .wrap( "<div class='padding m-0'></div>" );
                     var divs = $(win.document.body).find( 'tbody > .col-xs-4' );
                 

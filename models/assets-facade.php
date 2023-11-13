@@ -30,7 +30,7 @@ class AssetsFacade extends DBConnection {
         $sql = $this->connect()->prepare("DELETE FROM assets WHERE id = $assetNum");
         $sql->execute();
         return $sql;
-      }
+    }
 
 }
 
