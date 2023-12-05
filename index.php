@@ -57,6 +57,9 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             <div>
                 <h1 class="display-4">One <span class="text-danger">Centro</span></h1>
                 <p class="lead">The purpose of this centralized system is to streamline departmental processes, improve communication, enhance efficiency, and facilitate data management within the company.</p>
+                <div class="py-6">
+                    <p class="mb-0 fs-4">Developed by: ICT Department</p>
+                </div>
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -77,7 +80,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
                             <label>
                                 <input type="checkbox" onclick="myFunction()"> Show Password
                             </label>
-                            <button class="btn btn-sm"><a href="#">Forgot password</a></button>
+                            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password</button>
                         </div>
                         <button type="submit" class="w-100 btn btn-lg btn-primary" name="sign_in">Sign in</button>
                     </form>
@@ -98,3 +101,4 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     }
 </script>
 <?php include realpath(__DIR__ . '/includes/layout/footer.php') ?>
+<?php include realpath(__DIR__ . '/includes/modals/forgot-password-modal.php') ?>

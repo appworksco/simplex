@@ -40,7 +40,7 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a class="sidebar-link" href="positions" aria-expanded="false">
+            <a class="sidebar-link" href="services" aria-expanded="false">
                 <span><i class="ti ti-clipboard"></i></span>
                 <span class="hide-menu">Services</span>
             </a>

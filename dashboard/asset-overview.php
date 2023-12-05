@@ -201,15 +201,6 @@
                         .wrap( "<div class='col-xs-2 p-0'></div>" );
                     $(win.document.body).find( '.col-xs-2 > tr' )
                         .wrap( "<div class='padding m-0'></div>" );
-                    var divs = $(win.document.body).find( 'tbody > .col-xs-4' );
-                
-                    //delete divs[ 0 ];
-                    console.log(divs);
-                    var x = 0;
-                    for(var i = 0; i < divs.length; i+=4) {
-                        divs.slice(i, i+4).wrapAll("<div class='row'></div>");
-                        $( "tbody row:nth-child(6)" ).after( "<div class='page-break'></div>" );
-                    }
                 }
             }, {
                 extend: 'excel',
