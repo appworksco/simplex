@@ -46,27 +46,11 @@ if (isset($_POST["company_id_out"])) {
     $companyId = $_POST["company_id_out"];
     date_default_timezone_set('Asia/Manila');
     $date = date("m-d-Y");
-    // check initially whether the employee has already clocked in for the day.
-    $verifyEmployeeTimeIn = $rfidFacade->verifyEmployeeTimeIn($companyId, $date);
-    if ($verifyEmployeeTimeIn == 0) {
-        array_push($invalid, 'Please time in first within the day!');
-    } else {
-        $fetchRfidByCompanyId = $rfidFacade->fetchRfidByCompanyId($companyId);
-        while ($row = $fetchRfidByCompanyId->fetch(PDO::FETCH_ASSOC)) {
-            if ($row["time_out"] != NULL) {
-                array_push($invalid, 'You already time out within the day!');
-            } else {
-                if ($row["time_in"] != NULL) {
-                    $timeOut = date("h:i:s");
-                    $employeeTimeOut = $rfidFacade->employeeTimeOut($companyId, $date, $timeOut);
-                    if ($employeeTimeOut) {
-                        array_push($success, 'You have successfully time out!');
-                    }
-                }
-            }
-        }
+    $timeOut = date("h:i:s");
+    $employeeTimeOut = $rfidFacade->employeeTimeOut($companyId, $date, $timeOut);
+    if ($employeeTimeOut) {
+        array_push($success, 'You have successfully time out!');
     }
-   
 }
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-    include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
+    include realpath(__DIR__ . '/../autoload.php');
     include realpath(__DIR__ . '/../models/departments-facade.php');
     include realpath(__DIR__ . '/../models/assets-facade.php');
 
@@ -13,11 +13,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> - Asset Overview</title>
+    <title>One Centro - Asset Overview</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/s/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.10,b-1.1.0,b-flash-1.1.0,b-html5-1.1.0,b-print-1.1.0,fh-3.1.0,sc-1.4.0/datatables.min.css">
+    <link rel="stylesheet" href=".././dist/css/main.css">
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -170,7 +171,7 @@
             targets: 'no-sort',
             orderable: false
         }],
-        dom: '<"row"<"col-sm-6"Bl><"col-sm-6"f>>' +
+        dom: '<"row"<"col-sm-6"B><"col-sm-6"f>>' +
             '<"row"<"col-sm-12"<"table-responsive"tr>>>' +
             '<"row"<"col-sm-5"i><"col-sm-7"p>>',
         fixedHeader: {
@@ -196,7 +197,7 @@
                     $(win.document.body).find( 'tbody > tr > td:last-child' )
                         .addClass( 'barcode')
                         .addClass( 'd-flex')
-                        .css( 'font-size', '20px' );
+                        .css( 'font-size', '16px' );
                     $(win.document.body).find( 'tbody > tr' )
                         .wrap( "<div class='col-xs-2 p-0'></div>" );
                     $(win.document.body).find( '.col-xs-2 > tr' )

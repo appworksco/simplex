@@ -9,7 +9,7 @@ class PositionsFacade extends DBConnection {
     }
 
     public function fetchPositionByCode($positionCode) {
-        $sql = $this->connect()->prepare("SELECT position_name FROM position WHERE position_code = ?");
+        $sql = $this->connect()->prepare("SELECT position_name FROM positions WHERE position_code = ?");
         $sql->execute([$positionCode]);
         return $sql;
     }
@@ -40,7 +40,7 @@ class PositionsFacade extends DBConnection {
     }
 
     public function deletePosition($positionId)  {
-        $sql = $this->connect()->prepare("DELETE FROM position WHERE id = $positionId");
+        $sql = $this->connect()->prepare("DELETE FROM positions WHERE id = $positionId");
         $sql->execute();
         return $sql;
     }

@@ -2,8 +2,10 @@
 
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
 include realpath(__DIR__ . '/../models/positions-facade.php');
+include realpath(__DIR__ . '/../models/services-facade.php');
 
 $positionsFacade = new PositionsFacade;
+$servicesFacade = new ServicesFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -22,7 +24,7 @@ if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
 if (isset($_GET["is_updated"])) {
-    $departmentId = $_GET["is_updated"];
+    $serviceId = $_GET["is_updated"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -34,45 +36,40 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_position"])) {
-    $positionName = $_POST["position_name"];
-    $positionCode = $_POST["position_code"];
+if (isset($_POST["add_service"])) {
+    $serviceName = $_POST["service_name"];
+    $serviceCode = $_POST["service_code"];
 
-    if (empty($positionName)) {
-        array_push($invalid, 'Position Name should not be empty.');
-    } if (empty($positionCode)) {
-        array_push($invalid, 'Position Code should not be empty.');
+    if (empty($serviceName)) {
+        array_push($invalid, 'Service Name should not be empty.');
+    } if (empty($serviceCode)) {
+        array_push($invalid, 'Service Code should not be empty.');
     } else {
-        $verifyPositionCode = $positionsFacade->verifyPositionCode($positionCode);
-        if ($verifyPositionCode > 0) {
-            array_push($invalid, 'Position has already been added.');
+        $verifyServiceCode = $servicesFacade->verifyServiceCode($serviceCode);
+        if ($verifyServiceCode > 0) {
+            array_push($invalid, 'Service has already been added.');
         } else {
-            $addPosition = $positionsFacade->addPosition($positionName, $positionCode);
-            if ($addPosition) {
-                array_push($success, 'Position has been added successfully');
+            $addService = $servicesFacade->addService($serviceName, $serviceCode);
+            if ($addService) {
+                array_push($success, 'Service has been added successfully');
             }
         }
     }
 }
 
-if (isset($_POST["update_position"])) {
-    $positionId = $_POST["position_id"];
-    $positionName = $_POST["position_name"];
-    $positionCode = $_POST["position_code"];
+if (isset($_POST["update_service"])) {
+    $serviceId = $_POST["service_id"];
+    $serviceName = $_POST["service_name"];
+    $serviceCode = $_POST["service_code"];
 
-    if (empty($positionName)) {
-        array_push($invalid, 'Position Name should not be empty.');
-    } if (empty($positionCode)) {
-        array_push($invalid, 'Position Code should not be empty.');
+    if (empty($serviceName)) {
+        array_push($invalid, 'Service Name should not be empty.');
+    } if (empty($serviceCode)) {
+        array_push($invalid, 'Service Code should not be empty.');
     } else {
-        $verifyPositionCode = $positionsFacade->verifyPositionCode($positionCode);
-        if ($verifyPositionCode > 0) {
-            array_push($invalid, 'Position has already been added.');
-        } else {
-            $updatePosition = $positionsFacade->updatePosition($positionName, $positionCode, $positionId);
-            if ($updatePosition) {
-                array_push($success, 'Position has been updated successfully');
-            }
+        $updateService = $servicesFacade->updateService($serviceName, $serviceCode, $serviceId);
+        if ($updateService) {
+            array_push($success, 'Service has been updated successfully');
         }
     }
 }
@@ -150,7 +147,7 @@ if (isset($_POST["update_position"])) {
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
                                 <!-- Administrator View Start -->
                                 <?php if ($userRole == 1) { ?>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPositionModal">Add Position</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServiceModal">Add Service</button>
                                 <?php } ?>
                             </div>
                             <div class="py-2">
@@ -161,11 +158,11 @@ if (isset($_POST["update_position"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Position Name</h6>
+                                                <h6 class="fw-semibold mb-0">Services Name</h6>
                                             </th>
                                             <?php if ($userRole == 1) { ?>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Position Code</h6>
+                                                <h6 class="fw-semibold mb-0">Services Code</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Action</h6>
@@ -175,23 +172,23 @@ if (isset($_POST["update_position"])) {
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $fetchPositions = $positionsFacade->FetchPositions();
-                                    while ($row = $fetchPositions->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    $fetchServices = $servicesFacade->FetchServices();
+                                    while ($row = $fetchServices->fetch(PDO::FETCH_ASSOC)) { ?>
                                         <tr>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["position_name"]?></p>                         
+                                                <p class="mb-0 fw-normal"><?= $row["service_name"]?></p>                         
                                             </td>
                                             <?php if ($userRole == 1) { ?>
                                             <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["position_code"]?></p>
+                                                <p class="mb-0 fw-normal"><?= $row["service_code"]?></p>
                                             </td>
                                             <td class="border-bottom-0">
-                                                <a href="positions?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                <a href="delete-position?position_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this position?');">Delete</a>
+                                                <a href="services?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                <a href="delete-service?service_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this service?');">Delete</a>
                                             </td>
                                             <?php } ?>
-                                        </tr> 
-                                    <?php } ?>             
+                                        </tr>
+                                    <?php } ?>                 
                                     </tbody>
                                 </table>
                             </div>
@@ -206,18 +203,18 @@ if (isset($_POST["update_position"])) {
     </div>
 </div>
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-position-modal.php') ?>
-<?php include realpath(__DIR__ . '/../includes/modals/update-department-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-service-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-service-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php	
     // Open modal if add asset form is submitted
     if (isset($_GET["is_updated"])) {
-        $positionId = $_GET["is_updated"];
-        if ($positionId) {
+        $serviceId = $_GET["is_updated"];
+        if ($serviceId) {
             echo '<script type="text/javascript">
                 $(document).ready(function(){
-                    $("#updateDepartmentModal").modal("show");
+                    $("#updateServiceModal").modal("show");
                 });
             </script>';
         } else {

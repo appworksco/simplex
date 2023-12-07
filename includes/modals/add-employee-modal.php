@@ -45,6 +45,13 @@
                                         <label for="contactPersonNumber" class="form-label">Contact Person Number</label>
                                         <input type="text" class="form-control" id="contactPersonNumber" name="contact_person_number">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select" name="department" id="department">
+                                            
+                                            <option value="">1</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <input type="hidden" value="<?= $firstName . ' ' . $lastName ?>" name="added_by">

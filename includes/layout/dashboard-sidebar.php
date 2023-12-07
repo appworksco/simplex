@@ -56,6 +56,12 @@
                 <span class="hide-menu">Fixed Asset Inventory</span>
             </a>
         </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="rfid" aria-expanded="false">
+                <span><i class="ti ti-clock"></i></span>
+                <span class="hide-menu">RFID Attendance System</span>
+            </a>
+        </li>
         <?php } ?>
         <!-- ICT View End -->
     </ul>

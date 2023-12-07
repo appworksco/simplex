@@ -2,8 +2,10 @@
 
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
 include realpath(__DIR__ . '/../models/users-facade.php');
+include realpath(__DIR__ . '/../models/positions-facade.php');
 
 $usersFacade = new UsersFacade;
+$positionsFacade = new PositionsFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -98,15 +100,16 @@ if ($userId == 0) {
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <div class="d-flex">
-                                    <!-- Administrator View Start -->
-                                    <?php if ($department == 'HR') { ?>
-                                        <button type="button" class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
+                                <!-- Administrator View Start -->
+                                <?php if ($department == 'HR') { ?>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
                                     <?php } ?>
-                                </div>
+                            </div>
+                            <div class="py-2">
+                                <?php include('../errors.php') ?>
                             </div>
                             <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
+                                <table class="table data-table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
@@ -140,7 +143,12 @@ if ($userId == 0) {
                                         <tr>
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-1"><?= $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] ?></h6>
-                                                <span class="fw-normal"><?= $row["position"] ?></span>                          
+                                                <?php
+                                                $positionCode = $row["position_code"];
+                                                $fetchPositionByCode = $positionsFacade->fetchPositionByCode($positionCode);
+                                                while ($pos = $fetchPositionByCode->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                    <span class="fw-normal"><?= $pos["position_name"] ?></span>
+                                                <?php } ?>                    
                                             </td>
                                             <td class="border-bottom-0">
                                                 <p class="mb-0 fw-normal"><?= $row["department"] ?></p>

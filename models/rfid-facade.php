@@ -16,7 +16,7 @@ class RFIDFacade extends DBConnection {
     }
 
     public function verifyEmployeeTimeOut($companyId, $date) {
-        $sql = $this->connect()->prepare("SELECT company_id, date FROM rfid WHERE company_id = ? AND date = ?");
+        $sql = $this->connect()->prepare("SELECT company_id, date FROM rfid WHERE company_id = ? AND date = ? AND time_out = NULL");
         $sql->execute([$companyId, $date]);
         $count = $sql->rowCount();
         return $count;

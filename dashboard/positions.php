@@ -57,24 +57,19 @@ if (isset($_POST["add_position"])) {
     }
 }
 
-if (isset($_POST["update_department"])) {
-    $departmentId = $_POST["department_id"];
-    $departmentName = $_POST["department_name"];
-    $departmentCode = $_POST["department_code"];
+if (isset($_POST["update_position"])) {
+    $positionId = $_POST["position_id"];
+    $positionName = $_POST["position_name"];
+    $positionCode = $_POST["position_code"];
 
-    if (empty($departmentName)) {
-        array_push($invalid, 'Department Name should not be empty.');
-    } if (empty($departmentCode)) {
-        array_push($invalid, 'Department Code should not be empty.');
+    if (empty($positionName)) {
+        array_push($invalid, 'Position Name should not be empty.');
+    } if (empty($positionCode)) {
+        array_push($invalid, 'Position Code should not be empty.');
     } else {
-        $verifyDepartmentCode = $departmentsFacade->verifyDepartmentCode($departmentCode);
-        if ($verifyDepartmentCode > 0) {
-            array_push($invalid, 'Department has already been added.');
-        } else {
-            $updateDepartment = $departmentsFacade->updateDepartment($departmentName, $departmentCode, $departmentId);
-            if ($updateDepartment) {
-                array_push($success, 'Department has been updated successfully');
-            }
+        $updatePosition = $positionsFacade->updatePosition($positionName, $positionCode, $positionId);
+        if ($updatePosition) {
+            array_push($success, 'Position has been updated successfully');
         }
     }
 }
@@ -189,7 +184,7 @@ if (isset($_POST["update_department"])) {
                                             </td>
                                             <td class="border-bottom-0">
                                                 <a href="positions?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                <a href="delete-position?position_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this department?');">Delete</a>
+                                                <a href="delete-position?position_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this position?');">Delete</a>
                                             </td>
                                             <?php } ?>
                                         </tr>

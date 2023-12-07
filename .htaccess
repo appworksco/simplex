@@ -1,4 +1,4 @@
-ErrorDocument 404 /simplex/404.php
+ErrorDocument 404 /one-centro/404.php
 
 RewriteEngine on
 
