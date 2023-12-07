@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="departments" method="post">
+                    <form action="departments" method="post">
+                        <div class="card-body">
                             <div class="mb-3">
                                 <label for="departmentName" class="form-label">Department Name</label>
                                 <input type="text" class="form-control" id="departmentName" name="department_name">
@@ -17,9 +17,11 @@
                                 <label for="departmentCode" class="form-label">Department Code</label>
                                 <input type="text" class="form-control" id="departmentCode" name="department_code">
                             </div>
+                        </div>
+                        <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_department">Add Department</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

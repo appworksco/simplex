@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="positions" method="post">
+                    <form action="positions" method="post">
+                        <div class="card-body">
                             <?php
                                 $fetchPositionById = $positionsFacade->fetchPositionById($positionId);
                                 while ($row = $fetchPositionById->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -22,9 +22,11 @@
                                 </div>
                             <?php } ?>
                             <input type="hidden" value="<?= $positionId ?>" name="position_id">
+                        </div>
+                        <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="update_position">Update Position</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

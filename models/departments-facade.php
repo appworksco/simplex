@@ -3,7 +3,7 @@
 class DepartmentsFacade extends DBConnection {
 
     public function fetchDepartments() {
-        $sql = $this->connect()->prepare("SELECT * FROM departments");
+        $sql = $this->connect()->prepare("SELECT * FROM departments ORDER BY department_name");
         $sql->execute();
         return $sql;
     }

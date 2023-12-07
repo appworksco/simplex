@@ -3,7 +3,7 @@
 class PositionsFacade extends DBConnection {
 
     public function fetchPositions() {
-        $sql = $this->connect()->prepare("SELECT * FROM positions");
+        $sql = $this->connect()->prepare("SELECT * FROM positions ORDER BY position_name");
         $sql->execute();
         return $sql;
     }

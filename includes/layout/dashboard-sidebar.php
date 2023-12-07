@@ -57,9 +57,31 @@
             </a>
         </li>
         <li class="sidebar-item">
-            <a class="sidebar-link" href="rfid" aria-expanded="false">
-                <span><i class="ti ti-clock"></i></span>
+            <a class="sidebar-link" href="../rfid" target="_blank" aria-expanded="false">
+                <span><i class="ti ti-archive"></i></span>
                 <span class="hide-menu">RFID Attendance System</span>
+            </a>
+        </li>
+        <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Integration</span>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="https://support.iripple.com/login" target="_blank" aria-expanded="false">
+                <span><i class="ti ti-archive"></i></span>
+                <span class="hide-menu">Iripple Ticketing System</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="http://192.168.0.230:81/barterwebmodules/login.php" target="_blank" aria-expanded="false">
+                <span><i class="ti ti-archive"></i></span>
+                <span class="hide-menu">Barter CLP</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="http://192.168.0.230:8080/jdigistore/login.action" target="_blank" aria-expanded="false">
+                <span><i class="ti ti-archive"></i></span>
+                <span class="hide-menu">Label Lite</span>
             </a>
         </li>
         <?php } ?>

@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="departments" method="post">
+                    <form action="departments" method="post">
+                        <div class="card-body">
                             <?php
                                 $fetchDepartmentById = $departmentsFacade->fetchDepartmentById($departmentId);
                                 while ($row = $fetchDepartmentById->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -22,9 +22,11 @@
                                 </div>
                             <?php } ?>
                             <input type="hidden" value="<?= $departmentId ?>" name="department_id">
+                        </div>
+                        <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="update_department">Update Department</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form id="addAssetForm" action="fixed-asset-inventory?is_submitted=1" method="post" onsubmit="openModal()">
+                    <form id="addAssetForm" action="fixed-asset-inventory?is_submitted=1" method="post" onsubmit="openModal()">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-3">
@@ -87,9 +87,11 @@
                             <?php } ?>
                             <input type="hidden" value="<?= $firstName . ' ' . $lastName ?>" name="added_by">
                             <input type="hidden" value="<?= date("m-d-y") ?>" name="added_on">
-                            <button type="submit" class="btn btn-info" name="add_asset">Save & Add Another</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-info" name="add_asset">Save & Add Another</button>  
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

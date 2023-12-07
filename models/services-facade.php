@@ -3,7 +3,7 @@
 class ServicesFacade extends DBConnection {
 
     public function fetchServices() {
-        $sql = $this->connect()->prepare("SELECT * FROM services");
+        $sql = $this->connect()->prepare("SELECT * FROM services ORDER BY service_name");
         $sql->execute();
         return $sql;
     }

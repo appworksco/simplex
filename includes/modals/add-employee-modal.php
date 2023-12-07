@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form id="addAssetForm" action="fixed-asset-inventory?is_submitted=1" method="post" onsubmit="openModal()">
+                    <form id="addAssetForm" action="fixed-asset-inventory?is_submitted=1" method="post" onsubmit="openModal()">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-3">
@@ -31,6 +31,13 @@
                                         <label for="bloodType" class="form-label">Blood Type</label>
                                         <input type="text" class="form-control" id="bloodType" name="blood_type">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <select class="form-select" name="status" id="status">
+                                            <option value="Probitionary">Probitionary</option>
+                                            <option value="Regular">Regular</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
@@ -48,17 +55,60 @@
                                     <div class="mb-3">
                                         <label for="department" class="form-label">Department</label>
                                         <select class="form-select" name="department" id="department">
-                                            
-                                            <option value="">1</option>
+                                            <?php 
+                                            $fetchDepartments = $departmentsFacade->fetchDepartments();
+                                            while ($row = $fetchDepartments->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <option value="<?= $row["department_code"] ?>"><?= $row["department_name"] ?></option>
+                                            <?php } ?>    
                                         </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="position" class="form-label">Position</label>
+                                        <select class="form-select" name="position" id="position">
+                                            <?php 
+                                            $fetchPositions = $positionsFacade->fetchPositions();
+                                            while ($row = $fetchPositions->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <option value="<?= $row["position_code"] ?>"><?= $row["position_name"] ?></option>
+                                            <?php } ?>    
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="services" class="form-label">Services</label>
+                                        <select class="form-select" name="services" id="services">
+                                            <?php 
+                                            $fetchServices = $servicesFacade->fetchServices();
+                                            while ($row = $fetchServices->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <option value="<?= $row["service_code"] ?>"><?= $row["service_name"] ?></option>
+                                            <?php } ?>    
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sss" class="form-label">SSS</label>
+                                        <input type="text" class="form-control" id="sss" name="sss">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pagIbig" class="form-label">PAG IBIG</label>
+                                        <input type="text" class="form-control" id="pagIbig" name="pag_ibig">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phic" class="form-label">PHIC</label>
+                                        <input type="text" class="form-control" id="phic" name="phic">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tin" class="form-label">TIN</label>
+                                        <input type="text" class="form-control" id="tin" name="tin">
                                     </div>
                                 </div>
                             </div>
                             <input type="hidden" value="<?= $firstName . ' ' . $lastName ?>" name="added_by">
                             <input type="hidden" value="<?= date("m-d-y") ?>" name="added_on">
-                            <button type="submit" class="btn btn-info" name="add_asset">Save & Add Another</button>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-info" name="add_employee">Add Employee</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

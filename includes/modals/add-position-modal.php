@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="positions" method="post">
+                    <form action="positions" method="post">
+                        <div class="card-body">
                             <div class="mb-3">
                                 <label for="positionName" class="form-label">Position Name</label>
                                 <input type="text" class="form-control" id="positionName" name="position_name">
@@ -17,9 +17,11 @@
                                 <label for="positionCode" class="form-label">Position Code</label>
                                 <input type="text" class="form-control" id="positionCode" name="position_code">
                             </div>
+                        </div>
+                        <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_position">Add Position</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

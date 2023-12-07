@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="services" method="post">
+                    <form action="services" method="post">
+                        <div class="card-body">
                             <div class="mb-3">
                                 <label for="serviceName" class="form-label">Service Name</label>
                                 <input type="text" class="form-control" id="serviceName" name="service_name">
@@ -17,9 +17,11 @@
                                 <label for="serviceCode" class="form-label">Service Code</label>
                                 <input type="text" class="form-control" id="serviceCode" name="service_code">
                             </div>
+                        </div>
+                        <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_service">Add Service</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

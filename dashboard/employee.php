@@ -3,9 +3,13 @@
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
 include realpath(__DIR__ . '/../models/users-facade.php');
 include realpath(__DIR__ . '/../models/positions-facade.php');
+include realpath(__DIR__ . '/../models/departments-facade.php');
+include realpath(__DIR__ . '/../models/services-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
+$departmentsFacade = new DepartmentsFacade;
+$servicesFacade = new ServicesFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -144,7 +148,7 @@ if ($userId == 0) {
                                             <td class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-1"><?= $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] ?></h6>
                                                 <?php
-                                                $positionCode = $row["position_code"];
+                                                $positionCode = $row["position"];
                                                 $fetchPositionByCode = $positionsFacade->fetchPositionByCode($positionCode);
                                                 while ($pos = $fetchPositionByCode->fetch(PDO::FETCH_ASSOC)) { ?>
                                                     <span class="fw-normal"><?= $pos["position_name"] ?></span>
@@ -171,7 +175,7 @@ if ($userId == 0) {
                                             </td>
                                             <?php } ?>
                                             <!-- Administrator View End -->
-                                        </tr> 
+                                        </tr>
                                     <?php } ?>                 
                                     </tbody>
                                 </table>

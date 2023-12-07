@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body">
-                        <form action="rfid" method="post">
+                    <form action="rfid" method="post">
+                        <div class="card-body">
                             <div class="alert alert-info p-2" role="alert">
                                 <ul class="m-0">
                                     <li><small class="m-0">Please scan your company ID barcode.</small></li>
@@ -18,8 +18,8 @@
                                 <label for="companyId" class="form-label">Company ID</label>
                                 <input type="text" class="form-control" id="companyId" name="company_id_out" autofocus>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
