@@ -6,6 +6,9 @@ session_start();
 // Start output buffering to capture and manipulate output
 ob_start();
 
+// Set timezone
+date_default_timezone_set("Asia/Manila");
+
 // Initialize arrays for storing error messages, warning messages, success messages, and general information
 $invalid = array();
 $warning = array();

@@ -10,16 +10,16 @@
                     <form action="positions" method="post">
                         <div class="card-body">
                             <?php
-                                $fetchPositionById = $positionsFacade->fetchPositionById($positionId);
-                                while ($row = $fetchPositionById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                <div class="mb-3">
-                                    <label for="positionName" class="form-label">Position Name</label>
-                                    <input type="text" class="form-control" id="positionName" name="position_name" value="<?= $row["position_name"] ?>">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="positionCode" class="form-label">Position Code</label>
-                                    <input type="text" class="form-control" id="positionCode" name="position_code" value="<?= $row["position_code"] ?>">
-                                </div>
+                            $fetchPositionById = $positionsFacade->fetchPositionById($positionId);
+                            while ($row = $fetchPositionById->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <div class="mb-3">
+                                <label for="positionName" class="form-label">Position Name</label>
+                                <input type="text" class="form-control" id="positionName" name="position_name" value="<?= $row["position_name"] ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="positionCode" class="form-label">Position Code</label>
+                                <input type="text" class="form-control" id="positionCode" name="position_code" value="<?= $row["position_code"] ?>">
+                            </div>
                             <?php } ?>
                             <input type="hidden" value="<?= $positionId ?>" name="position_id">
                         </div>

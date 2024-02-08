@@ -32,6 +32,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
                 $_SESSION["first_name"] = $row["first_name"];
                 $_SESSION["last_name"] = $row["last_name"];
                 $_SESSION["department"] = $row["department"];
+                $_SESSION["position"] = $row["position"];
                 header("Location: dashboard/index");
             }
         } else {

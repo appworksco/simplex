@@ -2,6 +2,12 @@
 
 class RFIDFacade extends DBConnection {
 
+    public function fetchRfid() {
+        $sql = $this->connect()->prepare("SELECT * FROM rfid");
+        $sql->execute();
+        return $sql;
+    }
+
     public function fetchRfidByCompanyId($companyId) {
         $sql = $this->connect()->prepare("SELECT * FROM rfid WHERE company_id = ?");
         $sql->execute([$companyId]);

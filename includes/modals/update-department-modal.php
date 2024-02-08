@@ -10,16 +10,16 @@
                     <form action="departments" method="post">
                         <div class="card-body">
                             <?php
-                                $fetchDepartmentById = $departmentsFacade->fetchDepartmentById($departmentId);
-                                while ($row = $fetchDepartmentById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                <div class="mb-3">
-                                    <label for="departmentName" class="form-label">Department Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="department_name" value="<?= $row["department_name"] ?>">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="departmentCode" class="form-label">Department Code</label>
-                                    <input type="text" class="form-control" id="departmentCode" name="department_code" value="<?= $row["department_code"] ?>">
-                                </div>
+                            $fetchDepartmentById = $departmentsFacade->fetchDepartmentById($departmentId);
+                            while ($row = $fetchDepartmentById->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <div class="mb-3">
+                                <label for="departmentName" class="form-label">Department Name</label>
+                                <input type="text" class="form-control" id="departmentName" name="department_name" value="<?= $row["department_name"] ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="departmentCode" class="form-label">Department Code</label>
+                                <input type="text" class="form-control" id="departmentCode" name="department_code" value="<?= $row["department_code"] ?>">
+                            </div>
                             <?php } ?>
                             <input type="hidden" value="<?= $departmentId ?>" name="department_id">
                         </div>
