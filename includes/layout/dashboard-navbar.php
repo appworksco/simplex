@@ -1,5 +1,5 @@
     <!--  Header Start -->
-    <header class="app-header w-100 d-flex align-items-center" style="height: 40px;">
+    <header class="app-header w-100 d-flex align-items-center" style="height: 100px;">
         <div>
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="navbar-collapse px-0" id="navbarNav">
@@ -39,9 +39,16 @@
                     </div>
                 </div>
             </nav>
-            <!-- <div class="mx-3">
-                <button class="btn btn-secondary"><img src="" alt=""></button>
-            </div> -->
+            <div>
+                <button class="btn border-0">
+                    <img src=".././dist/icons/info.png" alt="" style="width: 40px;"> <br>
+                    <small>Info</small>
+                </button>
+                <button class="btn border-0" onclick="window.location.reload()">
+                    <img src=".././dist/icons/refresh.png" alt="" style="width: 40px;"> <br>
+                    <small>Refresh</small>
+                </button>
+            </div>
         </div>
     </header>
     <!--  Header End -->

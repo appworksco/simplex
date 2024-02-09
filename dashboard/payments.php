@@ -10,6 +10,7 @@ include realpath(__DIR__ . '/../models/lgu-facade.php');
 include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
 include realpath(__DIR__ . '/../models/purchase-order-facade.php');
+include realpath(__DIR__ . '/../models/deliveries-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -20,6 +21,7 @@ $LGUFacade = new LGUFacade;
 $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
 $POFacade = new PurchaseOrderFacade;
+$deliveriesFacade = new DeliveriesFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -50,19 +52,19 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_purchase_order"])) {
+if (isset($_POST["add_delivery"])) {
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $PODate = $_POST["po_date"];
-    $totalSKUAssortment = $_POST["total_sku_assortment"];
+    $PONumber = $_POST["po_number"];
+    $DRNumber = $_POST["dr_number"];
+    $DRDate = $_POST["dr_date"];
     $totalQuantity = $_POST["total_quantity"];
     $totalAmount = $_POST["total_amount"];
-    $remarks = $_POST["remarks"];
 
-    $addPO = $POFacade->addPO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
-    if ($addPO) {
-        array_push($success, 'Bidding has been added successfully');
+    $addDelivery = $deliveriesFacade->addDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+    if ($addDelivery) {
+        array_push($success, 'Delivery has been added successfully');
     }
 }
 
@@ -161,7 +163,7 @@ if (isset($_POST["update_bidding"])) {
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPOModal">Add Purchase Order</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
                             </div>
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
@@ -180,19 +182,19 @@ if (isset($_POST["update_bidding"])) {
                                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Date</h6>
+                                                <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total SKU Assortment</h6>
+                                                <h6 class="fw-semibold mb-0">DR Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">DR Date</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Total Quantity</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Total Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Remarks</h6>
                                             </th>
                                             <!-- <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Action</h6>
@@ -201,8 +203,8 @@ if (isset($_POST["update_bidding"])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $fetchPO = $POFacade->fetchPO();
-                                        while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        $fetchDeliveries = $deliveriesFacade->fetchDeliveries();
+                                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td class="border-bottom-0">
                                                     <?php
@@ -226,19 +228,19 @@ if (isset($_POST["update_bidding"])) {
                                                     ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_date"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_assortment"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["total_quantity"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
                                                 </td>
                                                 <!-- <td class="border-bottom-0">
                                                     <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
@@ -259,7 +261,7 @@ if (isset($_POST["update_bidding"])) {
     </div>
 </div>
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-po-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-delivery-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 

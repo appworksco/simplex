@@ -13,3 +13,11 @@
     height: calc(100vh - 30px) !important;
     overflow-y: scroll;
 }
+
+button {
+    font-size: .7rem !important;
+}
+
+ul li {
+    font-size: .7rem !important;
+}
