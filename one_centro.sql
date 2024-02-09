@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2024 at 11:50 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Feb 09, 2024 at 06:48 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -348,14 +348,22 @@ INSERT INTO `assets_series` (`id`, `series_number`) VALUES
 
 CREATE TABLE `bd_deliveries` (
   `id` int(11) NOT NULL,
+  `project_type_id` int(11) NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `lgu_id` int(11) NOT NULL,
+  `po_no` varchar(255) NOT NULL,
   `dr_no` varchar(255) NOT NULL,
-  `po_no` int(11) NOT NULL,
-  `invoice_no` varchar(255) NOT NULL,
-  `invoice_amount` double NOT NULL,
-  `bill_no` varchar(255) NOT NULL,
-  `bill_due_date` date NOT NULL,
-  `bill_due_amount` double NOT NULL
+  `dr_date` varchar(10) NOT NULL,
+  `total_quantity` varchar(255) NOT NULL,
+  `total_amount` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_deliveries`
+--
+
+INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `total_quantity`, `total_amount`) VALUES
+(1, 2, 'qwer', 3, '100', '12323', '09/23/23', '11', 1231);
 
 -- --------------------------------------------------------
 
@@ -419,13 +427,14 @@ INSERT INTO `bd_municipality` (`id`, `municipality_name`, `address`) VALUES
 
 CREATE TABLE `bd_po` (
   `id` int(11) NOT NULL,
-  `po_no` int(11) NOT NULL,
-  `po_date` date NOT NULL,
+  `project_type_id` int(11) NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `lgu_id` int(11) NOT NULL,
+  `po_date` varchar(10) NOT NULL,
   `total_sku_assortment` double NOT NULL,
   `total_sku_quantity` double NOT NULL,
   `total_amount` double NOT NULL,
-  `bm_no` varchar(255) NOT NULL,
-  `po_modified_date` date NOT NULL
+  `remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -481,7 +490,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '9');
+(1, '16');
 
 -- --------------------------------------------------------
 
@@ -928,7 +937,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -952,7 +961,7 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
