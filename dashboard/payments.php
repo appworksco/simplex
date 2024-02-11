@@ -163,7 +163,7 @@ if (isset($_POST["update_bidding"])) {
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
                             </div>
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
@@ -196,9 +196,30 @@ if (isset($_POST["update_bidding"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Total Amount</h6>
                                             </th>
-                                            <!-- <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th> -->
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Bill Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Bill Date</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Bill Quantity</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Bill Amount</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Payment Mode</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Payment Date</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Payment Amount</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Payment Receipt Number</h6>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -261,7 +282,7 @@ if (isset($_POST["update_bidding"])) {
     </div>
 </div>
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-delivery-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-payment-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 

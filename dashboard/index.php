@@ -43,18 +43,4 @@ if ($userId == 0) {
     <?php include realpath(__DIR__ . '/../includes/layout/dashboard-navbar.php'); ?>
 </div>
 
-<div class="bg-light p-1 px-4">
-    <div class="mx-3">
-        <div class="d-flex justify-content-between">
-            <div>
-                <p class="small m-0">Department: <?= $department ?></p>
-            </div>
-            <div class="d-flex">
-                <p class="small m-0 me-3"><img src="../dist/icons/users.jpg" class="me-1" alt="Users Icon" style="width: 18px"> <?= $firstName . ' ' . $lastName ?></p>
-                <p class="small m-0"><img src="../dist/icons/clock.jpg" class="me-1" alt="Clock Icon" style="width: 18px;"><span id="clockDisplay"></span></p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
