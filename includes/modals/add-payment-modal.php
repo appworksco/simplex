@@ -52,20 +52,77 @@
                                 <input type="text" class="form-control" id="DRDate" name="dr_date">
                             </div>
                             <div class="mb-3">
-                                <label for="totalQuantity" class="form-label">Total Quantity</label>
+                                <label for="totalQuantity" class="form-label">Delivered Total Quantity</label>
                                 <input type="text" class="form-control" id="totalQuantity" name="total_quantity">
                             </div>
                             <div class="mb-3">
-                                <label for="totalAmount" class="form-label">Total Amount</label>
+                                <label for="totalAmount" class="form-label">Delivered Total Amount</label>
                                 <input type="text" class="form-control" id="totalAmount" name="total_amount">
                             </div>
                             <div class="mb-3">
-                                <label for="billAmount" class="form-label">Bill Amount</label>
+                                <label for="billAmount" class="form-label">Bill Number</label>
+                                <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                            </div>
+                            <div class="mb-3">
+                                <label for="DRDate" class="form-label">Bill Date (mm/dd/yyyy)</label>
+                                <input type="text" class="form-control" id="DRDate" name="dr_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="billAmount" class="form-label">Bill Quantity</label>
                                 <input type="text" class="form-control" id="billAmount" name="bill_amount">
                             </div>
                             <div class="mb-3">
                                 <label for="billAmount" class="form-label">Bill Amount</label>
                                 <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                            </div>
+                            <div class="mb-3">
+                                <label for="billAmount" class="form-label">Payment Mode</label>
+                                <select class="form-select" name="payment_mode" id="">
+                                    <option value="Full Payment">Full Payment</option>
+                                    <option value="Partial Payment">Partial Payment</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="DRDate" class="form-label">Payment Date (mm/dd/yyyy)</label>
+                                <input type="text" class="form-control" id="DRDate" name="dr_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="billAmount" class="form-label">Payment Amount</label>
+                                <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                            </div>
+                            <div class="mb-3">
+                                <label for="billAmount" class="form-label">Payment Receipt Number</label>
+                                <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                            </div>
+                        </div>
+
+                        <div class="card">
+
+                            <div class="card-body">
+                                <h6 class="card-title text-danger">Partial Payment</h6>
+                                <div class="mb-3">
+                                    <label for="billAmount" class="form-label">Bill Number</label>
+                                    <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="billAmount" class="form-label">Payment Mode</label>
+                                    <select class="form-select" name="payment_mode" id="">
+                                        <option value="Full Payment">Advance Payment</option>
+                                        <option value="Partial Payment">Partial Payment</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="DRDate" class="form-label">Payment Date (mm/dd/yyyy)</label>
+                                    <input type="text" class="form-control" id="DRDate" name="dr_date">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="billAmount" class="form-label">Payment Amount</label>
+                                    <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="billAmount" class="form-label">Payment Receipt Number</label>
+                                    <input type="text" class="form-control" id="billAmount" name="bill_amount">
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">

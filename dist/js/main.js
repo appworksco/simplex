@@ -6,7 +6,8 @@ function move() {
         i = 1;
         var elem = document.getElementById("myBar");
         var width = 1;
-        var id = setInterval(frame, 10);
+        var ran = Math.floor((Math.random() * 30));
+        var id = setInterval(frame, ran);
 
         function frame() {
             if (width >= 100) {
@@ -32,9 +33,15 @@ $(function () {
         ]
     });
 
+    // If load button is clicked
     $("#loadDataButton").click(function () {
         $("#loadDataModal").show(); //F11
         $("#loadData").click(); //F11
+    })
+
+    // If log button is clicked
+    $("#logButton").click(function () {
+        window.open('../errors-log.txt', null, 'popup');
     })
 })
 

@@ -58,7 +58,7 @@
                 </div>
             </nav>
             <div class="border-top border-bottom">
-                <button class="btn border-0 border-start border-end">
+                <button class="btn border-0 border-start border-end" id="infoButton">
                     <img src=".././dist/icons/info.png" alt="" style="width: 40px;"> <br>
                     <small>Info</small>
                 </button>
@@ -66,7 +66,7 @@
                     <img src=".././dist/icons/refresh.png" alt="" style="width: 40px;"> <br>
                     <small>Refresh</small>
                 </button>
-                <button class="btn border-0 border-end" id="loadDataButton">
+                <button class="btn border-0 border-end" id="logButton">
                     <img src=".././dist/icons/log.png" alt="" style="width: 40px;"> <br>
                     <small>Log</small>
                 </button>

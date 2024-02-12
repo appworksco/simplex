@@ -2,7 +2,9 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <p class="text-center">Loading data from server...</p>
+                <div class="load-data-wrapper">
+                    <p class="text-center">Loading data from the server...</p>
+                </div>
                 <div id="myProgress">
                     <div id="myBar"></div>
                 </div>
