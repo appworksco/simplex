@@ -8,7 +8,7 @@
                             File
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="file">
-                            <li><a class="dropdown-item py-1" href="../logout">Logout</a></li>
+                            <li><a class="dropdown-item py-1" href="../logout?first_name=<?= $firstName ?>&last_name=<?= $lastName ?>">Logout</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">

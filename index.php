@@ -33,6 +33,13 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
                 $_SESSION["last_name"] = $row["last_name"];
                 $_SESSION["department"] = $row["department"];
                 $_SESSION["position"] = $row["position"];
+
+                // Add login log
+                $logFile = fopen("log-file.txt", "a") or die("Unable to open file!");
+                $txt = date("m/d/Y h:i:sa") . " : " . $row["first_name"] . ' ' . $row["last_name"] . ' has been logged in!' . "\n";
+                fwrite($logFile, $txt);
+                fclose($logFile);
+
                 header("Location: dashboard/index");
             }
         } else {

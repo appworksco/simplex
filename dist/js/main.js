@@ -41,7 +41,7 @@ $(function () {
 
     // If log button is clicked
     $("#logButton").click(function () {
-        window.open('../errors-log.txt', null, 'popup');
+        window.open('../log-file.txt', null, 'popup');
     })
 })
 
