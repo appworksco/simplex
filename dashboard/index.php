@@ -29,18 +29,20 @@ if ($userId == 0) {
 
 ?>
 
-<style>
-    body {
-        opacity: 1;
-        background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
-        background-size: 21px 21px;
-    }
-</style>
-
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <!--  Dashboard Navbar -->
+<!-- Body Wrapper Start -->
+<div class="page-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <!--  Dashboard Navbar Start-->
     <?php include realpath(__DIR__ . '/../includes/layout/dashboard-navbar.php'); ?>
-</div>
+    <!-- Dashboard Navbar End -->
 
+    <!-- Content Wrapper Start -->
+    <div class="content-wrapper">
+
+    </div>
+    <!-- Content Wrapper End -->
+</div>
+<!-- Body Wrapper End -->
+
+<!-- Footer Start -->
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
+<!-- Footer End -->

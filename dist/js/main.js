@@ -1,10 +1,41 @@
+// Load data from server
+var i = 0;
+
+function move() {
+    if (i == 0) {
+        i = 1;
+        var elem = document.getElementById("myBar");
+        var width = 1;
+        var id = setInterval(frame, 10);
+
+        function frame() {
+            if (width >= 100) {
+                clearInterval(id);
+                i = 0;
+            } else {
+                width++;
+                elem.style.width = width + "%";
+            }
+            if (width == 100) {
+                location.reload();
+            }
+        }
+    }
+}
+
 $(function () {
     $('.table').DataTable({
-        dom: 'Bfrtip',
+        pageLength: 50,
+        lengthMenu: [50, 100, 150, 200],
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
+
+    $("#loadDataButton").click(function () {
+        $("#loadDataModal").show(); //F11
+        $("#loadData").click(); //F11
+    })
 })
 
 // document.addEventListener('keydown', function() {

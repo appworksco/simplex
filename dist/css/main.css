@@ -2,13 +2,16 @@
     font-family: 'barcode';
     src: url('../fonts/3OF9_NEW.TTF');
 }
+
 .barcode {
     font-family: barcode;
 }
+
 .container-fluid {
     max-width: 100vw !important;
-    padding:  43px 0 0 0 !important;
+    padding: 43px 0 0 0 !important;
 }
+
 .page-wrapper {
     height: calc(100vh - 30px) !important;
     overflow-y: scroll;
@@ -20,4 +23,16 @@ button {
 
 ul li {
     font-size: .7rem !important;
+}
+
+/* Fetching data progress bar */
+#myProgress {
+    width: 100%;
+    background-color: #ddd;
+}
+
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: #555;
 }
