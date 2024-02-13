@@ -20,7 +20,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectName" class="form-label">Project Name</label>
-                                            <input type="text" class="form-control" id="projectName" name="project_name" value="<?= $row["project_name"] ?>">
+                                            <textarea class="w-100 p-2" id="project_name" name="project_name" style="height: 200px"><?= $row["project_name"] ?></textarea>
+                                            
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectTypeId" class="form-label">Project Type</label>
@@ -56,6 +57,13 @@
                                             <label for="projectStatus" class="form-label">Project Status</label>
                                             <select class="form-select" id="projectStatus" name="project_status">
                                                 <?php
+                                                if ($row["project_status"] == '') { ?>
+                                                    <option value="Won">Won</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                    <option value="Lost">Lost</option>
+                                                    <option value="Disqualified">Disqualified</option>
+                                                    <option value="Re-bid">Re-bid</option>
+                                                <?php }
                                                 if ($row["project_status"] == 'Won') { ?>
                                                     <option value="Won" selected>Won</option>
                                                     <option value="Cancelled">Cancelled</option>
@@ -97,6 +105,10 @@
                                             <label for="paymentStructure" class="form-label">Payment Structure</label>
                                             <select class="form-select" id="paymentStructure" name="payment_structure">
                                                 <?php
+                                                if ($row["payment_structure"] == '') { ?>
+                                                    <option value="Progressive">Progressive</option>
+                                                    <option value="Upon Completion">Upon Completion</option>
+                                                <?php }
                                                 if ($row["payment_structure"] == 'Progressive') { ?>
                                                     <option value="Progressive" selected>Progressive</option>
                                                     <option value="Upon Completion">Upon Completion</option>
