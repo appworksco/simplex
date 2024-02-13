@@ -33,7 +33,14 @@ $(function () {
         ]
     });
 
-    // If load button is clicked
+
+    // Tools
+    // If manage employee is clicked
+    $("#manageEmployee").click(function () {
+        window.open('.././dashboard/employee.php', null, 'popup');
+    })
+
+    // If refresh button is clicked
     $("#loadDataButton").click(function () {
         $("#loadDataModal").show(); //F11
         $("#loadData").click(); //F11
