@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2024 at 06:48 AM
+-- Generation Time: Feb 13, 2024 at 03:59 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -358,13 +358,6 @@ CREATE TABLE `bd_deliveries` (
   `total_amount` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bd_deliveries`
---
-
-INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `total_quantity`, `total_amount`) VALUES
-(1, 2, 'qwer', 3, '100', '12323', '09/23/23', '11', 1231);
-
 -- --------------------------------------------------------
 
 --
@@ -397,8 +390,7 @@ CREATE TABLE `bd_lgu` (
 --
 
 INSERT INTO `bd_lgu` (`id`, `lgu_code`, `lgu_name`, `municipality_id`) VALUES
-(2, 'qwe', 'qwer', 3),
-(3, '8714', 'adadasdasd', 3);
+(5, 'LGU-', 'LGU-DANGCAGAN', 8);
 
 -- --------------------------------------------------------
 
@@ -417,7 +409,47 @@ CREATE TABLE `bd_municipality` (
 --
 
 INSERT INTO `bd_municipality` (`id`, `municipality_name`, `address`) VALUES
-(3, 'qwe', 'qwe');
+(4, 'MARAMAG', 'MARAMAG, BUKIDNON'),
+(5, 'KIBAWE', 'KIBAWE, BUKIDNON'),
+(6, 'PANGANTUCAN', 'PANGANTUCAN, BUKIDNON'),
+(7, 'DON CARLOS', 'DON CARLOS, BUKIDNON'),
+(8, 'DANGCAGAN', 'DANGCAGAN, BUKIDNON'),
+(9, 'KITAOTAO', 'KITAOTAO, BUKIDNON'),
+(10, 'QUEZON', 'QUEZON, BUKIDNON'),
+(11, 'VALENCIA', 'VALENCIA CITY, BUKIDNON'),
+(12, 'MALAYBALAY', 'MALAYBALAY CITY, BUKIDNON'),
+(13, 'MANOLO', 'MANOLO FORTICH, BUKIDNON');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bd_payments`
+--
+
+CREATE TABLE `bd_payments` (
+  `id` int(11) NOT NULL,
+  `project_type_id` int(11) NOT NULL,
+  `project_name` varchar(255) NOT NULL,
+  `lgu_id` int(11) NOT NULL,
+  `po_no` varchar(50) NOT NULL,
+  `dr_no` varchar(50) NOT NULL,
+  `dr_date` varchar(10) NOT NULL,
+  `delivered_total_quantity` varchar(255) NOT NULL,
+  `delivered_total_amount` varchar(255) NOT NULL,
+  `bill_no` varchar(50) NOT NULL,
+  `bill_date` varchar(10) NOT NULL,
+  `bill_quantity` varchar(255) NOT NULL,
+  `bill_amount` double NOT NULL,
+  `payment_mode` varchar(20) NOT NULL,
+  `payment_date` varchar(20) NOT NULL,
+  `payment_amount` double NOT NULL,
+  `payment_receipt_number` varchar(255) NOT NULL,
+  `partial_bill_no` varchar(50) NOT NULL,
+  `partial_payment_mode` varchar(20) NOT NULL,
+  `partial_payment_date` varchar(20) NOT NULL,
+  `partial_payment_amount` double NOT NULL,
+  `partial_payment_receipt_number` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -472,7 +504,9 @@ CREATE TABLE `bd_project_information` (
 --
 
 INSERT INTO `bd_project_information` (`id`, `bm_no`, `po_no`, `dr_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `delivery_target_month`, `total_sku_assortment`, `total_quantity`, `total_amount`, `expense_type`, `bid_date`, `award_date`, `po_date`, `remarks`, `added_on`, `updated_on`) VALUES
-(9, 'BM20248', '', '', 2, 3, 'qwer', 'Disqualified', 'Progressive', 0, 'January', '', '', 0, '', '03/02/01', '03/02/08', '', 'dfgfgdf', '', '');
+(11, 'BM20240', '', '', 5, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', '', '', 0, 'April', '', '', 0, '', '02/01/2024', '', '', '', '', ''),
+(12, 'BM20241', '', '', 5, 6, 'test', '', '', 0, '', '', '', 0, '', '09/23/23', '', '', '', '', ''),
+(13, 'BM20242', '', '', 5, 12, 'sdfsdfsdfsdf', '', '', 0, '', '', '', 0, '', '09/23/23', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -490,7 +524,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '16');
+(1, '3');
 
 -- --------------------------------------------------------
 
@@ -510,8 +544,16 @@ CREATE TABLE `bd_project_type` (
 --
 
 INSERT INTO `bd_project_type` (`id`, `project_type_code`, `project_description`, `project_details`) VALUES
-(2, 'qwe', 'wer', 'qwe'),
-(3, 'fghfhfhfghfgh', 'tyryrty', 'vbnfgh');
+(4, 'F-FC', 'FOOD COMMODITIES', 'FOOD COMMODITIES'),
+(5, 'NF-F', 'FUEL', 'FUEL'),
+(6, 'NF-JS', 'JANITORIAL SUPPLY', 'JANITORIAL SUPPLY'),
+(7, 'NF-CM', 'CONSTRUCTION MATERIALS', 'CONSTRUCTION MATERIALS'),
+(8, 'F-DI', 'DIETARY ITEMS', 'DIETARY ITEMS'),
+(9, 'NF-K', 'KITCHENWARE', 'KITCHENWARE'),
+(10, 'NF-OS', 'OFFICE SUPPLY', 'OFFICE SUPPLY'),
+(11, 'NF-ABS', 'AEDES BORNE SUPPLY', 'AEDES BORNE SUPPLY'),
+(12, 'F-SF', 'SUPPLEMENTAL FEEDING', 'SUPPLEMENTAL FEEDING'),
+(13, 'F-GS', 'GROCERY SUPPLY', 'GROCERY SUPPLY');
 
 -- --------------------------------------------------------
 
@@ -596,64 +638,6 @@ INSERT INTO `issues` (`id`, `issue`) VALUES
 (9, 'Printer'),
 (12, 'One Centro'),
 (13, 'Barter');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payment_1`
---
-
-CREATE TABLE `payment_1` (
-  `id` int(11) NOT NULL,
-  `bm_no` varchar(50) NOT NULL,
-  `po_no` varchar(50) NOT NULL,
-  `dr_no` varchar(50) NOT NULL,
-  `lgu_id` int(11) NOT NULL,
-  `project_type_id` int(11) NOT NULL,
-  `project_name` varchar(255) NOT NULL,
-  `project_status` varchar(20) NOT NULL,
-  `payment_structure` varchar(20) NOT NULL,
-  `project_budget_amount` double NOT NULL,
-  `delivery_target_month` varchar(20) NOT NULL,
-  `total_sku_assortment` varchar(10) NOT NULL,
-  `total_quantity` varchar(10) NOT NULL,
-  `total_amount` double NOT NULL,
-  `expense_type` varchar(50) NOT NULL,
-  `bid_date` varchar(10) NOT NULL,
-  `award_date` varchar(10) NOT NULL,
-  `po_date` varchar(10) NOT NULL,
-  `payment_1` double NOT NULL,
-  `remarks` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payment_2`
---
-
-CREATE TABLE `payment_2` (
-  `id` int(11) NOT NULL,
-  `bm_no` varchar(50) NOT NULL,
-  `po_no` varchar(50) NOT NULL,
-  `dr_no` varchar(50) NOT NULL,
-  `lgu_id` int(11) NOT NULL,
-  `project_type_id` int(11) NOT NULL,
-  `project_name` varchar(255) NOT NULL,
-  `project_status` varchar(20) NOT NULL,
-  `payment_structure` varchar(20) NOT NULL,
-  `project_budget_amount` double NOT NULL,
-  `delivery_target_month` varchar(20) NOT NULL,
-  `total_sku_assortment` varchar(10) NOT NULL,
-  `total_quantity` varchar(10) NOT NULL,
-  `total_amount` double NOT NULL,
-  `expense_type` varchar(50) NOT NULL,
-  `bid_date` varchar(10) NOT NULL,
-  `award_date` varchar(10) NOT NULL,
-  `po_date` varchar(10) NOT NULL,
-  `payment_1` double NOT NULL,
-  `remarks` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -840,6 +824,12 @@ ALTER TABLE `bd_municipality`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `bd_payments`
+--
+ALTER TABLE `bd_payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `bd_po`
 --
 ALTER TABLE `bd_po`
@@ -879,18 +869,6 @@ ALTER TABLE `departments`
 -- Indexes for table `issues`
 --
 ALTER TABLE `issues`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `payment_1`
---
-ALTER TABLE `payment_1`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `payment_2`
---
-ALTER TABLE `payment_2`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -937,7 +915,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -949,25 +927,31 @@ ALTER TABLE `bd_expense`
 -- AUTO_INCREMENT for table `bd_lgu`
 --
 ALTER TABLE `bd_lgu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `bd_municipality`
 --
 ALTER TABLE `bd_municipality`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `bd_payments`
+--
+ALTER TABLE `bd_payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
@@ -979,7 +963,7 @@ ALTER TABLE `bd_project_series`
 -- AUTO_INCREMENT for table `bd_project_type`
 --
 ALTER TABLE `bd_project_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `cts`
@@ -998,18 +982,6 @@ ALTER TABLE `departments`
 --
 ALTER TABLE `issues`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `payment_1`
---
-ALTER TABLE `payment_1`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `payment_2`
---
-ALTER TABLE `payment_2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `positions`

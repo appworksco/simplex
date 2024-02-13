@@ -25,6 +25,7 @@ function move() {
 }
 
 $(function () {
+    
     $('.table').DataTable({
         pageLength: 50,
         lengthMenu: [50, 100, 150, 200],

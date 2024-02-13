@@ -21,23 +21,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="projectTypeId" class="form-label">Project Type</label>
-                                <select class="form-select" id="projectTypeId" name="project_type_id">
-                                    <?php
-                                    $fetchProjectType = $projectTypeFacade->fetchProjectType();
-                                    while ($row = $fetchProjectType->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <option value="<?= $row["id"] ?>"><?= $row["project_description"] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <select class="form-select" id="projectTypeId" name="project_type_id"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="LGUId" class="form-label">LGU Name</label>
-                                <select class="form-select" id="LGUId" name="lgu_id">
-                                    <?php
-                                    $fetchLGU = $LGUFacade->fetchLGU();
-                                    while ($row = $fetchLGU->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <option value="<?= $row["id"] ?>"><?= $row["lgu_name"] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <select class="form-select" id="LGUId" name="lgu_id"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="PONumber" class="form-label">PO Number</label>

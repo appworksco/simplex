@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <form action="purchase-order" method="post">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
@@ -15,7 +15,6 @@
                                     <?php
                                     $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingInformation();
                                     while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) {
-                                        $projectName = $row["project_name"];
                                     ?>
                                         <option value="<?= $row["project_name"] ?>"><?= $row["project_name"] ?></option>
                                     <?php } ?>
@@ -23,27 +22,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="projectTypeId" class="form-label">Project Type</label>
-                                <?php
-                                $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingByProjectName($projectName);
-                                while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) {
-                                    $projectTypeId = $row["project_type_id"];
-                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
-                                    while ($project = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <input type="text" class="form-control" id="projectTypeId" name="project_type_id" value="<?= $project["project_description"] ?>" disabled>
-                                    <?php }
-                                } ?>
+                                <select class="form-select" id="projectTypeId" name="project_type_id"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="LGUId" class="form-label">LGU Name</label>
-                                <?php
-                                $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingByProjectName($projectName);
-                                while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) {
-                                    $LGUId = $row["lgu_id"];
-                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
-                                    while ($LGU = $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <input type="text" class="form-control" id="LGUId" name="lgu_id" value="<?= $LGU["lgu_name"] ?>" disabled>
-                                    <?php }
-                                } ?>
+                                <select class="form-select" id="LGUId" name="lgu_id"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="PODate" class="form-label">PO Date (mm/dd/yyyy)</label>

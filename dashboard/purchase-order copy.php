@@ -10,8 +10,6 @@ include realpath(__DIR__ . '/../models/lgu-facade.php');
 include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
 include realpath(__DIR__ . '/../models/purchase-order-facade.php');
-include realpath(__DIR__ . '/../models/deliveries-facade.php');
-include realpath(__DIR__ . '/../models/payment-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -22,8 +20,6 @@ $LGUFacade = new LGUFacade;
 $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
 $POFacade = new PurchaseOrderFacade;
-$deliveriesFacade = new DeliveriesFacade;
-$paymentFacade = new PaymentFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -54,32 +50,19 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_payment"])) {
+if (isset($_POST["add_purchase_order"])) {
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $PONumber = $_POST["po_number"];
-    $DRNumber = $_POST["dr_number"];
-    $DRDate = $_POST["dr_date"];
-    $deliveredTotalQuantity = $_POST["delivered_total_quantity"];
-    $deliveredTotalAmount = $_POST["delivered_total_amount"];
-    $billNumber = $_POST["bill_number"];
-    $billDate = $_POST["bill_date"];
-    $billQuantity = $_POST["bill_quantity"];
-    $billAmount = $_POST["bill_amount"];
-    $paymentMode = $_POST["payment_mode"];
-    $paymentDate = $_POST["payment_date"];
-    $paymentAmount = $_POST["payment_amount"];
-    $paymentReceiptNumber = $_POST["payment_receipt_number"];
-    $partialBillNumber = $_POST["partial_bill_number"];
-    $partialPaymentMode = $_POST["partial_payment_mode"];
-    $partialPaymentDate = $_POST["partial_payment_date"];
-    $partialPaymentAmount = $_POST["partial_payment_amount"];
-    $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
+    $PODate = $_POST["po_date"];
+    $totalSKUAssortment = $_POST["total_sku_assortment"];
+    $totalQuantity = $_POST["total_quantity"];
+    $totalAmount = $_POST["total_amount"];
+    $remarks = $_POST["remarks"];
 
-    $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate,  $deliveredTotalQuantity, $deliveredTotalAmount, $billNumber, $billDate, $billQuantity, $billAmount, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber);
-    if ($addPayment) {
-        array_push($success, 'Payment has been added successfully');
+    $addPO = $POFacade->addPO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
+    if ($addPO) {
+        array_push($success, 'Bidding has been added successfully');
     }
 }
 
@@ -178,7 +161,7 @@ if (isset($_POST["update_bidding"])) {
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPOModal">Add Purchase Order</button>
                             </div>
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
@@ -197,65 +180,29 @@ if (isset($_POST["update_bidding"])) {
                                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                                                <h6 class="fw-semibold mb-0">PO Date</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Number</h6>
+                                                <h6 class="fw-semibold mb-0">Total SKU Assortment</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Date</h6>
+                                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Delivered Total Quantity</h6>
+                                                <h6 class="fw-semibold mb-0">Total Amount</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
+                                                <h6 class="fw-semibold mb-0">Remarks</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Quantity</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Mode</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Receipt Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Bill Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Mode</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Receipt Number</h6>
-                                            </th>
+                                            <!-- <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $fetchDeliveries = $paymentFacade->fetchPayments();
-                                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        $fetchPO = $POFacade->fetchPO();
+                                        while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td class="border-bottom-0">
                                                     <?php
@@ -279,58 +226,19 @@ if (isset($_POST["update_bidding"])) {
                                                     ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["po_date"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_assortment"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_quantity"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_quantity"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_mode"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_receipt_number"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_bill_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_mode"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_receipt_number"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
                                                 </td>
                                                 <!-- <td class="border-bottom-0">
                                                     <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
@@ -351,7 +259,7 @@ if (isset($_POST["update_bidding"])) {
     </div>
 </div>
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-payment-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-po-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
@@ -385,34 +293,26 @@ if (isset($_GET["is_updated"])) {
         }
     }
 
-    $(document).ready(function() {
-        $('#projectName').change(function() {
-            var projectName = $(this).val();
-
-            // // Fetch items based on the selected category using AJAX
-            $.ajax({
-                url: 'get-project-type-info.php',
-                type: 'POST',
-                data: {
-                    projectName: projectName
-                },
-                success: function(data) {
-                    $('#projectTypeId').html(data)
-                }
-            })
-
-            // // Fetch items based on the selected category using AJAX
-            $.ajax({
-                url: 'get-lgu-info.php',
-                type: 'POST',
-                data: {
-                    projectName: projectName
-                },
-                success: function(data) {
-                    $('#LGUId').html(data)
-                }
-
-            })
-        });
+    document.getElementById('projectName').addEventListener('change', function() {
+        // Submit the form when dropdown1 changes
+        this.form.submit();
     });
+
+    // Function to check if the page is refreshed
+    function isPageRefreshed() {
+        // Check if the page is loaded from the cache
+        if (performance.navigation.type === 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    // Show the modal if the page is refreshed
+    $(document).ready(function() {
+        $(window).on('load', function() {
+            $('#addPOModal').modal('show');
+        });
+    })
 </script>

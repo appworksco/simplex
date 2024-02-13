@@ -294,4 +294,35 @@ if (isset($_GET["is_updated"])) {
             remarks.style.display = "none";
         }
     }
+
+    $(document).ready(function() {
+        $('#projectName').change(function() {
+            var projectName = $(this).val();
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectTypeId').html(data)
+                }
+            })
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#LGUId').html(data)
+                }
+
+            })
+        });
+    });
 </script>

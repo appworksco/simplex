@@ -197,7 +197,13 @@ if (isset($_POST["update_lgu"])) {
                                                     <p class="mb-0 fw-normal"><?= $row["lgu_name"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["municipality_id"] ?></p>
+                                                    <?php
+                                                    $municipalityId = $row["municipality_id"];
+                                                    $fetchMunicipalityById = $municipalitiesFacade->fetchMunicipalityById($municipalityId);
+                                                    while ($municipality =  $fetchMunicipalityById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                        <p class="mb-0 fw-normal"><?= $municipality["municipality_name"] ?></p>
+                                                    <?php }
+                                                    ?>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <a href="lgu?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
