@@ -11,6 +11,7 @@ include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
 include realpath(__DIR__ . '/../models/purchase-order-facade.php');
 include realpath(__DIR__ . '/../models/deliveries-facade.php');
+include realpath(__DIR__ . '/../models/payment-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -22,6 +23,7 @@ $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
 $POFacade = new PurchaseOrderFacade;
 $deliveriesFacade = new DeliveriesFacade;
+$paymentFacade = new PaymentFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -52,19 +54,32 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_delivery"])) {
+if (isset($_POST["add_payment"])) {
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
     $PONumber = $_POST["po_number"];
     $DRNumber = $_POST["dr_number"];
     $DRDate = $_POST["dr_date"];
-    $totalQuantity = $_POST["total_quantity"];
-    $totalAmount = $_POST["total_amount"];
+    $deliveredTotalQuantity = $_POST["delivered_total_quantity"];
+    $deliveredTotalAmount = $_POST["delivered_total_amount"];
+    $billNumber = $_POST["bill_number"];
+    $billDate = $_POST["bill_date"];
+    $billQuantity = $_POST["bill_quantity"];
+    $billAmount = $_POST["bill_amount"];
+    $paymentMode = $_POST["payment_mode"];
+    $paymentDate = $_POST["payment_date"];
+    $paymentAmount = $_POST["payment_amount"];
+    $paymentReceiptNumber = $_POST["payment_receipt_number"];
+    $partialBillNumber = $_POST["partial_bill_number"];
+    $partialPaymentMode = $_POST["partial_payment_mode"];
+    $partialPaymentDate = $_POST["partial_payment_date"];
+    $partialPaymentAmount = $_POST["partial_payment_amount"];
+    $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
 
-    $addDelivery = $deliveriesFacade->addDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-    if ($addDelivery) {
-        array_push($success, 'Delivery has been added successfully');
+    $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate,  $deliveredTotalQuantity, $deliveredTotalAmount, $billNumber, $billDate, $billQuantity, $billAmount, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber);
+    if ($addPayment) {
+        array_push($success, 'Payment has been added successfully');
     }
 }
 
@@ -191,10 +206,10 @@ if (isset($_POST["update_bidding"])) {
                                                 <h6 class="fw-semibold mb-0">DR Date</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
+                                                <h6 class="fw-semibold mb-0">Delivered Total Quantity</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Amount</h6>
+                                                <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Bill Number</h6>
@@ -220,11 +235,26 @@ if (isset($_POST["update_bidding"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Payment Receipt Number</h6>
                                             </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Partial Bill Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Partial Payment Mode</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Partial Payment Date</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Partial Payment Amount</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Partial Payment Receipt Number</h6>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $fetchDeliveries = $deliveriesFacade->fetchDeliveries();
+                                        $fetchDeliveries = $paymentFacade->fetchPayments();
                                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td class="border-bottom-0">
@@ -258,10 +288,49 @@ if (isset($_POST["update_bidding"])) {
                                                     <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_quantity"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_quantity"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
+                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["bill_no"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["bill_date"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["bill_quantity"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["bill_amount"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["payment_mode"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["payment_date"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["payment_amount"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["payment_receipt_number"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["partial_bill_no"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_mode"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_date"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_amount"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_receipt_number"] ?></p>
                                                 </td>
                                                 <!-- <td class="border-bottom-0">
                                                     <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
