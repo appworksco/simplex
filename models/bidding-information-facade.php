@@ -27,6 +27,12 @@ class BiddingInformationFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchBiddingByProjectName($projectName) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE project_name = '$projectName'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function verifyProjectTypeCode($projectTypeCode) {
         $sql = $this->connect()->prepare("SELECT * FROM bd_project_type WHERE project_type_code = ?");
         $sql->execute([$projectTypeCode]);
