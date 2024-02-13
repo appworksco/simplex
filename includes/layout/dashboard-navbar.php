@@ -16,7 +16,7 @@
                             Tools
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="tools">
-                            <li><a class="dropdown-item py-1" href="employee">Manage Employee</a></li>
+                            <li><a class="dropdown-item py-1" id="manageEmployee">Manage Employee</a></li>
                             <li><a class="dropdown-item py-1" href="departments">Manage Departments</a></li>
                             <li><a class="dropdown-item py-1" href="positions">Manage Positions</a></li>
                             <li><a class="dropdown-item py-1" href="services">Manage Services</a></li>

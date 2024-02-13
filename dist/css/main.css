@@ -36,3 +36,11 @@ ul li {
     height: 30px;
     background-color: #555;
 }
+
+.table {
+    font-size: .7rem !important;
+}
+.table tr td {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
