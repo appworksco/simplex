@@ -44,39 +44,44 @@ if ($userId == 0) {
     }
 </style>
 
-<!-- Body Wrapper Start -->
-<div class="page-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <!--  Dashboard Navbar Start-->
-    <?php include realpath(__DIR__ . '/../includes/layout/dashboard-navbar.php'); ?>
-    <!-- Dashboard Navbar End -->
+<!-- Disable mobile view start -->
+<div class="d-lg-block d-none">
+    <!-- Body Wrapper Start -->
+    <div class="page-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+        <!--  Dashboard Navbar Start-->
+        <?php include realpath(__DIR__ . '/../includes/layout/dashboard-navbar.php'); ?>
+        <!-- Dashboard Navbar End -->
 
-    <!-- Content Wrapper Start -->
-    <div class="content-wrapper">
+        <!-- Content Wrapper Start -->
+        <div class="content-wrapper">
 
+        </div>
+        <!-- Content Wrapper End -->
     </div>
-    <!-- Content Wrapper End -->
-</div>
-<!-- Body Wrapper End -->
+    <!-- Body Wrapper End -->
 
-<!-- Footer Start -->
-<div class="bg-light p-1 px-4">
-    <div class="mx-3">
-        <div class="d-flex justify-content-between">
-            <div>
-                <p class="small m-0">Developed By: ICT Department</p>
-            </div>
-            <div class="d-flex">
-                <?php
-                $fetchDepartmentByCode = $departmentsFacade->fetchDepartmentByCode($department);
-                while ($row = $fetchDepartmentByCode->fetch(PDO::FETCH_ASSOC)) {
-                ?>
-                    <p class="small m-0 me-3"><img src="../dist/icons/building.jpg" class="me-1" alt="Users Icon" style="width: 18px"> <?= $row["department_name"] ?></p>
-                <?php } ?>
-                <p class="small m-0 me-3"><img src="../dist/icons/users.jpg" class="me-1" alt="Users Icon" style="width: 18px"> <?= $firstName . ' ' . $lastName ?></p>
-                <p class="small m-0"><img src="../dist/icons/clock.jpg" class="me-1" alt="Clock Icon" style="width: 18px;"><span id="clockDisplay"></span></p>
+    <!-- Footer Start -->
+    <div class="bg-light p-1 px-4">
+        <div class="mx-3">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p class="small m-0">Developed By: ICT Department</p>
+                </div>
+                <div class="d-flex">
+                    <?php
+                    $fetchDepartmentByCode = $departmentsFacade->fetchDepartmentByCode($department);
+                    while ($row = $fetchDepartmentByCode->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                        <p class="small m-0 me-3"><img src="../dist/icons/building.jpg" class="me-1" alt="Users Icon" style="width: 18px"> <?= $row["department_name"] ?></p>
+                    <?php } ?>
+                    <p class="small m-0 me-3"><img src="../dist/icons/users.jpg" class="me-1" alt="Users Icon" style="width: 18px"> <?= $firstName . ' ' . $lastName ?></p>
+                    <p class="small m-0"><img src="../dist/icons/clock.jpg" class="me-1" alt="Clock Icon" style="width: 18px;"><span id="clockDisplay"></span></p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Disable mobile view end -->
+
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 <!-- Footer End -->

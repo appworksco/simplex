@@ -1,5 +1,10 @@
+<!-- Show info in mobile view -->
+<div class="d-block d-lg-none">
+
+</div>
+
 <!-- Add load data animation when refresh button is clicked -->
-<?php include ('../includes/modals/load-data-modal.php') ?>
+<?php include('../includes/modals/load-data-modal.php') ?>
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>

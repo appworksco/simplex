@@ -299,7 +299,7 @@ if (isset($_GET["is_updated"])) {
         $('#projectName').change(function() {
             var projectName = $(this).val();
 
-            // // Fetch items based on the selected category using AJAX
+            // Fetch items based on the selected category using AJAX
             $.ajax({
                 url: 'get-project-type-info.php',
                 type: 'POST',
@@ -311,7 +311,7 @@ if (isset($_GET["is_updated"])) {
                 }
             })
 
-            // // Fetch items based on the selected category using AJAX
+            // Fetch items based on the selected category using AJAX
             $.ajax({
                 url: 'get-lgu-info.php',
                 type: 'POST',
@@ -321,7 +321,60 @@ if (isset($_GET["is_updated"])) {
                 success: function(data) {
                     $('#LGUId').html(data)
                 }
+            })
 
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectPOList').html(data)
+                }
+            })
+        });
+    });
+
+    $(document).ready(function() {
+        $('#projectPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#PONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#totalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#totalAmount').html(data)
+                }
             })
         });
     });

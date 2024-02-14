@@ -25,7 +25,13 @@ function move() {
 }
 
 $(function () {
-    
+
+    // Display mobile modal in mobile view
+    var width = $(window).width();
+    if (width > 768) {
+        $('#mobileModal').show();
+    }
+
     $('.table').DataTable({
         pageLength: 50,
         lengthMenu: [50, 100, 150, 200],
@@ -33,7 +39,6 @@ $(function () {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
-
 
     // Tools
     // If manage employee is clicked
