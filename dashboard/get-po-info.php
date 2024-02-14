@@ -16,10 +16,10 @@ if ($conn->connect_error) {
 $out = '';
 if (isset($_POST["projectName"])) {
     $projectName = $_POST["projectName"];
-    $fetchPOByName = "SELECT * FROM bd_po WHERE project_name = '$projectName'";
+    $fetchPOByName = "SELECT * FROM bd_po WHERE project_name = '$projectName' AND is_delivered = 0 ORDER BY po_date ASC";
     $fetchPOByName = mysqli_query($conn, $fetchPOByName);
     while ($PO = mysqli_fetch_assoc($fetchPOByName)) {
-        $out .= '<option value="' . $PO["id"] . '">' . $PO["project_name"] . '</option>';
+        $out .= '<option value="' . $PO["id"] . '">' . $PO["id"] . '/' . $PO["po_date"] . '/' . $PO["total_sku_quantity"] . '/' . $PO["total_amount"] . '</option>';
     }
 
     echo '<option value="">Please Select...</option>' . $out;

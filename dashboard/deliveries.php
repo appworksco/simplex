@@ -64,6 +64,8 @@ if (isset($_POST["add_delivery"])) {
 
     $addDelivery = $deliveriesFacade->addDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
     if ($addDelivery) {
+        // Update PO is_delivered
+        $POFacade->isDelivered($PONumber);
         array_push($success, 'Delivery has been added successfully');
     }
 }
