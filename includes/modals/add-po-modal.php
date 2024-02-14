@@ -12,6 +12,7 @@
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
                                 <select class="form-select" id="projectName" name="project_name">
+                                    <option value="">Please Select...</option>
                                     <?php
                                     $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingInformation();
                                     while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) {

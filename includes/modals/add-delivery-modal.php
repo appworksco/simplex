@@ -12,6 +12,7 @@
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
                                 <select class="form-select" id="projectName" name="project_name">
+                                    <option value="">Please Select...</option>
                                     <?php
                                     $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingInformation();
                                     while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -28,8 +29,12 @@
                                 <select class="form-select" id="LGUId" name="lgu_id"></select>
                             </div>
                             <div class="mb-3">
+                                <label for="projectPOList" class="form-label">Project PO List</label>
+                                <select class="form-select" id="projectPOList" name="project_po_list"></select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="PONumber" class="form-label">PO Number</label>
-                                <input type="text" class="form-control" id="PONumber" name="po_number">
+                                <select class="form-select" id="PONumber" name="po_number"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="DRNumber" class="form-label">DR Number</label>
@@ -41,11 +46,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="totalQuantity" class="form-label">Total Quantity</label>
-                                <input type="text" class="form-control" id="totalQuantity" name="total_quantity">
+                                <select class="form-select" id="totalQuantity" name="total_quantity"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="totalAmount" class="form-label">Total Amount</label>
-                                <input type="text" class="form-control" id="totalAmount" name="total_amount">
+                                <select class="form-select" id="totalAmount" name="total_amount"></select>
                             </div>
                         </div>
                         <div class="card-footer">
