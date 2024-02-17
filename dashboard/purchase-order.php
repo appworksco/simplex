@@ -171,6 +171,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Project Type</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -204,6 +207,9 @@ if (isset($_POST["update_bidding"])) {
                                         $fetchPO = $POFacade->fetchPO();
                                         while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["id"] ?></p>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <?php
                                                     $projectTypeId = $row["project_type_id"];
@@ -305,19 +311,19 @@ if (isset($_GET["is_updated"])) {
                     projectName: projectName
                 },
                 success: function(data) {
-                  $('#projectTypeId').html(data)
+                    $('#projectTypeId').html(data)
                 }
             })
 
-             // // Fetch items based on the selected category using AJAX
-             $.ajax({
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
                 url: 'get-lgu-info.php',
                 type: 'POST',
                 data: {
                     projectName: projectName
                 },
                 success: function(data) {
-                  $('#LGUId').html(data)
+                    $('#LGUId').html(data)
                 }
 
             })
