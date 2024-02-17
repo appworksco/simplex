@@ -21,8 +21,8 @@ class PaymentFacade extends DBConnection {
         return $count;
     }
 
-    public function fetchBiddingById($biddingId) {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE id = '$biddingId'");
+    public function fetchPaymentById($paymentId) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_payments WHERE id = '$paymentId'");
         $sql->execute();
         return $sql;
     }
@@ -34,14 +34,14 @@ class PaymentFacade extends DBConnection {
         return $count;
     }
 
-    public function addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount) {
-        $sql = $this->connect()->prepare("INSERT INTO bd_payments(project_name, project_type_id, lgu_id, po_no, dr_no, dr_date, delivered_total_quantity, delivered_total_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount]);
+    public function addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount) {
+        $sql = $this->connect()->prepare("INSERT INTO bd_payments(project_name, project_type_id, lgu_id, po_no, dr_no, dr_date, delivered_total_quantity, delivered_total_amount, bill_quantity, bill_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount]);
         return $sql;
     }
 
-    public function updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId) {
-        $sql = $this->connect()->prepare("UPDATE bd_project_information SET bid_date = '$biddingDate', project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', project_status = '$projectStatus', payment_structure = '$paymentStructure', project_budget_amount = '$projectBudgetAmount', award_date = '$awardDate', delivery_target_month = '$deliveryTargetMonth', remarks = '$remarks' WHERE id = '$biddingId'");
+    public function updatePayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber, $paymentId) {
+        $sql = $this->connect()->prepare("UPDATE bd_payments SET bill_no = '$billNumber', bill_date = '$billDate', payment_mode = '$paymentMode', payment_date = '$paymentDate', payment_amount = '$paymentAmount', payment_receipt_number = '$paymentReceiptNumber', partial_bill_no = '$partialBillNumber', partial_payment_mode = '$partialPaymentMode', partial_payment_date = '$partialPaymentDate', partial_payment_amount = '$partialPaymentAmount', partial_payment_receipt_number = '$partialPaymentReceiptNumber' WHERE id = '$paymentId'");
         $sql->execute();
         return $sql;
     }
