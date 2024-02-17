@@ -11,6 +11,7 @@ include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
 include realpath(__DIR__ . '/../models/purchase-order-facade.php');
 include realpath(__DIR__ . '/../models/deliveries-facade.php');
+include realpath(__DIR__ . '/../models/payment-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -22,6 +23,7 @@ $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
 $POFacade = new PurchaseOrderFacade;
 $deliveriesFacade = new DeliveriesFacade;
+$paymentFacade = new PaymentFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -67,6 +69,8 @@ if (isset($_POST["add_delivery"])) {
         // Update PO is_delivered
         $POFacade->isDelivered($PONumber);
         array_push($success, 'Delivery has been added successfully');
+        // Add payment when delivery is added
+        $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
     }
 }
 
@@ -175,6 +179,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Project Type</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -182,9 +189,6 @@ if (isset($_POST["update_bidding"])) {
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">DR Number</h6>
@@ -209,6 +213,9 @@ if (isset($_POST["update_bidding"])) {
                                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
                                                     <?php
                                                     $projectTypeId = $row["project_type_id"];
                                                     $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
@@ -228,9 +235,6 @@ if (isset($_POST["update_bidding"])) {
                                                         <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
                                                     <?php }
                                                     ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>

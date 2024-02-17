@@ -188,6 +188,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Project Type</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -195,9 +198,6 @@ if (isset($_POST["update_bidding"])) {
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">DR Number</h6>
@@ -258,6 +258,9 @@ if (isset($_POST["update_bidding"])) {
                                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
                                                 <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
                                                     <?php
                                                     $projectTypeId = $row["project_type_id"];
                                                     $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
@@ -277,9 +280,6 @@ if (isset($_POST["update_bidding"])) {
                                                         <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
                                                     <?php }
                                                     ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
