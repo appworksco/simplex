@@ -42,7 +42,7 @@ if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
+    $paymentId = $_GET["is_updated"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -54,19 +54,38 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_payment"])) {
-    $projectName = $_POST["project_name"];
-    $projectTypeId = $_POST["project_type_id"];
-    $LGUId = $_POST["lgu_id"];
-    $PONumber = $_POST["po_number"];
-    $DRNumber = $_POST["dr_number"];
-    $DRDate = $_POST["dr_date"];
-    $deliveredTotalQuantity = $_POST["delivered_total_quantity"];
-    $deliveredTotalAmount = $_POST["delivered_total_amount"];
+// if (isset($_POST["add_payment"])) {
+//     $projectName = $_POST["project_name"];
+//     $projectTypeId = $_POST["project_type_id"];
+//     $LGUId = $_POST["lgu_id"];
+//     $PONumber = $_POST["po_number"];
+//     $DRNumber = $_POST["dr_number"];
+//     $DRDate = $_POST["dr_date"];
+//     $deliveredTotalQuantity = $_POST["delivered_total_quantity"];
+//     $deliveredTotalAmount = $_POST["delivered_total_amount"];
+//     $billNumber = $_POST["bill_number"];
+//     $billDate = $_POST["bill_date"];
+//     $billQuantity = $_POST["bill_quantity"];
+//     $billAmount = $_POST["bill_amount"];
+//     $paymentMode = $_POST["payment_mode"];
+//     $paymentDate = $_POST["payment_date"];
+//     $paymentAmount = $_POST["payment_amount"];
+//     $paymentReceiptNumber = $_POST["payment_receipt_number"];
+//     $partialBillNumber = $_POST["partial_bill_number"];
+//     $partialPaymentMode = $_POST["partial_payment_mode"];
+//     $partialPaymentDate = $_POST["partial_payment_date"];
+//     $partialPaymentAmount = $_POST["partial_payment_amount"];
+//     $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
+
+//     $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate,  $deliveredTotalQuantity, $deliveredTotalAmount, $billNumber, $billDate, $billQuantity, $billAmount, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber);
+//     if ($addPayment) {
+//         array_push($success, 'Payment has been added successfully');
+//     }
+// }
+
+if (isset($_POST["update_payment"])) {
     $billNumber = $_POST["bill_number"];
     $billDate = $_POST["bill_date"];
-    $billQuantity = $_POST["bill_quantity"];
-    $billAmount = $_POST["bill_amount"];
     $paymentMode = $_POST["payment_mode"];
     $paymentDate = $_POST["payment_date"];
     $paymentAmount = $_POST["payment_amount"];
@@ -76,28 +95,10 @@ if (isset($_POST["add_payment"])) {
     $partialPaymentDate = $_POST["partial_payment_date"];
     $partialPaymentAmount = $_POST["partial_payment_amount"];
     $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
+    $paymentId = $_POST["payment_id"];
 
-    $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate,  $deliveredTotalQuantity, $deliveredTotalAmount, $billNumber, $billDate, $billQuantity, $billAmount, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber);
-    if ($addPayment) {
-        array_push($success, 'Payment has been added successfully');
-    }
-}
-
-if (isset($_POST["update_bidding"])) {
-    $biddingId = $_POST["bidding_id"];
-    $biddingDate = $_POST["bidding_date"];
-    $projectName = $_POST["project_name"];
-    $projectTypeId = $_POST["project_type_id"];
-    $LGUId = $_POST["lgu_id"];
-    $projectStatus = $_POST["project_status"];
-    $paymentStructure = $_POST["payment_structure"];
-    $projectBudgetAmount = $_POST["project_budget_amount"];
-    $awardDate = $_POST["award_date"];
-    $deliveryTargetMonth = $_POST["delivery_target_month"];
-    $remarks = $_POST["remarks"];
-
-    $updateBidding = $biddingInformationFacade->updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
-    if ($updateBidding) {
+    $updatePayment = $paymentFacade->updatePayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber, $paymentId);
+    if ($updatePayment) {
         array_push($success, 'Bidding has been updated successfully');
     }
 }
@@ -176,10 +177,10 @@ if (isset($_POST["update_bidding"])) {
                 <div class="col-lg-12 d-flex align-items-strech">
                     <div class="card w-100">
                         <div class="card-body p-4">
-                            <div class="d-flex justify-content-between">
+                            <!-- <div class="d-flex justify-content-between">
                                 <h5 class="card-title fw-semibold my-2">Overview</h5>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
-                            </div>
+                            </div> -->
                             <div class="py-2">
                                 <?php include('../errors.php') ?>
                             </div>
@@ -249,6 +250,9 @@ if (isset($_POST["update_bidding"])) {
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Partial Payment Receipt Number</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
                                             </th>
                                         </tr>
                                     </thead>
@@ -332,9 +336,9 @@ if (isset($_POST["update_bidding"])) {
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["partial_payment_receipt_number"] ?></p>
                                                 </td>
-                                                <!-- <td class="border-bottom-0">
-                                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                </td> -->
+                                                <td class="border-bottom-0">
+                                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                </td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
@@ -352,17 +356,17 @@ if (isset($_POST["update_bidding"])) {
 </div>
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-payment-modal.php') ?>
-<?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-payment-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php
 // Open modal if add asset form is submitted
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
-    if ($biddingId) {
+    $paymentId = $_GET["is_updated"];
+    if ($paymentId) {
         echo '<script type="text/javascript">
                 $(document).ready(function(){
-                    $("#updateBiddingModal").modal("show");
+                    $("#updatePaymentModal").modal("show");
                 });
             </script>';
     } else {
