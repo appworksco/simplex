@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2024 at 03:59 PM
+-- Generation Time: Feb 18, 2024 at 11:48 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -355,8 +355,16 @@ CREATE TABLE `bd_deliveries` (
   `dr_no` varchar(255) NOT NULL,
   `dr_date` varchar(10) NOT NULL,
   `total_quantity` varchar(255) NOT NULL,
-  `total_amount` double NOT NULL
+  `total_amount` double NOT NULL,
+  `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_deliveries`
+--
+
+INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `total_quantity`, `total_amount`, `is_paid`) VALUES
+(27, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '37', '12323', '09/23/23', '2', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -444,12 +452,40 @@ CREATE TABLE `bd_payments` (
   `payment_date` varchar(20) NOT NULL,
   `payment_amount` double NOT NULL,
   `payment_receipt_number` varchar(255) NOT NULL,
-  `partial_bill_no` varchar(50) NOT NULL,
-  `partial_payment_mode` varchar(20) NOT NULL,
-  `partial_payment_date` varchar(20) NOT NULL,
-  `partial_payment_amount` double NOT NULL,
-  `partial_payment_receipt_number` varchar(255) NOT NULL
+  `1st_bill_no` varchar(50) NOT NULL,
+  `1st_payment_mode` varchar(20) NOT NULL,
+  `1st_payment_date` varchar(20) NOT NULL,
+  `1st_payment_amount` double NOT NULL,
+  `1st_payment_receipt_number` varchar(255) NOT NULL,
+  `2nd_bill_no` varchar(50) NOT NULL,
+  `2nd_payment_mode` varchar(20) NOT NULL,
+  `2nd_payment_date` varchar(20) NOT NULL,
+  `2nd_payment_amount` double NOT NULL,
+  `2nd_payment_receipt_number` varchar(255) NOT NULL,
+  `3rd_bill_no` varchar(50) NOT NULL,
+  `3rd_payment_mode` varchar(20) NOT NULL,
+  `3rd_payment_date` varchar(20) NOT NULL,
+  `3rd_payment_amount` double NOT NULL,
+  `3rd_payment_receipt_number` varchar(255) NOT NULL,
+  `4th_payment_mode` varchar(20) NOT NULL,
+  `4th_bill_no` varchar(50) NOT NULL,
+  `4th_payment_date` varchar(20) NOT NULL,
+  `4th_payment_amount` double NOT NULL,
+  `4th_payment_receipt_number` varchar(255) NOT NULL,
+  `5th_bill_no` varchar(50) NOT NULL,
+  `5th_payment_mode` varchar(20) NOT NULL,
+  `5th_payment_date` varchar(20) NOT NULL,
+  `5th_payment_amount` double NOT NULL,
+  `5th_payment_receipt_number` varchar(255) NOT NULL,
+  `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_payments`
+--
+
+INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
+(22, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '37', '12323', '09/23/23', '2', '100', '', '', '2', 100, '', '', 0, '', '123', 'Advance Payment', '123', 50, '123', '', 'Advance Payment', '', 0, '', '', 'Advance Payment', '', 0, '', 'Advance Payment', '', '', 0, '', '', 'Advance Payment', '', 0, '', 1);
 
 -- --------------------------------------------------------
 
@@ -466,8 +502,16 @@ CREATE TABLE `bd_po` (
   `total_sku_assortment` double NOT NULL,
   `total_sku_quantity` double NOT NULL,
   `total_amount` double NOT NULL,
-  `remarks` text NOT NULL
+  `remarks` text NOT NULL,
+  `is_delivered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_po`
+--
+
+INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
+(37, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '09/90/2020', 1, 2, 100, '', 1);
 
 -- --------------------------------------------------------
 
@@ -915,7 +959,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -939,13 +983,13 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
