@@ -83,23 +83,122 @@ if ($userId == 0) {
 //     }
 // }
 
-if (isset($_POST["update_payment"])) {
+// if (isset($_POST["update_payment"])) {
+//     $billNumber = $_POST["bill_number"];
+//     $billDate = $_POST["bill_date"];
+//     $paymentDate = $_POST["payment_date"];
+//     $paymentAmount = $_POST["payment_amount"];
+//     $paymentReceiptNumber = $_POST["payment_receipt_number"];
+//     $partialBillNumber = $_POST["partial_bill_number"];
+//     $partialPaymentMode = $_POST["partial_payment_mode"];
+//     $partialPaymentDate = $_POST["partial_payment_date"];
+//     $partialPaymentAmount = $_POST["partial_payment_amount"];
+//     $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
+//     $paymentId = $_POST["payment_id"];
+//     $PONumber =  $_POST["po_number"];
+
+//     $updatePayment = $paymentFacade->updatePayment($billNumber, $billDate, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber, $paymentId);
+//     if ($updatePayment) {
+//         array_push($success, 'Bidding has been updated successfully');
+//         // Update delivery if payment is fully paid
+//         $deliveriesFacade->isPaid($PONumber);
+//     }
+// }
+
+if (isset($_POST["full_payment"])) {
+    $paymentId = $_POST["payment_id"];
+    $PONumber =  $_POST["po_number"];
+    $paymentMode = 'Full Payment';
     $billNumber = $_POST["bill_number"];
     $billDate = $_POST["bill_date"];
-    $paymentMode = $_POST["payment_mode"];
     $paymentDate = $_POST["payment_date"];
     $paymentAmount = $_POST["payment_amount"];
     $paymentReceiptNumber = $_POST["payment_receipt_number"];
-    $partialBillNumber = $_POST["partial_bill_number"];
-    $partialPaymentMode = $_POST["partial_payment_mode"];
-    $partialPaymentDate = $_POST["partial_payment_date"];
-    $partialPaymentAmount = $_POST["partial_payment_amount"];
-    $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
-    $paymentId = $_POST["payment_id"];
+    $isPaid = 1;
 
-    $updatePayment = $paymentFacade->updatePayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber, $paymentId);
-    if ($updatePayment) {
-        array_push($success, 'Bidding has been updated successfully');
+    // Verify payment to PO total amount if exact
+    $fetchPOByPONumber = $POFacade->fetchPOByPONumber($PONumber);
+    while ($row = $fetchPOByPONumber->fetch(PDO::FETCH_ASSOC)) {
+        if ($row["id"] > $paymentAmount) {
+            array_push($invalid, 'The payment amount is not precise.');
+        } else {
+            $fullPayment = $paymentFacade->fullPayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $paymentId, $isPaid);
+            if ($fullPayment) {
+                array_push($success, 'Bidding has been updated successfully');
+                // Update delivery if payment is fully paid
+                $deliveriesFacade->isPaid($PONumber);
+            }
+        }
+    }
+}
+
+if (isset($_POST["partial_payment"])) {
+    $paymentId = $_POST["payment_id"];
+    $PONumber =  $_POST["po_number"];
+
+    // 1st payment
+    $oneBillNumber = $_POST["1st_bill_number"];
+    $onePaymentMode = $_POST["1st_payment_mode"];
+    $onePaymentDate = $_POST["1st_payment_date"];
+    $onePaymentAmount = $_POST["1st_payment_amount"];
+    $onePaymentReceiptNumber = $_POST["1st_payment_receipt_number"];
+
+    // 2nd payment
+    $twoBillNumber = $_POST["2nd_bill_number"];
+    $twoPaymentMode = $_POST["2nd_payment_mode"];
+    $twoPaymentDate = $_POST["2nd_payment_date"];
+    $twoPaymentAmount = $_POST["2nd_payment_amount"];
+    $twoPaymentReceiptNumber = $_POST["2nd_payment_receipt_number"];
+
+    // 2nd payment
+    $twoBillNumber = $_POST["2nd_bill_number"];
+    $twoPaymentMode = $_POST["2nd_payment_mode"];
+    $twoPaymentDate = $_POST["2nd_payment_date"];
+    $twoPaymentAmount = $_POST["2nd_payment_amount"];
+    $twoPaymentReceiptNumber = $_POST["2nd_payment_receipt_number"];
+
+    // 3rd payment
+    $threeBillNumber = $_POST["3rd_bill_number"];
+    $threePaymentMode = $_POST["3rd_payment_mode"];
+    $threePaymentDate = $_POST["3rd_payment_date"];
+    $threePaymentAmount = $_POST["3rd_payment_amount"];
+    $threePaymentReceiptNumber = $_POST["3rd_payment_receipt_number"];
+
+    // 4th payment
+    $fourBillNumber = $_POST["4th_bill_number"];
+    $fourPaymentMode = $_POST["4th_payment_mode"];
+    $fourPaymentDate = $_POST["4th_payment_date"];
+    $fourPaymentAmount = $_POST["4th_payment_amount"];
+    $fourPaymentReceiptNumber = $_POST["4th_payment_receipt_number"];
+
+    // 5th payment
+    $fiveBillNumber = $_POST["5th_bill_number"];
+    $fivePaymentMode = $_POST["5th_payment_mode"];
+    $fivePaymentDate = $_POST["5th_payment_date"];
+    $fivePaymentAmount = $_POST["5th_payment_amount"];
+    $fivePaymentReceiptNumber = $_POST["5th_payment_receipt_number"];
+
+    $fPayment = $onePaymentAmount;
+    $sPayment = $twoPaymentAmount;
+    $tPayment = $threePaymentAmount;
+    $foPayment = $fourPaymentAmount;
+    $fiPayment = $fivePaymentAmount;
+
+    $totalPaid = $fPayment + $sPayment + $tPayment + $foPayment + $fiPayment;
+
+    // Verify payment to PO total amount if exact
+    $fetchPOByPONumber = $POFacade->fetchPOByPONumber($PONumber);
+    while ($row = $fetchPOByPONumber->fetch(PDO::FETCH_ASSOC)) {
+        if ($row["total_amount"] <= $totalPaid) {
+            // Update delivery if payment is fully paid
+            $deliveriesFacade->isPaid($PONumber);
+            $paymentFacade->isPaid($PONumber);
+        } else {
+            $partialPayment = $paymentFacade->partialPayment($oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber,$twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
+            if ($partialPayment) {
+                array_push($success, 'Bidding has been updated successfully');
+            }
+        }
     }
 }
 
@@ -213,43 +312,19 @@ if (isset($_POST["update_payment"])) {
                                                 <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Number</h6>
+                                                <h6 class="fw-semibold mb-0">1st Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Date</h6>
+                                                <h6 class="fw-semibold mb-0">2nd Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Quantity</h6>
+                                                <h6 class="fw-semibold mb-0">3rd Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Bill Amount</h6>
+                                                <h6 class="fw-semibold mb-0">4th Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Mode</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Payment Receipt Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Bill Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Mode</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Partial Payment Receipt Number</h6>
+                                                <h6 class="fw-semibold mb-0">5th Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Action</h6>
@@ -298,43 +373,59 @@ if (isset($_POST["update_payment"])) {
                                                     <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_no"] ?></p>
+                                                    <?php if ($row["1st_bill_no"] != NULL) { ?>
+                                                        <p class="mb-0 fw-normal">
+                                                            Bill No: <?= $row["1st_bill_no"] ?> <br>
+                                                            Payment Mode: <?= $row["1st_payment_mode"] ?> <br>
+                                                            Payment Date: <?= $row["1st_payment_date"] ?> <br>
+                                                            Payment Amount: <?= $row["1st_payment_amount"] ?> <br>
+                                                            Receipt Number: <?= $row["1st_payment_receipt_number"] ?>
+                                                        </p>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_date"] ?></p>
+                                                    <?php if ($row["2nd_bill_no"] != NULL) { ?>
+                                                        <p class="mb-0 fw-normal">
+                                                            Bill No: <?= $row["2nd_bill_no"] ?> <br>
+                                                            Payment Mode: <?= $row["2nd_payment_mode"] ?> <br>
+                                                            Payment Date: <?= $row["2nd_payment_date"] ?> <br>
+                                                            Payment Amount: <?= $row["2nd_payment_amount"] ?> <br>
+                                                            Receipt Number: <?= $row["2nd_payment_receipt_number"] ?>
+                                                        </p>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_quantity"] ?></p>
+                                                    <?php if ($row["3rd_bill_no"] != NULL) { ?>
+                                                        <p class="mb-0 fw-normal">
+                                                            Bill No: <?= $row["3rd_bill_no"] ?> <br>
+                                                            Payment Mode: <?= $row["3rd_payment_mode"] ?> <br>
+                                                            Payment Date: <?= $row["3rd_payment_date"] ?> <br>
+                                                            Payment Amount: <?= $row["3rd_payment_amount"] ?> <br>
+                                                            Receipt Number: <?= $row["3rd_payment_receipt_number"] ?>
+                                                        </p>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["bill_amount"] ?></p>
+                                                    <?php if ($row["4th_bill_no"] != NULL) { ?>
+                                                        <p class="mb-0 fw-normal">
+                                                            Bill No: <?= $row["4th_bill_no"] ?> <br>
+                                                            Payment Mode: <?= $row["4th_payment_mode"] ?> <br>
+                                                            Payment Date: <?= $row["4th_payment_date"] ?> <br>
+                                                            Payment Amount: <?= $row["4th_payment_amount"] ?> <br>
+                                                            Receipt Number: <?= $row["4th_payment_receipt_number"] ?>
+                                                        </p>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_mode"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["payment_receipt_number"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_bill_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_mode"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["partial_payment_receipt_number"] ?></p>
+                                                    <?php if ($row["5th_bill_no"] != NULL) { ?>
+                                                        <p class="mb-0 fw-normal">
+                                                            Bill No: <?= $row["5th_bill_no"] ?> <br>
+                                                            Payment Mode: <?= $row["5th_payment_mode"] ?> <br>
+                                                            Payment Date: <?= $row["5th_payment_date"] ?> <br>
+                                                            Payment Amount: <?= $row["5th_payment_amount"] ?> <br>
+                                                            Receipt Number: <?= $row["5th_payment_receipt_number"] ?>
+                                                        </p>
+                                                    <?php } ?>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
@@ -389,6 +480,22 @@ if (isset($_GET["is_updated"])) {
         }
     }
 
+    function paymentMode(select) {
+        // If payment mode is full payment
+        if (select.value == 1) {
+            document.getElementById('fullPayment').style.display = "block";
+        } else {
+            document.getElementById('fullPayment').style.display = "none";
+        }
+
+        // If payment mode is full payment
+        if (select.value == 2) {
+            document.getElementById('partialPayment').style.display = "block";
+        } else {
+            document.getElementById('partialPayment').style.display = "none";
+        }
+    }
+
     $(document).ready(function() {
         $('#projectName').change(function() {
             var projectName = $(this).val();
@@ -415,8 +522,8 @@ if (isset($_GET["is_updated"])) {
                 success: function(data) {
                     $('#LGUId').html(data)
                 }
-
             })
+
         });
     });
 </script>

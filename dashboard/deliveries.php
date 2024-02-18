@@ -72,7 +72,7 @@ if (isset($_POST["add_delivery"])) {
         $POFacade->isDelivered($PONumber);
         array_push($success, 'Delivery has been added successfully');
         // Add payment when delivery is added
-        $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
+        $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
     }
 }
 

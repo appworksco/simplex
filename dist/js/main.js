@@ -56,6 +56,7 @@ $(function () {
     $("#logButton").click(function () {
         window.open('../log-file.txt', null, 'popup');
     })
+
 })
 
 // document.addEventListener('keydown', function() {
