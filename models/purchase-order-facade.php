@@ -8,6 +8,12 @@ class PurchaseOrderFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchPOByPONumber($PONumber) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_po WHERE id = '$PONumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function isDelivered($PONumber) {
         $sql = $this->connect()->prepare("UPDATE bd_po SET is_delivered = 1 WHERE id = '$PONumber'");
         $sql->execute();

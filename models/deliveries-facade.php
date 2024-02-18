@@ -3,7 +3,7 @@
 class DeliveriesFacade extends DBConnection {
 
     public function fetchDeliveries() {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_deliveries");
+        $sql = $this->connect()->prepare("SELECT * FROM bd_deliveries WHERE is_paid = 0");
         $sql->execute();
         return $sql;
     }
@@ -42,6 +42,12 @@ class DeliveriesFacade extends DBConnection {
 
     public function updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId) {
         $sql = $this->connect()->prepare("UPDATE bd_project_information SET bid_date = '$biddingDate', project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', project_status = '$projectStatus', payment_structure = '$paymentStructure', project_budget_amount = '$projectBudgetAmount', award_date = '$awardDate', delivery_target_month = '$deliveryTargetMonth', remarks = '$remarks' WHERE id = '$biddingId'");
+        $sql->execute();
+        return $sql;
+    }
+
+    public function isPaid($PONumber){
+        $sql = $this->connect()->prepare("UPDATE bd_deliveries SET is_paid = 1 WHERE po_no = '$PONumber'");
         $sql->execute();
         return $sql;
     }
