@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include realpath(__DIR__ . '/includes/layout/header.php');
 include realpath(__DIR__ . '/models/users-facade.php');
@@ -6,6 +6,26 @@ include realpath(__DIR__ . '/models/rfid-facade.php');
 
 $usersFacade = new UsersFacade;
 $rfidFacade = new RFIDFacade;
+
+$invalid = [];
+$success = [];
+
+// Ensure $_SESSION['last_attempt_time'] is initialized as an array
+if (!isset($_SESSION['last_attempt_time']) || !is_array($_SESSION['last_attempt_time'])) {
+    $_SESSION['last_attempt_time'] = [];
+}
+
+// Function to check if the minimum time interval has passed since the last attempt for a specific company ID
+function isTimeIntervalPassed($companyId)
+{
+    $currentTime = time();
+    if (isset($_SESSION['last_attempt_time'][$companyId])) {
+        $lastAttemptTime = $_SESSION['last_attempt_time'][$companyId];
+        return ($currentTime - $lastAttemptTime) > 900; // 900 seconds = 15 minutes
+    } else {
+        return true; // No last attempt recorded for this company, allow attempt
+    }
+}
 
 if (isset($_GET["invalid"])) {
     $msg = $_GET["invalid"];
@@ -16,44 +36,141 @@ if (isset($_GET["success"])) {
     array_push($success, $msg);
 }
 
-if (isset($_POST["company_id_in"])) {
-    $companyId = $_POST["company_id_in"];
-    date_default_timezone_set('Asia/Manila');
-    $date = date("m-d-Y");
-    // check initially whether the employee has already clocked in for the day.
-    $verifyEmployeeTimeIn = $rfidFacade->verifyEmployeeTimeIn($companyId, $date);
-    if ($verifyEmployeeTimeIn == 1) {
-        array_push($invalid, 'You already time in within the day!');
-    } else {
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["company_id"])) {
+        $companyId = $_POST["company_id"];
+
         $verifyCompanyId = $usersFacade->verifyCompanyId($companyId);
-        if ($verifyCompanyId > 0) {
-            $fetchUserByCompanyId = $usersFacade->fetchUserByCompanyId($companyId);
-            while ($row = $fetchUserByCompanyId->fetch(PDO::FETCH_ASSOC)) {
-                $employee = $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"];
-                $timeIn = date("h:i:s");
-                $employeeTimeIn = $rfidFacade->employeeTimeIn($companyId, $employee, $date, $timeIn);
-                if ($employeeTimeIn) {
-                    array_push($success, 'You have successfully logged on!');
-                    $audio_file = "./dist/sfx/log-on.wav";
-                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+        if ($verifyCompanyId == 0) {
+            array_push($invalid, 'Not registered. Please try again!');
+            $audio_file = "./dist/sfx/not-reg.wav";
+            echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+        } else {
+            // Check if minimum time interval has passed since the last attempt for this company
+            if (!isTimeIntervalPassed($companyId)) {
+                array_push($invalid, 'Please wait before attempting again');
+                $audio_file = "./dist/sfx/pls-wait.wav";
+                echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+            } else {
+                $_SESSION['last_attempt_time'][$companyId] = time(); // Record the time of this attempt for this company
+
+                // Proceed with the form submission handling
+                date_default_timezone_set('Asia/Manila');
+                $currentTime = date("H:i:s");
+                $currentDate = date("m-d-Y");
+
+                $verifyEmployeeTimeIn = $rfidFacade->verifyEmployeeTimeIn($companyId, $currentDate);
+                if ($verifyEmployeeTimeIn > 0) {
+                    $fetchUserByCompanyId = $usersFacade->fetchUserByCompanyId($companyId);
+                    while ($users = $fetchUserByCompanyId->fetch(PDO::FETCH_ASSOC)) {
+                        // if ($employeeInfo) {
+                        $isOperation = $users["is_operation"];
+                        $timeIn = $users["time_in"];
+                        $timeOut = $users["time_out"];
+                        $breakIn = $users["break_in"];
+                        $breakOut = $users["break_out"];
+
+                        if ($isOperation == 0) {
+                            // Non-operational employee
+                            // Logout
+                            if ($currentTime > $timeOut) {
+                                // Past work hours, insert clock-out record
+                                $insertClockOutRecord = $rfidFacade->insertClockOutRecord($companyId, $currentDate, $currentTime);
+                                if ($insertClockOutRecord) {
+                                    array_push($success, 'You have successfully logged out!');
+                                    $audio_file = "./dist/sfx/log-out.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            } else {
+                                array_push($invalid, 'You are not in the right time yet!');
+                                $audio_file = "./dist/sfx/not-yet.wav";
+                                echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                            }
+                        } elseif ($isOperation == 1) {
+                            // Operational employee
+                            if ($currentTime >= $breakOut && $currentTime <= $breakIn) {
+                                // Within break hours, insert break-out record
+                                $insertBreakOutRecord = $rfidFacade->insertBreakOutRecord($companyId, $currentDate, $currentTime);
+                                if ($insertBreakOutRecord) {
+                                    array_push($success, 'You have successfully breaked out!');
+                                    $audio_file = "./dist/sfx/break-out.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            } elseif ($currentTime >= $breakIn && $currentTime <= $timeOut) {
+                                // Within break hours, insert break-in record
+                                $insertBreakInRecord = $rfidFacade->insertBreakInRecord($companyId, $currentDate, $currentTime);
+                                if ($insertBreakInRecord) {
+                                    array_push($success, 'You have successfully breaked in!');
+                                    $audio_file = "./dist/sfx/break-in.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            } elseif ($currentTime >= $timeOut) {
+                                // Past work hours, insert clock-out record
+                                $insertClockOutRecord = $rfidFacade->insertClockOutRecord($companyId, $currentDate, $currentTime);
+                                if ($insertClockOutRecord) {
+                                    array_push($success, 'You have successfully logged out!');
+                                    $audio_file = "./dist/sfx/log-out.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            } else {
+                                array_push($invalid, 'You are not in the right time yet!');
+                                $audio_file = "./dist/sfx/not-yet.wav";
+                                echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                            }
+                        }
+                    }
+                } else {
+                    $verifyCompanyId = $usersFacade->verifyCompanyId($companyId);
+                    if ($verifyCompanyId > 0) {
+
+                        // Retrieve employee information including shift schedule
+                        $fetchUserByCompanyId = $usersFacade->fetchUserByCompanyId($companyId);
+                        while ($users = $fetchUserByCompanyId->fetch(PDO::FETCH_ASSOC)) {
+                            // if ($employeeInfo) {
+                            $isOperation = $users["is_operation"];
+                            $employee = $users["first_name"] . ' ' . $users["middle_name"] . ' ' . $users["last_name"];
+                            $timeIn = $users["time_in"];
+                            $timeOut = $users["time_out"];
+                            $breakIn = $users["break_in"];
+                            $breakOut = $users["break_out"];
+
+                            if ($isOperation == 0) {
+                                // Non-operational employee
+                                if ($currentTime < $timeIn || $currentTime > $timeIn && $currentTime < $timeOut) {
+                                    // Within work hours, insert clock-in record
+                                    $insertClockInRecord = $rfidFacade->insertClockInRecord($companyId, $employee, $currentDate, $currentTime);
+                                    if ($insertClockInRecord) {
+                                        array_push($success, 'You have successfully logged in!');
+                                        $audio_file = "./dist/sfx/log-in.wav";
+                                        echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                    }
+                                } else {
+                                    array_push($invalid, 'You are not scheduled to work at this time!');
+                                    $audio_file = "./dist/sfx/not-sched.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            } elseif ($isOperation == 1) {
+                                // Operational employee
+                                if ($currentTime < $timeIn || $currentTime > $timeIn && $currentTime < $timeOut) {
+                                    // Within regular work hours, insert clock-in record
+                                    $insertClockInRecord = $rfidFacade->insertClockInRecord($companyId, $employee, $currentDate, $currentTime);
+                                    if ($insertClockInRecord) {
+                                        array_push($success, 'You have successfully logged in!');
+                                        $audio_file = "./dist/sfx/log-in.wav";
+                                        echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                    }
+                                } else {
+                                    array_push($invalid, 'You are not scheduled to work at this time!');
+                                    $audio_file = "./dist/sfx/not-sched.wav";
+                                    echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        } else {
-            array_push($invalid, 'Account does not exist!');
         }
-    }
-}
-
-if (isset($_POST["company_id_out"])) {
-    $companyId = $_POST["company_id_out"];
-    date_default_timezone_set('Asia/Manila');
-    $date = date("m-d-Y");
-    $timeOut = date("h:i:s");
-    $employeeTimeOut = $rfidFacade->employeeTimeOut($companyId, $date, $timeOut);
-    if ($employeeTimeOut) {
-        array_push($success, 'You have successfully logged off!');
-        $audio_file = "./dist/sfx/log-off.wav";
-        echo "<audio autoplay='true' style='display:none;'><source src='$audio_file'></audio>";
     }
 }
 
@@ -65,7 +182,10 @@ if (isset($_POST["company_id_out"])) {
         background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
         background-size: 21px 21px;
     }
-    .container {height: 100vh;}
+
+    .container {
+        height: 100vh;
+    }
 </style>
 
 <div class="container">
@@ -84,8 +204,12 @@ if (isset($_POST["company_id_out"])) {
                 <div class="card-body mx-5 my-3">
                     <h1 class="h3 mb-3 fw-normal">RFID Attendance System</h1>
                     <?php include('errors.php') ?>
-                    <button class="w-100 btn btn-lg btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#logOnModal">Log On</button>
-                    <button class="w-100 btn btn-lg btn-danger" data-bs-toggle="modal" data-bs-target="#logOffModal">Log Off</button>
+                    <form action="rfid" method="post">
+                        <label for="companyId" class="form-label">Company ID</label>
+                        <input type="text" class="form-control" id="companyId" name="company_id" autofocus>
+                        <input type="hidden" name="date" id="date">
+                        <input type="hidden" name="time" id="time">
+                    </form>
                 </div>
             </div>
         </div>
@@ -95,12 +219,3 @@ if (isset($_POST["company_id_out"])) {
 <?php include realpath(__DIR__ . '/includes/layout/footer.php') ?>
 <?php include realpath(__DIR__ . '/includes/modals/time-in-modal.php') ?>
 <?php include realpath(__DIR__ . '/includes/modals/time-out-modal.php') ?>
-
-<script>
-    $('#logOnModal').on('shown.bs.modal', function() {
-        $(this).find('[autofocus]').focus();
-    });
-    $('#logOffModal').on('shown.bs.modal', function() {
-        $(this).find('[autofocus]').focus();
-    });
-</script>
