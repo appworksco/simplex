@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
 include realpath(__DIR__ . '/../models/users-facade.php');
@@ -51,9 +51,11 @@ if (isset($_POST["add_project_type"])) {
 
     if (empty($projectTypeCode)) {
         array_push($invalid, 'Project Type Code should not be empty.');
-    } if (empty($projectDescription)) {
+    }
+    if (empty($projectDescription)) {
         array_push($invalid, 'Project Description should not be empty.');
-    } if (empty($projectDetails)) {
+    }
+    if (empty($projectDetails)) {
         array_push($invalid, 'Project Details should not be empty.');
     } else {
         $verifyProjectTypeCode = $projectTypeFacade->verifyProjectTypeCode($projectTypeCode);
@@ -76,9 +78,11 @@ if (isset($_POST["update_project_type"])) {
 
     if (empty($projectTypeCode)) {
         array_push($invalid, 'Project Type Code should not be empty.');
-    } if (empty($projectDescription)) {
+    }
+    if (empty($projectDescription)) {
         array_push($invalid, 'Project Description should not be empty.');
-    } if (empty($projectDetails)) {
+    }
+    if (empty($projectDetails)) {
         array_push($invalid, 'Project Details should not be empty.');
     } else {
         $updateProjectType = $projectTypeFacade->updateProjectType($projectTypeCode, $projectDescription, $projectDetails, $projectTypeId);
@@ -96,26 +100,31 @@ if (isset($_POST["update_project_type"])) {
         background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
         background-size: 21px 21px;
     }
-    .container {height: 100vh;}
+
+    .container {
+        height: 100vh;
+    }
 </style>
 
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
     <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
-      <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index" class="text-nowrap logo-img"><h3>One <span class="text-danger">Centro</span></h3></a>
-            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                <i class="ti ti-x fs-8"></i>
+        <!-- Sidebar scroll-->
+        <div>
+            <div class="brand-logo d-flex align-items-center justify-content-between">
+                <a href="./index" class="text-nowrap logo-img">
+                    <h3>One <span class="text-danger">Centro</span></h3>
+                </a>
+                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                    <i class="ti ti-x fs-8"></i>
+                </div>
             </div>
+            <!-- Sidebar navigation-->
+            <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
+            <!-- End Sidebar navigation -->
         </div>
-        <!-- Sidebar navigation-->
-        <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
-        <!-- End Sidebar navigation -->
-      </div>
-      <!-- End Sidebar scroll-->
+        <!-- End Sidebar scroll-->
     </aside>
     <!--  Sidebar End -->
     <!--  Main wrapper -->
@@ -169,6 +178,9 @@ if (isset($_POST["update_project_type"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Project Type Code</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -177,31 +189,28 @@ if (isset($_POST["update_project_type"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Project Details</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    $fetchProjectType = $projectTypeFacade->fetchProjectType();
-                                    while ($row = $fetchProjectType->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["project_type_code"] ?></p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["project_description"] ?></p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["project_details"] ?></p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <a href="project-type?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                <a href="delete-project-type?project_type_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project type?');">Delete</a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>                 
+                                        <?php
+                                        $fetchProjectType = $projectTypeFacade->fetchProjectType();
+                                        while ($row = $fetchProjectType->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="project-type?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-project-type?project_type_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project type?');">Delete</a>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["project_type_code"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["project_description"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["project_details"] ?></p>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -220,18 +229,17 @@ if (isset($_POST["update_project_type"])) {
 <?php include realpath(__DIR__ . '/../includes/modals/update-project-type-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
-<?php	
-    // Open modal if add asset form is submitted
-    if (isset($_GET["is_updated"])) {
-        $projectTypeId = $_GET["is_updated"];
-        if ($projectTypeId) {
-            echo '<script type="text/javascript">
+<?php
+// Open modal if add asset form is submitted
+if (isset($_GET["is_updated"])) {
+    $projectTypeId = $_GET["is_updated"];
+    if ($projectTypeId) {
+        echo '<script type="text/javascript">
                 $(document).ready(function(){
                     $("#updateProjectTypeModal").modal("show");
                 });
             </script>';
-        } else {
-
-        }
+    } else {
     }
+}
 ?>

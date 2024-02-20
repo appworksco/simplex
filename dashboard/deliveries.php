@@ -42,7 +42,7 @@ if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
+    $deliveryId = $_GET["is_updated"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -65,6 +65,7 @@ if (isset($_POST["add_delivery"])) {
     $totalAmount = $_POST["total_amount"];
     $billQuantity = $totalQuantity;
     $billAmount = $totalAmount;
+    $remainingBalance = $totalAmount;
 
     $addDelivery = $deliveriesFacade->addDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
     if ($addDelivery) {
@@ -72,26 +73,30 @@ if (isset($_POST["add_delivery"])) {
         $POFacade->isDelivered($PONumber);
         array_push($success, 'Delivery has been added successfully');
         // Add payment when delivery is added
-        $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
+        $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
     }
 }
 
-if (isset($_POST["update_bidding"])) {
-    $biddingId = $_POST["bidding_id"];
-    $biddingDate = $_POST["bidding_date"];
+if (isset($_POST["update_delivery"])) {
+    $deliveryId = $_POST["delivery_id"];
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $projectStatus = $_POST["project_status"];
-    $paymentStructure = $_POST["payment_structure"];
-    $projectBudgetAmount = $_POST["project_budget_amount"];
-    $awardDate = $_POST["award_date"];
-    $deliveryTargetMonth = $_POST["delivery_target_month"];
-    $remarks = $_POST["remarks"];
+    $PONumber = $_POST["po_number"];
+    $DRNumber = $_POST["dr_number"];
+    $DRDate = $_POST["dr_date"];
+    $totalQuantity = $_POST["total_quantity"];
+    $totalAmount = $_POST["total_amount"];
+    $billQuantity = $totalQuantity;
+    $billAmount = $totalAmount;
 
-    $updateBidding = $biddingInformationFacade->updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
-    if ($updateBidding) {
-        array_push($success, 'Bidding has been updated successfully');
+    $updateDelivery = $deliveriesFacade->updateDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $deliveryId);
+    if ($updateDelivery) {
+        // Update PO is_delivered
+        $POFacade->isDelivered($PONumber);
+        array_push($success, 'Delivery has been added successfully');
+        // Add payment when delivery is added
+        $paymentFacade->updatePaymentDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
     }
 }
 
@@ -181,6 +186,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -204,9 +212,6 @@ if (isset($_POST["update_bidding"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Total Amount</h6>
                                             </th>
-                                            <!-- <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -214,6 +219,10 @@ if (isset($_POST["update_bidding"])) {
                                         $fetchDeliveries = $deliveriesFacade->fetchDeliveries();
                                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                                 </td>
@@ -250,9 +259,6 @@ if (isset($_POST["update_bidding"])) {
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
                                                 </td>
-                                                <!-- <td class="border-bottom-0">
-                                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                </td> -->
                                             </tr>
                                         <?php } ?>
                                     </tbody>
@@ -270,17 +276,17 @@ if (isset($_POST["update_bidding"])) {
 </div>
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-delivery-modal.php') ?>
-<?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-delivery-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php
 // Open modal if add asset form is submitted
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
-    if ($biddingId) {
+    $deliveryId = $_GET["is_updated"];
+    if ($deliveryId) {
         echo '<script type="text/javascript">
                 $(document).ready(function(){
-                    $("#updateBiddingModal").modal("show");
+                    $("#updateDeliveryModal").modal("show");
                 });
             </script>';
     } else {
@@ -289,21 +295,8 @@ if (isset($_GET["is_updated"])) {
 ?>
 
 <script>
-    function myFunction() {
-        // Get the checkbox
-        var checkBox = document.getElementById("isConverted");
-        // Get the output text
-        var remarks = document.getElementById("remarks");
-
-        // If the checkbox is checked, display the output text
-        if (checkBox.checked == true) {
-            remarks.style.display = "block";
-        } else {
-            remarks.style.display = "none";
-        }
-    }
-
     $(document).ready(function() {
+        // Add delivery
         $('#projectName').change(function() {
             var projectName = $(this).val();
 
@@ -343,9 +336,52 @@ if (isset($_GET["is_updated"])) {
                 }
             })
         });
+
+        // Update delivery
+        $('#projectNameUpdate').change(function() {
+            var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectTypeIdUpdate').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#LGUIdUpdate').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectPOListUpdate').html(data)
+                }
+            })
+        });
     });
 
     $(document).ready(function() {
+
+        // Add delivery
         $('#projectPOList').change(function() {
             var projectPOList = $(this).val();
 
@@ -382,6 +418,47 @@ if (isset($_GET["is_updated"])) {
                 },
                 success: function(data) {
                     $('#totalAmount').html(data)
+                }
+            })
+        });
+
+        // Update delivery
+        $('#projectPOListUpdate').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#PONumberUpdate').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#totalQuantityUpdate').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#totalAmountUpdate').html(data)
                 }
             })
         });
