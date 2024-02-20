@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include realpath(__DIR__ . '/../includes/layout/dashboard-header.php');
 include realpath(__DIR__ . '/../models/users-facade.php');
@@ -48,7 +48,8 @@ if (isset($_POST["add_municipality"])) {
 
     if (empty($municipalityName)) {
         array_push($invalid, 'Municipality Name should not be empty.');
-    } if (empty($address)) {
+    }
+    if (empty($address)) {
         array_push($invalid, 'Address should not be empty.');
     } else {
         $verifyMunicipalityName = $municipalitiesFacade->verifyMunicipalityName($municipalityName);
@@ -70,7 +71,8 @@ if (isset($_POST["update_municipality"])) {
 
     if (empty($municipalityName)) {
         array_push($invalid, 'Municipality Name should not be empty.');
-    } if (empty($address)) {
+    }
+    if (empty($address)) {
         array_push($invalid, 'Address should not be empty.');
     } else {
         $updateMunicipality = $municipalitiesFacade->updateMunicipality($municipalityName, $address, $municipalityId);
@@ -88,26 +90,31 @@ if (isset($_POST["update_municipality"])) {
         background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
         background-size: 21px 21px;
     }
-    .container {height: 100vh;}
+
+    .container {
+        height: 100vh;
+    }
 </style>
 
 <!--  Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
     <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
-      <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index" class="text-nowrap logo-img"><h3>One <span class="text-danger">Centro</span></h3></a>
-            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                <i class="ti ti-x fs-8"></i>
+        <!-- Sidebar scroll-->
+        <div>
+            <div class="brand-logo d-flex align-items-center justify-content-between">
+                <a href="./index" class="text-nowrap logo-img">
+                    <h3>One <span class="text-danger">Centro</span></h3>
+                </a>
+                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                    <i class="ti ti-x fs-8"></i>
+                </div>
             </div>
+            <!-- Sidebar navigation-->
+            <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
+            <!-- End Sidebar navigation -->
         </div>
-        <!-- Sidebar navigation-->
-        <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
-        <!-- End Sidebar navigation -->
-      </div>
-      <!-- End Sidebar scroll-->
+        <!-- End Sidebar scroll-->
     </aside>
     <!--  Sidebar End -->
     <!--  Main wrapper -->
@@ -161,33 +168,34 @@ if (isset($_POST["update_municipality"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Municipality</h6>
                                             </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Address</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    $fetchMunicipalities = $municipalitiesFacade->fetchMunicipalities();
-                                    while ($row = $fetchMunicipalities->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["municipality_name"] ?></p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal"><?= $row["address"] ?></p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <a href="municipality?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                <a href="delete-municipality?municipality_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>                 
+                                        <?php
+                                        $fetchMunicipalities = $municipalitiesFacade->fetchMunicipalities();
+                                        while ($row = $fetchMunicipalities->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="municipality?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-municipality?municipality_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["municipality_name"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["address"] ?></p>
+                                                </td>
+
+                                            </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -206,18 +214,17 @@ if (isset($_POST["update_municipality"])) {
 <?php include realpath(__DIR__ . '/../includes/modals/update-municipality-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
-<?php	
-    // Open modal if add asset form is submitted
-    if (isset($_GET["is_updated"])) {
-        $municipalityId = $_GET["is_updated"];
-        if ($municipalityId) {
-            echo '<script type="text/javascript">
+<?php
+// Open modal if add asset form is submitted
+if (isset($_GET["is_updated"])) {
+    $municipalityId = $_GET["is_updated"];
+    if ($municipalityId) {
+        echo '<script type="text/javascript">
                 $(document).ready(function(){
                     $("#updateMunicipalityModal").modal("show");
                 });
             </script>';
-        } else {
-
-        }
+    } else {
     }
+}
 ?>

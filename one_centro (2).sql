@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2024 at 11:48 AM
+-- Generation Time: Feb 20, 2024 at 04:31 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -364,7 +364,7 @@ CREATE TABLE `bd_deliveries` (
 --
 
 INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `total_quantity`, `total_amount`, `is_paid`) VALUES
-(27, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '37', '12323', '09/23/23', '2', 100, 1);
+(33, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '45', '12323', '09/23/23', '11', 1231, 0);
 
 -- --------------------------------------------------------
 
@@ -444,6 +444,7 @@ CREATE TABLE `bd_payments` (
   `dr_date` varchar(10) NOT NULL,
   `delivered_total_quantity` varchar(255) NOT NULL,
   `delivered_total_amount` varchar(255) NOT NULL,
+  `remaining_balance` varchar(255) NOT NULL,
   `bill_no` varchar(50) NOT NULL,
   `bill_date` varchar(10) NOT NULL,
   `bill_quantity` varchar(255) NOT NULL,
@@ -484,8 +485,8 @@ CREATE TABLE `bd_payments` (
 -- Dumping data for table `bd_payments`
 --
 
-INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
-(22, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '37', '12323', '09/23/23', '2', '100', '', '', '2', 100, '', '', 0, '', '123', 'Advance Payment', '123', 50, '123', '', 'Advance Payment', '', 0, '', '', 'Advance Payment', '', 0, '', 'Advance Payment', '', '', 0, '', '', 'Advance Payment', '', 0, '', 1);
+INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `remaining_balance`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
+(28, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '45', '12323', '09/23/23', '11', '1231', '231', '', '', '11', 1231, '', '', 0, '', '123', 'Advance Payment', '123', 1000, '123', '', 'Advance Payment', '', 0, '', '', 'Advance Payment', '', 0, '', 'Advance Payment', '', '', 0, '', '', 'Advance Payment', '', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -511,7 +512,7 @@ CREATE TABLE `bd_po` (
 --
 
 INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
-(37, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '09/90/2020', 1, 2, 100, '', 1);
+(45, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 5, '09/90/2020', 1, 11, 1231, '', 1);
 
 -- --------------------------------------------------------
 
@@ -549,7 +550,6 @@ CREATE TABLE `bd_project_information` (
 
 INSERT INTO `bd_project_information` (`id`, `bm_no`, `po_no`, `dr_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `delivery_target_month`, `total_sku_assortment`, `total_quantity`, `total_amount`, `expense_type`, `bid_date`, `award_date`, `po_date`, `remarks`, `added_on`, `updated_on`) VALUES
 (11, 'BM20240', '', '', 5, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', '', '', 0, 'April', '', '', 0, '', '02/01/2024', '', '', '', '', ''),
-(12, 'BM20241', '', '', 5, 6, 'test', '', '', 0, '', '', '', 0, '', '09/23/23', '', '', '', '', ''),
 (13, 'BM20242', '', '', 5, 12, 'sdfsdfsdfsdf', '', '', 0, '', '', '', 0, '', '09/23/23', '', '', '', '', '');
 
 -- --------------------------------------------------------
@@ -725,6 +725,8 @@ CREATE TABLE `rfid` (
   `employee` varchar(255) NOT NULL,
   `date` varchar(10) NOT NULL,
   `time_in` varchar(10) NOT NULL,
+  `break_out` varchar(10) NOT NULL,
+  `break_in` varchar(10) NOT NULL,
   `time_out` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -732,8 +734,8 @@ CREATE TABLE `rfid` (
 -- Dumping data for table `rfid`
 --
 
-INSERT INTO `rfid` (`id`, `company_id`, `employee`, `date`, `time_in`, `time_out`) VALUES
-(21, '00004001', 'Adrian Pol Sano Peligrino', '01-25-2024', '04:03:01', '');
+INSERT INTO `rfid` (`id`, `company_id`, `employee`, `date`, `time_in`, `break_out`, `break_in`, `time_out`) VALUES
+(21, '00004001', 'Adrian Pol Sano Peligrino', '01-25-2024', '04:03:01', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -777,55 +779,60 @@ CREATE TABLE `users` (
   `department` varchar(100) NOT NULL,
   `position` varchar(10) NOT NULL,
   `services` varchar(20) NOT NULL,
+  `time_in` varchar(10) NOT NULL,
+  `break_out` varchar(10) NOT NULL,
+  `break_in` varchar(10) NOT NULL,
+  `time_out` varchar(10) NOT NULL,
   `sss` varchar(50) NOT NULL,
   `pag_ibig` varchar(50) NOT NULL,
   `phic` varchar(50) NOT NULL,
   `tin` varchar(50) NOT NULL,
-  `status` varchar(50) NOT NULL
+  `status` varchar(50) NOT NULL,
+  `is_operation` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_role`, `company_id`, `username`, `password`, `first_name`, `middle_name`, `last_name`, `birthdate`, `blood_type`, `address`, `contact_person`, `contact_person_number`, `department`, `position`, `services`, `sss`, `pag_ibig`, `phic`, `tin`, `status`) VALUES
-(1, 1, '00004001', 'AdrianPol27', 'admin107', 'Adrian Pol', 'Sano', 'Peligrino', '09/27/1999', 'O', 'P6 - Dologon, Maramag, Bukidnon', 'Jane Adtoon Adlaw', '09262130312', 'ICT', 'ITOS', 'TGCB', '08-3119589-6', '1213-1202-1350', '15-251581055-7', '611-376-341-000', 'Regular'),
-(2, 1, '00000113', 'jared123', 'jared123', 'Jared Christopher', 'Bulasa', 'Cipriano', '12/23/1989', 'O+', 'Amante Village, P8 - North Poblacion, Maramag', 'Ruizzandra Cipriano', '09758882394', 'ICT', 'ITMI', 'TBGC', '819666787', '1211-0866-4617', '150503251827', '', 'Regular'),
-(3, 0, '00003211', 'ian123', 'ian123', 'Ian Carlo', 'Cabalan', 'Handayan', '06/18/1997', 'O', 'P2 - Norte, Don Carlos', 'Joan Barioga', '09368965654', 'ICT', 'ITSI', 'TGCB', '943403463', '1212-7530-4725', '152530496095', '379-694-488-000', 'Regular'),
-(4, 0, '00000252', 'nas123', 'nas123', 'Nasario', 'Dicdican', 'Edullantes', '03/12/1996', 'O', 'P5 - South Poblacion, Maramag', '', '', 'ICT', 'ITAS', 'TBGC', '08-3023301-8', '1212-6825-6671', '15-025552292-4', '364-212-611-000', 'Regular'),
-(13, 0, '29460308', '', '', 'Gil', 'Montano', 'Concepcion Jr.', '7/10/1984', 'B+', 'P-3  Mailag, Valencia City', 'Fabelle D. Concepcion', '09700544579', 'AC', 'CCSS', 'TGCB', '08-16653-11-7', '1820-0057-6257', '15-025216741-4', '408-290-770', 'Probationary'),
-(14, 0, '87170226', '', '', 'Jerome', 'Meñoza', 'Dayon', '3/15/1993', 'O', 'P2-B San Miguel, Maramag, Bukidnon', 'Elisa M. Dayon', '09074417457', 'DS', 'JS', 'TBGC', '823355385', '121103620022', '150253465605', '437086090', 'Probationary'),
-(15, 0, '63705682', '', '', 'Jade', 'Palmada', 'Espada', '4/19/1979', 'O', 'Purok 9 South Poblacion, Maramag, Bukidnon', 'Glenn C. Espada', '09164133782', 'BI', 'BS', 'TGCB', '814019397', '110124710211', '152010479562', '467106890', 'Probationary'),
-(16, 0, '89548420', '', '', 'Marry Joy', 'Ral', 'Limpag', '4/8/2000', '0', 'P5 Kitingting, Damulog, Bukidnon', 'Rosemarie Limpag', '09262078748', 'BI', 'BAI', 'TBGC', '832414644', '', '152500196496', '', 'Probationary'),
-(17, 0, '46436104', '', '', 'Micco Gems', '', 'Tanginan', '2/11/1994', 'B+', 'P 2A South Poblacion,  Maramag, Bukidnon ', 'Ma. Marcele Tanginan', '09357420506', 'WA', 'C', 'TBGC', '', '', '', '', 'Probationary'),
-(18, 0, '8426385', '', '', 'Rosemarie', 'Aumentado', 'Villegas', '9/4/1999', '', 'Malinao  Kalilalangan,  Bukidnon', 'Marites Villegas', '09652083930', 'BI', 'BA', 'TBGC', '08-30798809', '121305698136', '15-253088676-4', '617-994-280-0000', 'Probationary'),
-(19, 0, '56589173', '', '', 'Jun Mark', 'Benitez', 'Tanda', '6/4/91', '', 'Zone 1, Brgy. Base Camp, Maramag, Bukidnon', 'Norma Tanda', '09973402049', 'AC', 'JLTSM', 'TBGC', '', '121122005067', '152023587992', '437750108', 'Probationary'),
-(20, 0, '79994218', 'test', 'test', 'Test', 'Test', 'Test', '09/27/1999', '0', 'P6, Dologon, Maramag, Bukidnon', 'Test', 'Test', 'HR', 'HRATAR', 'TBGC', '0', '0', '0', '0', 'Regular'),
-(21, 0, '77458378', '', '', 'Ronel', 'B.', 'Lagoy', '3/26/1996', 'B+', 'Norte 4B, Don Carlos, Bukidnon', 'Ymerieca B. Lagoy', '09557426900', 'SC', 'BA', 'TGCB', '832410350', '121333415169', '152500593371', '742736275', 'Probationary'),
-(22, 0, '44317228', '', '', 'Jaynor', 'C', 'Villones', '6/19/1990', 'A+', 'Purok 2, La Roxas, Maramag Bukidnon', 'Luzviminda R. Garcia', '09386510777', 'SC', 'BA', 'TGCB', '932484943', '121107167797', '170502863293', '400161777', 'Probationary'),
-(23, 0, '41539648', '', '', 'Janice', 'Dumaboc', 'Baron', '6/6/2000', '', 'P-3 Panadtalan Maramag, Bukidnon', 'Gemarcinda Baron', '09353206271', 'AC', 'BA', 'TGCB', '830752900', '121304147929', '150255940882', '614450558', 'Probationary'),
-(24, 0, '58744576', '', '', 'Cherry Rose', 'Sua', 'Mancia', '8/15/1991', '', 'P2 North Pobalacion Maramag, Bukidnon', 'Roberto Mancia', '09851875353', 'SC', 'BA', 'TGCB', '824482040', '121115523061', '150253848369', '', 'Probationary'),
-(25, 0, '18575212', '', '', 'Ria May', 'Murillo', 'Ilaga', '5/1/2001', '', 'P-3 Kawilihan, Sagbayan, Dangcagan, Bukidnon', 'Andres Ilaga', '09675874850', 'SC', 'BA', 'TGCB', '08-3178489-6', '121326577417', '15-025630220-0', '632-405-326-000', 'Probationary'),
-(26, 0, '55138710', '', '', 'Jezrcel', 'Oroso', 'Fragata', '3/6/1994', '0', 'P-4 Poblacion Valencia City', 'Hazel Tifanero', '09976816279', 'AC', 'BA', 'TGCB', '819388780', '121159961141', '150503112789', '', 'Probationary'),
-(27, 0, '52082213', '', '', 'Arvey', 'C', 'Baylocon', '3/22/1990', '', 'Purok 1 Sinangguyan Don Carlos Bukidnon', 'Rhosie Roa', '09171799215', 'AC', 'BA', 'TGCB', '3423071451', '121059660335', '10510336726', '321628364', 'Probationary'),
-(28, 0, '88115197', '', '', 'Kharlmari', 'Tocmohhan ', 'Tanginan', '3/20/1995', '', 'Purok 2A South Tamarin  Maramag, Bukidnon', 'Gemma Tanginan', '09652238375', 'TR', 'BA', 'TGCB', '34-7265496-8', '121217009389', '15-050465887-4', '754-404-270-000', 'Probationary'),
-(29, 0, '16712', '', '', 'Jade', 'Villa', 'Macapas', '9/25/2022', '0', 'P-9B North Poblacion Maramag, Bukidnon', '', '09362425240', 'AC', 'BA', 'TGCB', '08-3189098-4', '1213-2435672-2', '15-253175057-2', '', 'Probationary'),
-(30, 0, '58267113', '', '', 'Rosemarie', 'Magampoc', 'Bruce', '3/9/1999', '', 'P2 Anahawon Maramag,  Bukidnon', 'Jomar Sayam', '09535693354', 'AC', 'BA', 'TGCB', '08-3225894-9', '1213-2976-8950', '', '', 'Probationary'),
-(31, 0, '48753365', '', '', 'Dave', 'Bores', 'Buenafe', '12/9/1999', '', 'Purok 9A North Poblacion Maramag, Bukidnon', 'Noel Buenafe', '09531539081', 'AC', 'BA', 'TGCB', '832140468', '121330608107', '150505539615', '', 'Probationary'),
-(32, 0, '53526891', '', '', 'Jay', 'Apilan', 'Labrador', '6/15/2004', '0', 'P-8 Laligan, Valencia City Bukidnon', 'Adines E. Labrador', '09360263982', 'AC', 'BA', 'TGCB', '08-3120597-7', '121312109060', '15050543351-5', '', 'Probationary'),
-(33, 0, '45357346', '', '', 'Raymond', 'Beduya ', 'Bayo', '1/10/1992', 'A', 'Lumbayao Valencia City Bukidnon', 'Zenaida B. Bayo', '09958740016', 'HR', 'BA', 'TGCB', '08-1839464-9', '1211-0868-0083', '15-050285843-4', '446-022-130', 'Probationary'),
-(34, 0, '57726354', '', '', 'Mariel', 'Anes', 'Villahermosa', '11/18/1995', 'A+', 'P-1 San Roque Maramag, Bukidnon', 'Kem Moneva', 'P-1 San Roque Maramag, Bukidnon', 'AC', 'BA', 'TGCB', '', '121143089859', '150503979359', '', 'Probationary'),
-(35, 0, '78282911', '', '', 'Ma. Sophia', 'Casumpong', 'Fernandez', '10/23/2001', 'A', 'San Jose, Quezon, Bukidnon 8715', 'Carmela Fernandez', '09056441355', 'SC', 'BA', 'TGCB', '832438497', '121332683013', '152503920616', '639746941', 'Probationary'),
-(36, 0, '50614209', '', '', 'Ronieliza', '', 'Cabig', '8/5/1996', '0+', 'P-9 Dologon Maramag, Bukidnon', 'Elmar Cabig', '09079126833', 'AC', 'BA', 'TGCB', '435700069', '121144913816', '080514710965', '', 'Probationary'),
-(37, 0, '5257089', '', '', 'Revin', 'Cabuenas', 'Solomon', '3/12/2002', 'A+', 'P-2 Base Camp Maramag, Bukidnon', 'Ramil Solomon', '09557558162', 'AC', 'BA', 'TGCB', '08-3223614-9', '1213-2955671-3', '15-252269756-1', '638611364000', 'Probationary'),
-(38, 0, '51871866', '', '', 'Jerico James', 'Estiba', 'Duran', '9/8/2000', 'O', 'P-5 NIA Tubigon Maramag, Bukidnon', 'Joy Romana', '09939839767', 'AC', 'BA', 'TGCB', '832154056', '121327752908', '150256711941', '', 'Probationary'),
-(39, 0, '48955552', '', '', 'Jennifer', 'Rule', 'Garcia', '4/1/1998', 'A+', 'P-49 East Kibawe, Bukidnon', 'Robert E. Buctolan', '09357502246', 'AC', 'BA', 'TGCB', '831733397', '121331789187', '', '745040637000', 'Probationary'),
-(40, 0, '87821096', '', '', 'Rey Jay', 'Rama', 'Estribor', '12/21/2002', '', 'Purok 8A Relocation South Poblacion Maramag, Bukidnon', 'Evelyn Estribor', '09061882175', 'WA', 'BA', 'TGCB', '832393419', '', '152532839356', '', 'Probationary'),
-(41, 0, '42643529', '', '', 'Ezzel', 'Tingga', 'Baflor', '5/27/1998', '', 'Paglaum Village, San Miguel, Maramag, Bukidnon', 'Darwin Baflor', '09187117751', 'AC', 'BA', 'TGCB', '830116478', '121264849504', '150505084227', '762107465000', 'Probationary'),
-(42, 0, '66583367', '', '', 'Jeremias', 'B', 'Silao', '5/8/55', 'AB', 'P-14 Musuan Maramag, Bukidnon', 'Irenia G. Silao', '0953288610', 'AC', 'BA', 'TGCB', '', '', '', '', 'Probationary'),
-(43, 1, '', 'intern1', 'intern1', 'Intern', '', '1', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(44, 1, '', 'intern2', 'intern2', 'Intern', '', '2', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(45, 1, '', 'intern3', 'Intern3', 'Intern', '', '3', '', '', '', '', '', '', '', '', '', '', '', '', '');
+INSERT INTO `users` (`id`, `user_role`, `company_id`, `username`, `password`, `first_name`, `middle_name`, `last_name`, `birthdate`, `blood_type`, `address`, `contact_person`, `contact_person_number`, `department`, `position`, `services`, `time_in`, `break_out`, `break_in`, `time_out`, `sss`, `pag_ibig`, `phic`, `tin`, `status`, `is_operation`) VALUES
+(1, 1, '00004001', 'AdrianPol27', 'admin107', 'Adrian Pol', 'Sano', 'Peligrino', '09/27/1999', 'O', 'P6 - Dologon, Maramag, Bukidnon', 'Jane Adtoon Adlaw', '09262130312', 'ICT', 'ITOS', 'TGCB', '', '', '', '', '08-3119589-6', '1213-1202-1350', '15-251581055-7', '611-376-341-000', 'Regular', 0),
+(2, 1, '00000113', 'jared123', 'jared123', 'Jared Christopher', 'Bulasa', 'Cipriano', '12/23/1989', 'O+', 'Amante Village, P8 - North Poblacion, Maramag', 'Ruizzandra Cipriano', '09758882394', 'ICT', 'ITMI', 'TBGC', '', '', '', '', '819666787', '1211-0866-4617', '150503251827', '', 'Regular', 0),
+(3, 0, '00003211', 'ian123', 'ian123', 'Ian Carlo', 'Cabalan', 'Handayan', '06/18/1997', 'O', 'P2 - Norte, Don Carlos', 'Joan Barioga', '09368965654', 'ICT', 'ITSI', 'TGCB', '', '', '', '', '943403463', '1212-7530-4725', '152530496095', '379-694-488-000', 'Regular', 0),
+(4, 0, '00000252', 'nas123', 'nas123', 'Nasario', 'Dicdican', 'Edullantes', '03/12/1996', 'O', 'P5 - South Poblacion, Maramag', '', '', 'ICT', 'ITAS', 'TBGC', '', '', '', '', '08-3023301-8', '1212-6825-6671', '15-025552292-4', '364-212-611-000', 'Regular', 0),
+(13, 0, '29460308', '', '', 'Gil', 'Montano', 'Concepcion Jr.', '7/10/1984', 'B+', 'P-3  Mailag, Valencia City', 'Fabelle D. Concepcion', '09700544579', 'AC', 'CCSS', 'TGCB', '', '', '', '', '08-16653-11-7', '1820-0057-6257', '15-025216741-4', '408-290-770', 'Probationary', 0),
+(14, 0, '87170226', '', '', 'Jerome', 'Meñoza', 'Dayon', '3/15/1993', 'O', 'P2-B San Miguel, Maramag, Bukidnon', 'Elisa M. Dayon', '09074417457', 'DS', 'JS', 'TBGC', '', '', '', '', '823355385', '121103620022', '150253465605', '437086090', 'Probationary', 0),
+(15, 0, '63705682', '', '', 'Jade', 'Palmada', 'Espada', '4/19/1979', 'O', 'Purok 9 South Poblacion, Maramag, Bukidnon', 'Glenn C. Espada', '09164133782', 'BI', 'BS', 'TGCB', '', '', '', '', '814019397', '110124710211', '152010479562', '467106890', 'Probationary', 0),
+(16, 0, '89548420', '', '', 'Marry Joy', 'Ral', 'Limpag', '4/8/2000', '0', 'P5 Kitingting, Damulog, Bukidnon', 'Rosemarie Limpag', '09262078748', 'BI', 'BAI', 'TBGC', '', '', '', '', '832414644', '', '152500196496', '', 'Probationary', 0),
+(17, 0, '46436104', '', '', 'Micco Gems', '', 'Tanginan', '2/11/1994', 'B+', 'P 2A South Poblacion,  Maramag, Bukidnon ', 'Ma. Marcele Tanginan', '09357420506', 'WA', 'C', 'TBGC', '', '', '', '', '', '', '', '', 'Probationary', 0),
+(18, 0, '8426385', '', '', 'Rosemarie', 'Aumentado', 'Villegas', '9/4/1999', '', 'Malinao  Kalilalangan,  Bukidnon', 'Marites Villegas', '09652083930', 'BI', 'BA', 'TBGC', '', '', '', '', '08-30798809', '121305698136', '15-253088676-4', '617-994-280-0000', 'Probationary', 0),
+(19, 0, '56589173', '', '', 'Jun Mark', 'Benitez', 'Tanda', '6/4/91', '', 'Zone 1, Brgy. Base Camp, Maramag, Bukidnon', 'Norma Tanda', '09973402049', 'AC', 'JLTSM', 'TBGC', '', '', '', '', '', '121122005067', '152023587992', '437750108', 'Probationary', 0),
+(20, 0, '79994218', 'test', 'test', 'Test', 'Test', 'Test', '09/27/1999', '0', 'P6, Dologon, Maramag, Bukidnon', 'Test', 'Test', 'HR', 'HRATAR', 'TBGC', '', '', '', '', '0', '0', '0', '0', 'Regular', 0),
+(21, 0, '77458378', '', '', 'Ronel', 'B.', 'Lagoy', '3/26/1996', 'B+', 'Norte 4B, Don Carlos, Bukidnon', 'Ymerieca B. Lagoy', '09557426900', 'SC', 'BA', 'TGCB', '', '', '', '', '832410350', '121333415169', '152500593371', '742736275', 'Probationary', 0),
+(22, 0, '44317228', '', '', 'Jaynor', 'C', 'Villones', '6/19/1990', 'A+', 'Purok 2, La Roxas, Maramag Bukidnon', 'Luzviminda R. Garcia', '09386510777', 'SC', 'BA', 'TGCB', '', '', '', '', '932484943', '121107167797', '170502863293', '400161777', 'Probationary', 0),
+(23, 0, '41539648', '', '', 'Janice', 'Dumaboc', 'Baron', '6/6/2000', '', 'P-3 Panadtalan Maramag, Bukidnon', 'Gemarcinda Baron', '09353206271', 'AC', 'BA', 'TGCB', '', '', '', '', '830752900', '121304147929', '150255940882', '614450558', 'Probationary', 0),
+(24, 0, '58744576', '', '', 'Cherry Rose', 'Sua', 'Mancia', '8/15/1991', '', 'P2 North Pobalacion Maramag, Bukidnon', 'Roberto Mancia', '09851875353', 'SC', 'BA', 'TGCB', '', '', '', '', '824482040', '121115523061', '150253848369', '', 'Probationary', 0),
+(25, 0, '18575212', '', '', 'Ria May', 'Murillo', 'Ilaga', '5/1/2001', '', 'P-3 Kawilihan, Sagbayan, Dangcagan, Bukidnon', 'Andres Ilaga', '09675874850', 'SC', 'BA', 'TGCB', '', '', '', '', '08-3178489-6', '121326577417', '15-025630220-0', '632-405-326-000', 'Probationary', 0),
+(26, 0, '55138710', '', '', 'Jezrcel', 'Oroso', 'Fragata', '3/6/1994', '0', 'P-4 Poblacion Valencia City', 'Hazel Tifanero', '09976816279', 'AC', 'BA', 'TGCB', '', '', '', '', '819388780', '121159961141', '150503112789', '', 'Probationary', 0),
+(27, 0, '52082213', '', '', 'Arvey', 'C', 'Baylocon', '3/22/1990', '', 'Purok 1 Sinangguyan Don Carlos Bukidnon', 'Rhosie Roa', '09171799215', 'AC', 'BA', 'TGCB', '', '', '', '', '3423071451', '121059660335', '10510336726', '321628364', 'Probationary', 0),
+(28, 0, '88115197', '', '', 'Kharlmari', 'Tocmohhan ', 'Tanginan', '3/20/1995', '', 'Purok 2A South Tamarin  Maramag, Bukidnon', 'Gemma Tanginan', '09652238375', 'TR', 'BA', 'TGCB', '', '', '', '', '34-7265496-8', '121217009389', '15-050465887-4', '754-404-270-000', 'Probationary', 0),
+(29, 0, '16712', '', '', 'Jade', 'Villa', 'Macapas', '9/25/2022', '0', 'P-9B North Poblacion Maramag, Bukidnon', '', '09362425240', 'AC', 'BA', 'TGCB', '', '', '', '', '08-3189098-4', '1213-2435672-2', '15-253175057-2', '', 'Probationary', 0),
+(30, 0, '58267113', '', '', 'Rosemarie', 'Magampoc', 'Bruce', '3/9/1999', '', 'P2 Anahawon Maramag,  Bukidnon', 'Jomar Sayam', '09535693354', 'AC', 'BA', 'TGCB', '', '', '', '', '08-3225894-9', '1213-2976-8950', '', '', 'Probationary', 0),
+(31, 0, '48753365', '', '', 'Dave', 'Bores', 'Buenafe', '12/9/1999', '', 'Purok 9A North Poblacion Maramag, Bukidnon', 'Noel Buenafe', '09531539081', 'AC', 'BA', 'TGCB', '', '', '', '', '832140468', '121330608107', '150505539615', '', 'Probationary', 0),
+(32, 0, '53526891', '', '', 'Jay', 'Apilan', 'Labrador', '6/15/2004', '0', 'P-8 Laligan, Valencia City Bukidnon', 'Adines E. Labrador', '09360263982', 'AC', 'BA', 'TGCB', '', '', '', '', '08-3120597-7', '121312109060', '15050543351-5', '', 'Probationary', 0),
+(33, 0, '45357346', '', '', 'Raymond', 'Beduya ', 'Bayo', '1/10/1992', 'A', 'Lumbayao Valencia City Bukidnon', 'Zenaida B. Bayo', '09958740016', 'HR', 'BA', 'TGCB', '', '', '', '', '08-1839464-9', '1211-0868-0083', '15-050285843-4', '446-022-130', 'Probationary', 0),
+(34, 0, '57726354', '', '', 'Mariel', 'Anes', 'Villahermosa', '11/18/1995', 'A+', 'P-1 San Roque Maramag, Bukidnon', 'Kem Moneva', 'P-1 San Roque Maramag, Bukidnon', 'AC', 'BA', 'TGCB', '', '', '', '', '', '121143089859', '150503979359', '', 'Probationary', 0),
+(35, 0, '78282911', '', '', 'Ma. Sophia', 'Casumpong', 'Fernandez', '10/23/2001', 'A', 'San Jose, Quezon, Bukidnon 8715', 'Carmela Fernandez', '09056441355', 'SC', 'BA', 'TGCB', '', '', '', '', '832438497', '121332683013', '152503920616', '639746941', 'Probationary', 0),
+(36, 0, '50614209', '', '', 'Ronieliza', '', 'Cabig', '8/5/1996', '0+', 'P-9 Dologon Maramag, Bukidnon', 'Elmar Cabig', '09079126833', 'AC', 'BA', 'TGCB', '', '', '', '', '435700069', '121144913816', '080514710965', '', 'Probationary', 0),
+(37, 0, '5257089', '', '', 'Revin', 'Cabuenas', 'Solomon', '3/12/2002', 'A+', 'P-2 Base Camp Maramag, Bukidnon', 'Ramil Solomon', '09557558162', 'AC', 'BA', 'TGCB', '', '', '', '', '08-3223614-9', '1213-2955671-3', '15-252269756-1', '638611364000', 'Probationary', 0),
+(38, 0, '51871866', '', '', 'Jerico James', 'Estiba', 'Duran', '9/8/2000', 'O', 'P-5 NIA Tubigon Maramag, Bukidnon', 'Joy Romana', '09939839767', 'AC', 'BA', 'TGCB', '', '', '', '', '832154056', '121327752908', '150256711941', '', 'Probationary', 0),
+(39, 0, '48955552', '', '', 'Jennifer', 'Rule', 'Garcia', '4/1/1998', 'A+', 'P-49 East Kibawe, Bukidnon', 'Robert E. Buctolan', '09357502246', 'AC', 'BA', 'TGCB', '', '', '', '', '831733397', '121331789187', '', '745040637000', 'Probationary', 0),
+(40, 0, '87821096', '', '', 'Rey Jay', 'Rama', 'Estribor', '12/21/2002', '', 'Purok 8A Relocation South Poblacion Maramag, Bukidnon', 'Evelyn Estribor', '09061882175', 'WA', 'BA', 'TGCB', '', '', '', '', '832393419', '', '152532839356', '', 'Probationary', 0),
+(41, 0, '42643529', '', '', 'Ezzel', 'Tingga', 'Baflor', '5/27/1998', '', 'Paglaum Village, San Miguel, Maramag, Bukidnon', 'Darwin Baflor', '09187117751', 'AC', 'BA', 'TGCB', '', '', '', '', '830116478', '121264849504', '150505084227', '762107465000', 'Probationary', 0),
+(42, 0, '66583367', '', '', 'Jeremias', 'B', 'Silao', '5/8/55', 'AB', 'P-14 Musuan Maramag, Bukidnon', 'Irenia G. Silao', '0953288610', 'AC', 'BA', 'TGCB', '', '', '', '', '', '', '', '', 'Probationary', 0),
+(43, 1, '', 'intern1', 'intern1', 'Intern', '', '1', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+(44, 1, '', 'intern2', 'intern2', 'Intern', '', '2', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0),
+(45, 1, '', 'intern3', 'Intern3', 'Intern', '', '3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
 
 --
 -- Indexes for dumped tables
@@ -959,7 +966,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -983,13 +990,13 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`

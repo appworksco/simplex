@@ -176,6 +176,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">BMNO</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -190,9 +193,6 @@ if (isset($_POST["update_bidding"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -200,6 +200,10 @@ if (isset($_POST["update_bidding"])) {
                                         $fetchBiddingInformation = $biddingInformationFacade->fetchBiddingInformation();
                                         while ($row = $fetchBiddingInformation->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-bidding-information?bidding_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this bidding?');">Delete</a>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["bm_no"] ?></p>
                                                 </td>
@@ -226,9 +230,6 @@ if (isset($_POST["update_bidding"])) {
                                                         <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
                                                     <?php }
                                                     ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>

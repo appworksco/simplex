@@ -38,7 +38,7 @@ if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
+    $POId = $_GET["is_updated"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -66,21 +66,19 @@ if (isset($_POST["add_purchase_order"])) {
     }
 }
 
-if (isset($_POST["update_bidding"])) {
-    $biddingId = $_POST["bidding_id"];
-    $biddingDate = $_POST["bidding_date"];
+if (isset($_POST["update_purchase_order"])) {
+    $POId = $_POST["po_id"];
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $projectStatus = $_POST["project_status"];
-    $paymentStructure = $_POST["payment_structure"];
-    $projectBudgetAmount = $_POST["project_budget_amount"];
-    $awardDate = $_POST["award_date"];
-    $deliveryTargetMonth = $_POST["delivery_target_month"];
+    $PODate = $_POST["po_date"];
+    $totalSKUAssortment = $_POST["total_sku_assortment"];
+    $totalQuantity = $_POST["total_quantity"];
+    $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $updateBidding = $biddingInformationFacade->updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
-    if ($updateBidding) {
+    $updatePO = $POFacade->updatePO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
+    if ($updatePO) {
         array_push($success, 'Bidding has been updated successfully');
     }
 }
@@ -171,6 +169,9 @@ if (isset($_POST["update_bidding"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -197,9 +198,6 @@ if (isset($_POST["update_bidding"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Remarks</h6>
                                             </th>
-                                            <!-- <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,6 +205,10 @@ if (isset($_POST["update_bidding"])) {
                                         $fetchPO = $POFacade->fetchPO();
                                         while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="purchase-order?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-purchase-order?po_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this purchase order?');">Delete</a>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["id"] ?></p>
                                                 </td>
@@ -246,9 +248,6 @@ if (isset($_POST["update_bidding"])) {
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
                                                 </td>
-                                                <!-- <td class="border-bottom-0">
-                                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                </td> -->
                                             </tr>
                                         <?php } ?>
                                     </tbody>
@@ -266,17 +265,17 @@ if (isset($_POST["update_bidding"])) {
 </div>
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-po-modal.php') ?>
-<?php include realpath(__DIR__ . '/../includes/modals/update-bidding-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-po-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php
 // Open modal if add asset form is submitted
 if (isset($_GET["is_updated"])) {
-    $biddingId = $_GET["is_updated"];
-    if ($biddingId) {
+    $POId = $_GET["is_updated"];
+    if ($POId) {
         echo '<script type="text/javascript">
                 $(document).ready(function(){
-                    $("#updateBiddingModal").modal("show");
+                    $("#updatePOModal").modal("show");
                 });
             </script>';
     } else {
@@ -299,6 +298,21 @@ if (isset($_GET["is_updated"])) {
         }
     }
 
+    function myFunctionUpdate() {
+        // Get the checkbox
+        var checkBox = document.getElementById("isConvertedUpdate");
+        // Get the output text
+        var remarks = document.getElementById("remarksUpdate");
+
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true) {
+            remarks.style.display = "block";
+        } else {
+            remarks.style.display = "none";
+        }
+    }
+
+    // add PO
     $(document).ready(function() {
         $('#projectName').change(function() {
             var projectName = $(this).val();
@@ -324,6 +338,38 @@ if (isset($_GET["is_updated"])) {
                 },
                 success: function(data) {
                     $('#LGUId').html(data)
+                }
+
+            })
+        });
+    });
+
+    // update PO
+    $(document).ready(function() {
+        $('#updateProjectName').change(function() {
+            var projectName = $(this).val();
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateProjectTypeId').html(data)
+                }
+            })
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateLGUId').html(data)
                 }
 
             })

@@ -21,8 +21,8 @@ class DeliveriesFacade extends DBConnection {
         return $count;
     }
 
-    public function fetchBiddingById($biddingId) {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE id = '$biddingId'");
+    public function fetchDeliveryById($deliveryId) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_deliveries WHERE id = '$deliveryId'");
         $sql->execute();
         return $sql;
     }
@@ -40,8 +40,8 @@ class DeliveriesFacade extends DBConnection {
         return $sql;
     }
 
-    public function updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $awardDate, $deliveryTargetMonth, $remarks, $biddingId) {
-        $sql = $this->connect()->prepare("UPDATE bd_project_information SET bid_date = '$biddingDate', project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', project_status = '$projectStatus', payment_structure = '$paymentStructure', project_budget_amount = '$projectBudgetAmount', award_date = '$awardDate', delivery_target_month = '$deliveryTargetMonth', remarks = '$remarks' WHERE id = '$biddingId'");
+    public function updateDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $deliveryId) {
+        $sql = $this->connect()->prepare("UPDATE bd_deliveries SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', po_no = '$PONumber', dr_no = '$DRNumber', dr_date = '$DRDate', total_quantity = '$totalQuantity', total_amount = '$totalAmount' WHERE id = '$deliveryId'");
         $sql->execute();
         return $sql;
     }
@@ -59,8 +59,14 @@ class DeliveriesFacade extends DBConnection {
         return $count;
     }
 
-    public function deleteBidding($biddingId) {
-        $sql = $this->connect()->prepare("DELETE FROM bd_project_information WHERE id = $biddingId");
+    public function deleteDelivery($deliveryId) {
+        $sql = $this->connect()->prepare("DELETE FROM bd_deliveries WHERE id = $deliveryId");
+        $sql->execute();
+        return $sql;
+    }
+
+    public function deleteDeliveryByPONumber($PONumber) {
+        $sql = $this->connect()->prepare("DELETE FROM bd_deliveries WHERE po_no = $PONumber");
         $sql->execute();
         return $sql;
     }

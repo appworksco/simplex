@@ -50,7 +50,7 @@
                                 <label for="isConverted"> Is Converted</label>
                             </div>
                             <div class="mb-3">
-                                <textarea class="w-100 p-2" id="remarks" name="remarks" style="height: 200px; display:none" placeholder="Remarks"></textarea>
+                                <textarea class="w-100 p-2 remarks" id="remarks" name="remarks" style="height: 200px; display:none" placeholder="Remarks"></textarea>
                             </div>
                         </div>
                         <div class="card-footer">

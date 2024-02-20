@@ -54,57 +54,6 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-// if (isset($_POST["add_payment"])) {
-//     $projectName = $_POST["project_name"];
-//     $projectTypeId = $_POST["project_type_id"];
-//     $LGUId = $_POST["lgu_id"];
-//     $PONumber = $_POST["po_number"];
-//     $DRNumber = $_POST["dr_number"];
-//     $DRDate = $_POST["dr_date"];
-//     $deliveredTotalQuantity = $_POST["delivered_total_quantity"];
-//     $deliveredTotalAmount = $_POST["delivered_total_amount"];
-//     $billNumber = $_POST["bill_number"];
-//     $billDate = $_POST["bill_date"];
-//     $billQuantity = $_POST["bill_quantity"];
-//     $billAmount = $_POST["bill_amount"];
-//     $paymentMode = $_POST["payment_mode"];
-//     $paymentDate = $_POST["payment_date"];
-//     $paymentAmount = $_POST["payment_amount"];
-//     $paymentReceiptNumber = $_POST["payment_receipt_number"];
-//     $partialBillNumber = $_POST["partial_bill_number"];
-//     $partialPaymentMode = $_POST["partial_payment_mode"];
-//     $partialPaymentDate = $_POST["partial_payment_date"];
-//     $partialPaymentAmount = $_POST["partial_payment_amount"];
-//     $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
-
-//     $addPayment = $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate,  $deliveredTotalQuantity, $deliveredTotalAmount, $billNumber, $billDate, $billQuantity, $billAmount, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber);
-//     if ($addPayment) {
-//         array_push($success, 'Payment has been added successfully');
-//     }
-// }
-
-// if (isset($_POST["update_payment"])) {
-//     $billNumber = $_POST["bill_number"];
-//     $billDate = $_POST["bill_date"];
-//     $paymentDate = $_POST["payment_date"];
-//     $paymentAmount = $_POST["payment_amount"];
-//     $paymentReceiptNumber = $_POST["payment_receipt_number"];
-//     $partialBillNumber = $_POST["partial_bill_number"];
-//     $partialPaymentMode = $_POST["partial_payment_mode"];
-//     $partialPaymentDate = $_POST["partial_payment_date"];
-//     $partialPaymentAmount = $_POST["partial_payment_amount"];
-//     $partialPaymentReceiptNumber = $_POST["partial_payment_receipt_number"];
-//     $paymentId = $_POST["payment_id"];
-//     $PONumber =  $_POST["po_number"];
-
-//     $updatePayment = $paymentFacade->updatePayment($billNumber, $billDate, $paymentDate, $paymentAmount, $paymentReceiptNumber, $partialBillNumber, $partialPaymentMode, $partialPaymentDate, $partialPaymentAmount, $partialPaymentReceiptNumber, $paymentId);
-//     if ($updatePayment) {
-//         array_push($success, 'Bidding has been updated successfully');
-//         // Update delivery if payment is fully paid
-//         $deliveriesFacade->isPaid($PONumber);
-//     }
-// }
-
 if (isset($_POST["full_payment"])) {
     $paymentId = $_POST["payment_id"];
     $PONumber =  $_POST["po_number"];
@@ -194,7 +143,8 @@ if (isset($_POST["partial_payment"])) {
             $deliveriesFacade->isPaid($PONumber);
             $paymentFacade->isPaid($PONumber);
         } else {
-            $partialPayment = $paymentFacade->partialPayment($oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber,$twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
+            $remainingBalance = $row["total_amount"] - $totalPaid;
+            $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
             if ($partialPayment) {
                 array_push($success, 'Bidding has been updated successfully');
             }
@@ -288,6 +238,9 @@ if (isset($_POST["partial_payment"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">PO Number</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -312,6 +265,9 @@ if (isset($_POST["partial_payment"])) {
                                                 <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
                                             </th>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Remaining Balance</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">1st Payment</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -326,9 +282,6 @@ if (isset($_POST["partial_payment"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">5th Payment</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -336,6 +289,10 @@ if (isset($_POST["partial_payment"])) {
                                         $fetchDeliveries = $paymentFacade->fetchPayments();
                                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-payment?payment_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this payments?');">Delete</a>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                                 </td>
@@ -371,6 +328,9 @@ if (isset($_POST["partial_payment"])) {
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
+                                                </td>
+                                                <td class="border-bottom-0">
+                                                    <p class="mb-0 fw-normal"><?= $row["remaining_balance"] ?></p>
                                                 </td>
                                                 <td class="border-bottom-0">
                                                     <?php if ($row["1st_bill_no"] != NULL) { ?>
@@ -426,9 +386,6 @@ if (isset($_POST["partial_payment"])) {
                                                             Receipt Number: <?= $row["5th_payment_receipt_number"] ?>
                                                         </p>
                                                     <?php } ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>

@@ -172,6 +172,9 @@ if (isset($_POST["update_lgu"])) {
                                     <thead class="text-dark fs-4">
                                         <tr>
                                             <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Action</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">LGU Code</h6>
                                             </th>
                                             <th class="border-bottom-0">
@@ -180,9 +183,7 @@ if (isset($_POST["update_lgu"])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Municipality</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -190,6 +191,10 @@ if (isset($_POST["update_lgu"])) {
                                         $fetchLGU = $LGUFacade->fetchLGU();
                                         while ($row = $fetchLGU->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <tr>
+                                                <td class="border-bottom-0">
+                                                    <a href="lgu?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                                    <a href="delete-lgu?lgu_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
+                                                </td>
                                                 <td class="border-bottom-0">
                                                     <p class="mb-0 fw-normal"><?= $row["lgu_code"] ?></p>
                                                 </td>
@@ -204,10 +209,6 @@ if (isset($_POST["update_lgu"])) {
                                                         <p class="mb-0 fw-normal"><?= $municipality["municipality_name"] ?></p>
                                                     <?php }
                                                     ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <a href="lgu?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                    <a href="delete-lgu?lgu_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
