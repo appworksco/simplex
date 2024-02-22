@@ -41,15 +41,68 @@ $(function () {
     });
 
     // Tools
-    // If manage employee is clicked
     $("#manageEmployee").click(function () {
         window.open('.././dashboard/employee.php', null, 'popup');
+    })
+    $("#manageDepartments").click(function () {
+        window.open('.././dashboard/departments.php', null, 'popup');
+    })
+    $("#managePositions").click(function () {
+        window.open('.././dashboard/positions.php', null, 'popup');
+    })
+    $("#manageServices").click(function () {
+        window.open('.././dashboard/services.php', null, 'popup');
+    })
+    $("#manageIssues").click(function () {
+        window.open('.././dashboard/issues.php', null, 'popup');
+    })
+    $("#manageMunicipality").click(function () {
+        window.open('.././dashboard/municipality.php', null, 'popup');
+    })
+    $("#manageLGU").click(function () {
+        window.open('.././dashboard/lgu.php', null, 'popup');
+    })
+    $("#manageProjectType").click(function () {
+        window.open('.././dashboard/project-type.php', null, 'popup');
+    })
+
+    // Plugins
+    $("#fixedAssetInventory").click(function () {
+        window.open('.././dashboard/fixed-asset-inventory.php', null, 'popup');
+    })
+    $("#rfid").click(function () {
+        window.open('../rfid.php', null, 'popup');
+    })
+    $("#cts").click(function () {
+        window.open('.././dashboard/cts', null, 'popup');
+    })
+
+    // Reports
+    $("#biddingReports").click(function () {
+        window.open('.././dashboard/bidding-information.php', null, 'popup');
+    })
+    $("#POReports").click(function () {
+        window.open('.././dashboard/purchase-order.php', null, 'popup');
+    })
+    $("#deliveryReports").click(function () {
+        window.open('.././dashboard/deliveries.php', null, 'popup');
+    })
+    $("#paymentReports").click(function () {
+        window.open('.././dashboard/payments.php', null, 'popup');
+    })
+    $("#timestamp").click(function () {
+        window.open('.././dashboard/timestamp.php', null, 'popup');
+    })
+
+    // If info button is clicked
+    $("#infoButton").click(function () {
+        window.open('../info.php', null, 'popup');
     })
 
     // If refresh button is clicked
     $("#loadDataButton").click(function () {
-        $("#loadDataModal").show(); //F11
-        $("#loadData").click(); //F11
+        $("#loadDataModal").show();
+        $("#loadData").click();
     })
 
     // If log button is clicked

@@ -24,6 +24,10 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="BMNoId" class="form-label">BM Number</label>
+                                    <select class="form-select" id="updateBMNoId" name="bm_no"></select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="projectTypeId" class="form-label">Project Type</label>
                                     <select class="form-select" id="projectTypeIdUpdate" name="project_type_id"></select>
                                 </div>
@@ -31,14 +35,14 @@
                                     <label for="LGUId" class="form-label">LGU Name</label>
                                     <select class="form-select" id="LGUIdUpdate" name="lgu_id"></select>
                                 </div>
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label for="projectPOList" class="form-label">Project PO List</label>
                                     <select class="form-select" id="projectPOListUpdate" name="project_po_list"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="PONumber" class="form-label">PO Number</label>
                                     <select class="form-select" id="PONumberUpdate" name="po_number"></select>
-                                </div>
+                                </div> -->
                                 <div class="mb-3">
                                     <label for="DRNumber" class="form-label">DR Number</label>
                                     <input type="text" class="form-control" id="DRNumber" name="dr_number" value="<?= $row["dr_no"] ?>">
@@ -47,14 +51,14 @@
                                     <label for="DRDate" class="form-label">DR Date (mm/dd/yyyy)</label>
                                     <input type="text" class="form-control" id="DRDate" name="dr_date" value="<?= $row["dr_date"] ?>">
                                 </div>
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label for="totalQuantity" class="form-label">Total Quantity</label>
                                     <select class="form-select" id="totalQuantityUpdate" name="total_quantity"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalAmount" class="form-label">Total Amount</label>
                                     <select class="form-select" id="totalAmountUpdate" name="total_amount"></select>
-                                </div>
+                                </div> -->
                             <?php } ?>
                             <input type="hidden" value="<?= $deliveryId ?>" name="delivery_id">
                         </div>

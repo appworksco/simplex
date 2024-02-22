@@ -17,6 +17,15 @@
     overflow-y: scroll;
 }
 
+.process-map {
+    height: calc(100vh - 130px) !important;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 button {
     font-size: .7rem !important;
 }

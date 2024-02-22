@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include realpath(__DIR__ . '/includes/layout/header.php');
 include realpath(__DIR__ . '/models/users-facade.php');
@@ -20,7 +20,8 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
 
     if (empty($username)) {
         array_push($invalid, 'Username should not be empty.');
-    } if (empty($password)) {
+    }
+    if (empty($password)) {
         array_push($invalid, 'Password should not be empty.');
     } else {
         $verifyUsernameAndPassword = $usersFacade->verifyUsernameAndPassword($username, $password);
@@ -56,7 +57,10 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
         background-size: 21px 21px;
     }
-    .container {height: 100vh;}
+
+    .container {
+        height: 100vh;
+    }
 </style>
 
 <div class="container">
@@ -101,7 +105,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
 <script>
     function myFunction() {
         var x = document.getElementById("password");
-            if (x.type === "password") {
+        if (x.type === "password") {
             x.type = "text";
         } else {
             x.type = "password";

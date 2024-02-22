@@ -37,6 +37,10 @@
                                     <?php } ?>
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="projectBudgetAmount" class="form-label">Project Budget Amount</label>
+                                <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount">
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_bidding">Add Bidding</button>

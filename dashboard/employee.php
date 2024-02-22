@@ -151,6 +151,9 @@ if (isset($_POST["update_employee"])) {
                     <thead class="text-dark fs-4">
                         <tr>
                             <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Action</h6>
+                            </th>
+                            <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Employee</h6>
                             </th>
                             <th class="border-bottom-0">
@@ -202,9 +205,6 @@ if (isset($_POST["update_employee"])) {
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Status</h6>
                             </th>
-                            <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">Action</h6>
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -212,6 +212,13 @@ if (isset($_POST["update_employee"])) {
                         $fetchUsers = $usersFacade->FetchUsers();
                         while ($row = $fetchUsers->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
+                                <td class="border-bottom-0">
+                                    <?php if ($position == 'HRATAR' && $row["status"] == 'Probationary') { ?>
+                                        <a href="generate-id?employee_id=<?= $row["id"] ?>" class="btn btn-warning">Generate ID</a>
+                                    <?php } ?>
+                                    <a href="employee?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <a href="delete-employee?employee_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
+                                </td>
                                 <td class="border-bottom-0">
                                     <h6 class="fw-semibold mb-1"><?= $row["first_name"] . ' ' . $row["middle_name"] . ' ' . $row["last_name"] ?></h6>
                                     <?php
@@ -275,13 +282,6 @@ if (isset($_POST["update_employee"])) {
                                             <span class="text-success fw-semibold"><?= $row["status"] ?></span>
                                         <?php } ?>
                                     </div>
-                                </td>
-                                <td class="border-bottom-0">
-                                    <?php if ($position == 'HRATAR' && $row["status"] == 'Probationary') { ?>
-                                        <a href="generate-id?employee_id=<?= $row["id"] ?>" class="btn btn-warning">Generate ID</a>
-                                    <?php } ?>
-                                    <a href="employee?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                    <a href="delete-employee?employee_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this employee?');">Delete</a>
                                 </td>
                             </tr>
                         <?php } ?>

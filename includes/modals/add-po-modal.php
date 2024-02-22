@@ -22,6 +22,10 @@
                                 </select>
                             </div>
                             <div class="mb-3">
+                                <label for="BMNoId" class="form-label">BM Number</label>
+                                <select class="form-select" id="BMNoId" name="bm_no"></select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="projectTypeId" class="form-label">Project Type</label>
                                 <select class="form-select" id="projectTypeId" name="project_type_id"></select>
                             </div>

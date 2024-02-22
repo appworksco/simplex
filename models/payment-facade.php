@@ -34,9 +34,9 @@ class PaymentFacade extends DBConnection {
         return $count;
     }
 
-    public function addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance) {
-        $sql = $this->connect()->prepare("INSERT INTO bd_payments(project_name, project_type_id, lgu_id, po_no, dr_no, dr_date, delivered_total_quantity, delivered_total_amount, bill_quantity, bill_amount, remaining_balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance]);
+    public function addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance) {
+        $sql = $this->connect()->prepare("INSERT INTO bd_payments(project_name, bm_no, project_type_id, lgu_id, po_no, dr_no, dr_date, delivered_total_quantity, delivered_total_amount, bill_quantity, bill_amount, remaining_balance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance]);
         return $sql;
     }
 
@@ -46,11 +46,17 @@ class PaymentFacade extends DBConnection {
         return $sql;
     }
 
-    public function updatePaymentDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount) {
-        $sql = $this->connect()->prepare("UPDATE bd_payments SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', po_no = '$PONumber', dr_no = '$DRNumber', dr_date = '$DRDate', delivered_total_quantity = '$totalQuantity', delivered_total_amount = '$totalAmount', bill_quantity = '$billQuantity', bill_amount = '$billAmount' WHERE po_no = '$PONumber'");
+    public function updatePaymentDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $DRNumber, $DRDate) {
+        $sql = $this->connect()->prepare("UPDATE bd_payments SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', dr_no = '$DRNumber', dr_date = '$DRDate' WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }
+
+    // public function updatePaymentDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount) {
+    //     $sql = $this->connect()->prepare("UPDATE bd_payments SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', po_no = '$PONumber', dr_no = '$DRNumber', dr_date = '$DRDate', delivered_total_quantity = '$totalQuantity', delivered_total_amount = '$totalAmount', bill_quantity = '$billQuantity', bill_amount = '$billAmount' WHERE po_no = '$PONumber'");
+    //     $sql->execute();
+    //     return $sql;
+    // }
 
     public function fullPayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $paymentId, $isPaid) {
         $sql = $this->connect()->prepare("UPDATE bd_payments SET bill_no = '$billNumber', bill_date = '$billDate', payment_mode = '$paymentMode', payment_date = '$paymentDate', payment_amount = '$paymentAmount', payment_receipt_number = '$paymentReceiptNumber', is_paid = '$isPaid' WHERE id = '$paymentId'");

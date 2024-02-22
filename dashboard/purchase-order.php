@@ -51,7 +51,9 @@ if ($userId == 0) {
 }
 
 if (isset($_POST["add_purchase_order"])) {
+
     $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
     $PODate = $_POST["po_date"];
@@ -60,15 +62,21 @@ if (isset($_POST["add_purchase_order"])) {
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $addPO = $POFacade->addPO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
-    if ($addPO) {
-        array_push($success, 'Bidding has been added successfully');
+    $verifyPOByName = $POFacade->verifyPOByName($projectName);
+    if ($verifyPOByName > 0) {
+        array_push($invalid, 'Purchase Order has already been added.');
+    } else {
+        $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
+        if ($addPO) {
+            array_push($success, 'Bidding has been added successfully');
+        }
     }
 }
 
 if (isset($_POST["update_purchase_order"])) {
     $POId = $_POST["po_id"];
     $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
     $PODate = $_POST["po_date"];
@@ -77,7 +85,7 @@ if (isset($_POST["update_purchase_order"])) {
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $updatePO = $POFacade->updatePO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
+    $updatePO = $POFacade->updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
     if ($updatePO) {
         array_push($success, 'Bidding has been updated successfully');
     }
@@ -85,184 +93,110 @@ if (isset($_POST["update_purchase_order"])) {
 
 ?>
 
-<style>
-    body {
-        opacity: 1;
-        background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
-        background-size: 21px 21px;
-    }
-
-    .container {
-        height: 100vh;
-    }
-</style>
-
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-            <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index" class="text-nowrap logo-img">
-                    <h3>One <span class="text-danger">Centro</span></h3>
-                </a>
-                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                    <i class="ti ti-x fs-8"></i>
-                </div>
+<!--  Content Wrapper Start -->
+<div class="content-wrapper">
+    <div class="card w-100">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-semibold my-2">PO Reports</h5>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPOModal">Add Purchase Order</button>
             </div>
-            <!-- Sidebar navigation-->
-            <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
-    <!--  Sidebar End -->
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-        <!--  Header Start -->
-        <header class="app-header">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item d-block d-xl-none">
-                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
-                            <i class="ti ti-menu-2"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://ui-avatars.com/api/?name=<?= $firstName . '+' . $lastName ?>&background=random" class="rounded-circle" width="35" height="35">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                                <div class="message-body">
-                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                        <i class="ti ti-user fs-6"></i>
-                                        <p class="mb-0 fs-3">My Profile</p>
-                                    </a>
-                                    <a href="../logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!--  Header End -->
-        <div class="container-fluid">
-            <!--  Row 1 -->
-            <div class="row">
-                <div class="col-lg-12 d-flex align-items-strech">
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPOModal">Add Purchase Order</button>
-                            </div>
-                            <div class="py-2">
-                                <?php include('../errors.php') ?>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Type</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">LGU Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total SKU Assortment</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Remarks</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $fetchPO = $POFacade->fetchPO();
-                                        while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <a href="purchase-order?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                    <a href="delete-purchase-order?po_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this purchase order?');">Delete</a>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["id"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $projectTypeId = $row["project_type_id"];
-                                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
-                                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $LGUId = $row["lgu_id"];
-                                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
-                                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_assortment"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="py-2">
+                <?php include('../errors.php') ?>
             </div>
-            <div class="py-6 px-6 text-center">
-                <p class="mb-0 fs-4">Developed by: ICT Department</p>
+            <div class="table-responsive">
+                <table class="table data-table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Action</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Type</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">LGU Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">PO Date</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total SKU Assortment</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total Amount</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Remarks</h6>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $fetchPO = $POFacade->fetchPO();
+                        while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <tr>
+                                <td class="border-bottom-0">
+                                    <a href="purchase-order?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <a href="delete-purchase-order?po_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this purchase order?');">Delete</a>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["id"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $projectTypeId = $row["project_type_id"];
+                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
+                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $LGUId = $row["lgu_id"];
+                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
+                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["po_date"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_sku_assortment"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+<!--  Content Wrapper End -->
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-po-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-po-modal.php') ?>
@@ -317,7 +251,19 @@ if (isset($_GET["is_updated"])) {
         $('#projectName').change(function() {
             var projectName = $(this).val();
 
-            // // Fetch items based on the selected category using AJAX
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoId').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
             $.ajax({
                 url: 'get-project-type-info.php',
                 type: 'POST',
@@ -329,7 +275,7 @@ if (isset($_GET["is_updated"])) {
                 }
             })
 
-            // // Fetch items based on the selected category using AJAX
+            // Fetch items based on the selected category using AJAX
             $.ajax({
                 url: 'get-lgu-info.php',
                 type: 'POST',
@@ -339,7 +285,6 @@ if (isset($_GET["is_updated"])) {
                 success: function(data) {
                     $('#LGUId').html(data)
                 }
-
             })
         });
     });
@@ -348,6 +293,18 @@ if (isset($_GET["is_updated"])) {
     $(document).ready(function() {
         $('#updateProjectName').change(function() {
             var projectName = $(this).val();
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateBMNoId').html(data)
+                }
+            })
 
             // // Fetch items based on the selected category using AJAX
             $.ajax({

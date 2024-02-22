@@ -51,6 +51,7 @@
                                         <label for="paymentReceiptNumber" class="form-label">Payment Receipt Number</label>
                                         <input type="text" class="form-control" id="paymentReceiptNumber" name="payment_receipt_number">
                                     </div>
+                                    <input type="hidden" name="bm_no" value="<?= $row["bm_no"] ?>">
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary" name="full_payment">Update Payment</button>
