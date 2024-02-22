@@ -34,26 +34,26 @@ class PurchaseOrderFacade extends DBConnection {
     }
 
     public function fetchPOById($POId) {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_pO WHERE id = '$POId'");
+        $sql = $this->connect()->prepare("SELECT * FROM bd_po WHERE id = '$POId'");
         $sql->execute();
         return $sql;
     }
 
-    public function verifyProjectTypeCode($projectTypeCode) {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_project_type WHERE project_type_code = ?");
-        $sql->execute([$projectTypeCode]);
+    public function verifyPOByName($projectName){
+        $sql = $this->connect()->prepare("SELECT * FROM bd_po WHERE project_name= ? AND is_delivered = 0");
+        $sql->execute([$projectName]);
         $count = $sql->rowCount();
         return $count;
     }
 
-    public function addPO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks) {
-        $sql = $this->connect()->prepare("INSERT INTO bd_po(project_name, project_type_id, lgu_id, po_date, total_sku_assortment, total_sku_quantity, total_amount, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks]);
+    public function addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks) {
+        $sql = $this->connect()->prepare("INSERT INTO bd_po(project_name, bm_no, project_type_id, lgu_id, po_date, total_sku_assortment, total_sku_quantity, total_amount, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks]);
         return $sql;
     }
 
-    public function updatePO($projectName, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId) {
-        $sql = $this->connect()->prepare("UPDATE bd_po SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', po_date = '$PODate', total_sku_assortment = '$totalSKUAssortment', total_sku_quantity = '$totalQuantity', total_amount = '$totalAmount', remarks = '$remarks' WHERE id = '$POId'");
+    public function updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId) {
+        $sql = $this->connect()->prepare("UPDATE bd_po SET project_name = '$projectName',  bm_no = '$BMNumber', project_type_id = '$projectTypeId', lgu_id = '$LGUId', po_date = '$PODate', total_sku_assortment = '$totalSKUAssortment', total_sku_quantity = '$totalQuantity', total_amount = '$totalAmount', remarks = '$remarks' WHERE id = '$POId'");
         $sql->execute();
         return $sql;
     }

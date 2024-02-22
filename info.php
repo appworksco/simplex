@@ -1,4 +1,12 @@
-<?php include realpath('autoload.php') ?>
+<?php
+
+session_start();
+
+if (isset($_SESSION["department"])) {
+    $department = $_SESSION["department"];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,3 +20,4 @@
     <title>One Centro</title>
 </head>
 <body>
+

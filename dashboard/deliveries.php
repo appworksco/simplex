@@ -56,6 +56,7 @@ if ($userId == 0) {
 
 if (isset($_POST["add_delivery"])) {
     $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
     $PONumber = $_POST["po_number"];
@@ -67,209 +68,142 @@ if (isset($_POST["add_delivery"])) {
     $billAmount = $totalAmount;
     $remainingBalance = $totalAmount;
 
-    $addDelivery = $deliveriesFacade->addDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-    if ($addDelivery) {
-        // Update PO is_delivered
-        $POFacade->isDelivered($PONumber);
-        array_push($success, 'Delivery has been added successfully');
-        // Add payment when delivery is added
-        $paymentFacade->addPayment($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    if ($verifyDeliveryByName > 0) {
+        array_push($invalid, 'Delivery has already been added.');
+    } else {
+        $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+        if ($addDelivery) {
+            // Update PO is_delivered
+            $POFacade->isDelivered($PONumber);
+            array_push($success, 'Delivery has been added successfully');
+            // Add payment when delivery is added
+            $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+            // Add total delivered in bidding information
+            $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+        }
     }
 }
 
 if (isset($_POST["update_delivery"])) {
     $deliveryId = $_POST["delivery_id"];
     $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $PONumber = $_POST["po_number"];
+    // $PONumber = $_POST["po_number"];
     $DRNumber = $_POST["dr_number"];
     $DRDate = $_POST["dr_date"];
-    $totalQuantity = $_POST["total_quantity"];
-    $totalAmount = $_POST["total_amount"];
-    $billQuantity = $totalQuantity;
-    $billAmount = $totalAmount;
+    // $totalQuantity = $_POST["total_quantity"];
+    // $totalAmount = $_POST["total_amount"];
+    // $billQuantity = $totalQuantity;
+    // $billAmount = $totalAmount;
 
-    $updateDelivery = $deliveriesFacade->updateDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $deliveryId);
+    // $updateDelivery = $deliveriesFacade->updateDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $deliveryId);
+    $updateDelivery = $deliveriesFacade->updateDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $DRNumber, $DRDate, $deliveryId);
     if ($updateDelivery) {
-        // Update PO is_delivered
-        $POFacade->isDelivered($PONumber);
         array_push($success, 'Delivery has been added successfully');
         // Add payment when delivery is added
-        $paymentFacade->updatePaymentDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
+        // $paymentFacade->updatePaymentDelivery($projectName, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount);
+        $paymentFacade->updatePaymentDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $DRNumber, $DRDate);
     }
 }
 
 ?>
 
-<style>
-    body {
-        opacity: 1;
-        background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
-        background-size: 21px 21px;
-    }
-
-    .container {
-        height: 100vh;
-    }
-</style>
-
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-            <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index" class="text-nowrap logo-img">
-                    <h3>One <span class="text-danger">Centro</span></h3>
-                </a>
-                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                    <i class="ti ti-x fs-8"></i>
-                </div>
+<!--  Content Wrapper Start -->
+<div class="content-wrapper">
+    <div class="card w-100">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-semibold my-2">Delivery Reports</h5>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
             </div>
-            <!-- Sidebar navigation-->
-            <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
-    <!--  Sidebar End -->
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-        <!--  Header Start -->
-        <header class="app-header">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item d-block d-xl-none">
-                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
-                            <i class="ti ti-menu-2"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://ui-avatars.com/api/?name=<?= $firstName . '+' . $lastName ?>&background=random" class="rounded-circle" width="35" height="35">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                                <div class="message-body">
-                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                        <i class="ti ti-user fs-6"></i>
-                                        <p class="mb-0 fs-3">My Profile</p>
-                                    </a>
-                                    <a href="../logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!--  Header End -->
-        <div class="container-fluid">
-            <!--  Row 1 -->
-            <div class="row">
-                <div class="col-lg-12 d-flex align-items-strech">
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
-                            </div>
-                            <div class="py-2">
-                                <?php include('../errors.php') ?>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Type</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">LGU Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Total Amount</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $fetchDeliveries = $deliveriesFacade->fetchDeliveries();
-                                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                    <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $projectTypeId = $row["project_type_id"];
-                                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
-                                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $LGUId = $row["lgu_id"];
-                                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
-                                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_quantity"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="py-2">
+                <?php include('../errors.php') ?>
             </div>
-            <div class="py-6 px-6 text-center">
-                <p class="mb-0 fs-4">Developed by: ICT Department</p>
+            <div class="table-responsive">
+                <table class="table data-table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Action</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Type</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">LGU Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">DR Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">DR Date</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total Amount</h6>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $fetchDeliveries = $deliveriesFacade->fetchDeliveries();
+                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <tr>
+                                <td class="border-bottom-0">
+                                    <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $projectTypeId = $row["project_type_id"];
+                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
+                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $LGUId = $row["lgu_id"];
+                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
+                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_quantity"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -299,6 +233,18 @@ if (isset($_GET["is_updated"])) {
         // Add delivery
         $('#projectName').change(function() {
             var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoId').html(data)
+                }
+            })
 
             // Fetch items based on the selected category using AJAX
             $.ajax({
@@ -340,6 +286,18 @@ if (isset($_GET["is_updated"])) {
         // Update delivery
         $('#projectNameUpdate').change(function() {
             var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateBMNoId').html(data)
+                }
+            })
 
             // Fetch items based on the selected category using AJAX
             $.ajax({

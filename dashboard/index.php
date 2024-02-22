@@ -54,7 +54,7 @@ if ($userId == 0) {
 
         <!-- Content Wrapper Start -->
         <div class="content-wrapper">
-
+            
         </div>
         <!-- Content Wrapper End -->
     </div>

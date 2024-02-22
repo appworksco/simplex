@@ -17,13 +17,13 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="tools">
                             <li><a class="dropdown-item py-1" id="manageEmployee">Manage Employee</a></li>
-                            <li><a class="dropdown-item py-1" href="departments">Manage Departments</a></li>
-                            <li><a class="dropdown-item py-1" href="positions">Manage Positions</a></li>
-                            <li><a class="dropdown-item py-1" href="services">Manage Services</a></li>
-                            <li><a class="dropdown-item py-1" href="issues">Manage Issues</a></li>
-                            <li><a class="dropdown-item py-1" href="municipality">Manage Municipality</a></li>
-                            <li><a class="dropdown-item py-1" href="lgu">Manage LGU</a></li>
-                            <li><a class="dropdown-item py-1" href="project-type">Manage Project Type</a></li>
+                            <li><a class="dropdown-item py-1" id="manageDepartments">Manage Departments</a></li>
+                            <li><a class="dropdown-item py-1" id="managePositions">Manage Positions</a></li>
+                            <li><a class="dropdown-item py-1" id="manageServices">Manage Services</a></li>
+                            <li><a class="dropdown-item py-1" id="manageIssues">Manage Issues</a></li>
+                            <li><a class="dropdown-item py-1" id="manageMunicipality">Manage Municipality</a></li>
+                            <li><a class="dropdown-item py-1" id="manageLGU">Manage LGU</a></li>
+                            <li><a class="dropdown-item py-1" id="manageProjectType">Manage Project Type</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -31,9 +31,9 @@
                             Plugins
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="plugins">
-                            <li><a class="dropdown-item py-1" href="fixed-asset-inventory">Fixed Asset Inventory</a></li>
-                            <li><a class="dropdown-item py-1" href="../rfid">RFID Attendance System</a></li>
-                            <li><a class="dropdown-item py-1" href="cts">Centro Ticketing System</a></li>
+                            <li><a class="dropdown-item py-1" id="fixedAssetInventory">Fixed Asset Inventory</a></li>
+                            <li><a class="dropdown-item py-1" id="rfid">RFID Attendance System</a></li>
+                            <li><a class="dropdown-item py-1" id="cts">Centro Ticketing System</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -41,10 +41,11 @@
                             Reports
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="reports">
-                            <li><a class="dropdown-item py-1" href="bidding-information">Bidding Reports</a></li>
-                            <li><a class="dropdown-item py-1" href="purchase-order">PO Reports</a></li>
-                            <li><a class="dropdown-item py-1" href="delivery-reports">Delivery Reports</a></li>
-                            <li><a class="dropdown-item py-1" href="timestamp">Timestamp</a></li>
+                            <li><a class="dropdown-item py-1" id="biddingReports">Bidding Reports</a></li>
+                            <li><a class="dropdown-item py-1" id="POReports">PO Reports</a></li>
+                            <li><a class="dropdown-item py-1" id="deliveryReports">Delivery Reports</a></li>
+                            <li><a class="dropdown-item py-1" id="paymentReports">Payment Reports</a></li>
+                            <li><a class="dropdown-item py-1" id="timestamp">Timestamp</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">

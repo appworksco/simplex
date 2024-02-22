@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Add Purchase Order</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Update Purchase Order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -23,6 +23,10 @@
                                             <option value="<?= $bidding["project_name"] ?>"><?= $bidding["project_name"] ?></option>
                                         <?php } ?>
                                     </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="BMNoId" class="form-label">BM Number</label>
+                                    <select class="form-select" id="updateBMNoId" name="bm_no"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectTypeId" class="form-label">Project Type</label>

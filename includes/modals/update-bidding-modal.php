@@ -21,7 +21,6 @@
                                         <div class="mb-3">
                                             <label for="projectName" class="form-label">Project Name</label>
                                             <textarea class="w-100 p-2" id="project_name" name="project_name" style="height: 200px"><?= $row["project_name"] ?></textarea>
-                                            
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectTypeId" class="form-label">Project Type</label>
@@ -122,6 +121,10 @@
                                         <div class="mb-3">
                                             <label for="projectBudgetAmount" class="form-label">Project Budget Amount</label>
                                             <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount" value="<?= $row["project_budget_amount"] ?>">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="totalSKUQuantity" class="form-label">Total SKU Quantity</label>
+                                            <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity" value="<?= $row["total_sku_quantity"] ?>">
                                         </div>
                                         <div class="mb-3">
                                             <label for="awardDate" class="form-label">Award Date (mm/dd/yyyy)</label>

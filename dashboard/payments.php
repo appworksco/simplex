@@ -55,6 +55,7 @@ if ($userId == 0) {
 }
 
 if (isset($_POST["full_payment"])) {
+    $BMNumber = $_POST["bm_no"];
     $paymentId = $_POST["payment_id"];
     $PONumber =  $_POST["po_number"];
     $paymentMode = 'Full Payment';
@@ -73,15 +74,19 @@ if (isset($_POST["full_payment"])) {
         } else {
             $fullPayment = $paymentFacade->fullPayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $paymentId, $isPaid);
             if ($fullPayment) {
-                array_push($success, 'Bidding has been updated successfully');
+                array_push($success, 'Payment has been updated successfully');
                 // Update delivery if payment is fully paid
                 $deliveriesFacade->isPaid($PONumber);
+                // Update total paid on bidding information
+                $remainingBalance = $paymentAmount;
+                $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
             }
         }
     }
 }
 
 if (isset($_POST["partial_payment"])) {
+    $BMNumber = $_POST["bm_no"];
     $paymentId = $_POST["payment_id"];
     $PONumber =  $_POST["po_number"];
 
@@ -144,9 +149,11 @@ if (isset($_POST["partial_payment"])) {
             $paymentFacade->isPaid($PONumber);
         } else {
             $remainingBalance = $row["total_amount"] - $totalPaid;
+            $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
             $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
             if ($partialPayment) {
                 array_push($success, 'Bidding has been updated successfully');
+                // Update total paid on bidding information
             }
         }
     }
@@ -154,254 +161,179 @@ if (isset($_POST["partial_payment"])) {
 
 ?>
 
-<style>
-    body {
-        opacity: 1;
-        background-image: radial-gradient(#cdd9e7 1.05px, #e5e5f7 1.05px);
-        background-size: 21px 21px;
-    }
-
-    .container {
-        height: 100vh;
-    }
-</style>
-
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div>
-            <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="./index" class="text-nowrap logo-img">
-                    <h3>One <span class="text-danger">Centro</span></h3>
-                </a>
-                <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                    <i class="ti ti-x fs-8"></i>
-                </div>
+<!-- Content Wrapper Start -->
+<div class="content-wrapper">
+    <div class="card w-100">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-semibold my-2">Payment Reports</h5>
             </div>
-            <!-- Sidebar navigation-->
-            <?php include realpath(__DIR__ . '/../includes/layout/dashboard-sidebar.php') ?>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
-    <!--  Sidebar End -->
-    <!--  Main wrapper -->
-    <div class="body-wrapper">
-        <!--  Header Start -->
-        <header class="app-header">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item d-block d-xl-none">
-                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
-                            <i class="ti ti-menu-2"></i>
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                    <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://ui-avatars.com/api/?name=<?= $firstName . '+' . $lastName ?>&background=random" class="rounded-circle" width="35" height="35">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                                <div class="message-body">
-                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                        <i class="ti ti-user fs-6"></i>
-                                        <p class="mb-0 fs-3">My Profile</p>
-                                    </a>
-                                    <a href="../logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!--  Header End -->
-        <div class="container-fluid">
-            <!--  Row 1 -->
-            <div class="row">
-                <div class="col-lg-12 d-flex align-items-strech">
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <!-- <div class="d-flex justify-content-between">
-                                <h5 class="card-title fw-semibold my-2">Overview</h5>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPaymentModal">Add Payment</button>
-                            </div> -->
-                            <div class="py-2">
-                                <?php include('../errors.php') ?>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table data-table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Action</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">PO Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Type</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Project Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">LGU Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Number</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">DR Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Delivered Total Quantity</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Remaining Balance</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1st Payment</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">2nd Payment</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">3rd Payment</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">4th Payment</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">5th Payment</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $fetchDeliveries = $paymentFacade->fetchPayments();
-                                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
-                                            <tr>
-                                                <td class="border-bottom-0">
-                                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                                    <a href="delete-payment?payment_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this payments?');">Delete</a>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $projectTypeId = $row["project_type_id"];
-                                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
-                                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php
-                                                    $LGUId = $row["lgu_id"];
-                                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
-                                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
-                                                    <?php }
-                                                    ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_quantity"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <p class="mb-0 fw-normal"><?= $row["remaining_balance"] ?></p>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php if ($row["1st_bill_no"] != NULL) { ?>
-                                                        <p class="mb-0 fw-normal">
-                                                            Bill No: <?= $row["1st_bill_no"] ?> <br>
-                                                            Payment Mode: <?= $row["1st_payment_mode"] ?> <br>
-                                                            Payment Date: <?= $row["1st_payment_date"] ?> <br>
-                                                            Payment Amount: <?= $row["1st_payment_amount"] ?> <br>
-                                                            Receipt Number: <?= $row["1st_payment_receipt_number"] ?>
-                                                        </p>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php if ($row["2nd_bill_no"] != NULL) { ?>
-                                                        <p class="mb-0 fw-normal">
-                                                            Bill No: <?= $row["2nd_bill_no"] ?> <br>
-                                                            Payment Mode: <?= $row["2nd_payment_mode"] ?> <br>
-                                                            Payment Date: <?= $row["2nd_payment_date"] ?> <br>
-                                                            Payment Amount: <?= $row["2nd_payment_amount"] ?> <br>
-                                                            Receipt Number: <?= $row["2nd_payment_receipt_number"] ?>
-                                                        </p>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php if ($row["3rd_bill_no"] != NULL) { ?>
-                                                        <p class="mb-0 fw-normal">
-                                                            Bill No: <?= $row["3rd_bill_no"] ?> <br>
-                                                            Payment Mode: <?= $row["3rd_payment_mode"] ?> <br>
-                                                            Payment Date: <?= $row["3rd_payment_date"] ?> <br>
-                                                            Payment Amount: <?= $row["3rd_payment_amount"] ?> <br>
-                                                            Receipt Number: <?= $row["3rd_payment_receipt_number"] ?>
-                                                        </p>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php if ($row["4th_bill_no"] != NULL) { ?>
-                                                        <p class="mb-0 fw-normal">
-                                                            Bill No: <?= $row["4th_bill_no"] ?> <br>
-                                                            Payment Mode: <?= $row["4th_payment_mode"] ?> <br>
-                                                            Payment Date: <?= $row["4th_payment_date"] ?> <br>
-                                                            Payment Amount: <?= $row["4th_payment_amount"] ?> <br>
-                                                            Receipt Number: <?= $row["4th_payment_receipt_number"] ?>
-                                                        </p>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="border-bottom-0">
-                                                    <?php if ($row["5th_bill_no"] != NULL) { ?>
-                                                        <p class="mb-0 fw-normal">
-                                                            Bill No: <?= $row["5th_bill_no"] ?> <br>
-                                                            Payment Mode: <?= $row["5th_payment_mode"] ?> <br>
-                                                            Payment Date: <?= $row["5th_payment_date"] ?> <br>
-                                                            Payment Amount: <?= $row["5th_payment_amount"] ?> <br>
-                                                            Receipt Number: <?= $row["5th_payment_receipt_number"] ?>
-                                                        </p>
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="py-2">
+                <?php include('../errors.php') ?>
             </div>
-            <div class="py-6 px-6 text-center">
-                <p class="mb-0 fs-4">Developed by: ICT Department</p>
+            <div class="table-responsive">
+                <table class="table data-table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Action</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">PO Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Type</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">LGU Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">DR Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">DR Date</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Delivered Total Quantity</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Delivered Total Amount</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Remaining Balance</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">1st Payment</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">2nd Payment</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">3rd Payment</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">4th Payment</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">5th Payment</h6>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $fetchDeliveries = $paymentFacade->fetchPayments();
+                        while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <tr>
+                                <td class="border-bottom-0">
+                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <a href="delete-payment?payment_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this payments?');">Delete</a>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $projectTypeId = $row["project_type_id"];
+                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
+                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $LGUId = $row["lgu_id"];
+                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
+                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_quantity"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["delivered_total_amount"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["remaining_balance"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["1st_bill_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            Bill No: <?= $row["1st_bill_no"] ?> <br>
+                                            Payment Mode: <?= $row["1st_payment_mode"] ?> <br>
+                                            Payment Date: <?= $row["1st_payment_date"] ?> <br>
+                                            Payment Amount: <?= $row["1st_payment_amount"] ?> <br>
+                                            Receipt Number: <?= $row["1st_payment_receipt_number"] ?>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["2nd_bill_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            Bill No: <?= $row["2nd_bill_no"] ?> <br>
+                                            Payment Mode: <?= $row["2nd_payment_mode"] ?> <br>
+                                            Payment Date: <?= $row["2nd_payment_date"] ?> <br>
+                                            Payment Amount: <?= $row["2nd_payment_amount"] ?> <br>
+                                            Receipt Number: <?= $row["2nd_payment_receipt_number"] ?>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["3rd_bill_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            Bill No: <?= $row["3rd_bill_no"] ?> <br>
+                                            Payment Mode: <?= $row["3rd_payment_mode"] ?> <br>
+                                            Payment Date: <?= $row["3rd_payment_date"] ?> <br>
+                                            Payment Amount: <?= $row["3rd_payment_amount"] ?> <br>
+                                            Receipt Number: <?= $row["3rd_payment_receipt_number"] ?>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["4th_bill_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            Bill No: <?= $row["4th_bill_no"] ?> <br>
+                                            Payment Mode: <?= $row["4th_payment_mode"] ?> <br>
+                                            Payment Date: <?= $row["4th_payment_date"] ?> <br>
+                                            Payment Amount: <?= $row["4th_payment_amount"] ?> <br>
+                                            Receipt Number: <?= $row["4th_payment_receipt_number"] ?>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["5th_bill_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            Bill No: <?= $row["5th_bill_no"] ?> <br>
+                                            Payment Mode: <?= $row["5th_payment_mode"] ?> <br>
+                                            Payment Date: <?= $row["5th_payment_date"] ?> <br>
+                                            Payment Amount: <?= $row["5th_payment_amount"] ?> <br>
+                                            Receipt Number: <?= $row["5th_payment_receipt_number"] ?>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+<!-- Content Wrapper End -->
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-payment-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-payment-modal.php') ?>
