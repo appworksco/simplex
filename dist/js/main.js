@@ -59,10 +59,19 @@ $(function () {
     $("#manageMunicipality").click(function () {
         window.open('.././dashboard/municipality.php', null, 'popup');
     })
+    $("#municipalityButton").click(function () {
+        window.open('.././dashboard/municipality.php', null, 'popup');
+    })
     $("#manageLGU").click(function () {
         window.open('.././dashboard/lgu.php', null, 'popup');
     })
+    $("#LGUButton").click(function () {
+        window.open('.././dashboard/lgu.php', null, 'popup');
+    })
     $("#manageProjectType").click(function () {
+        window.open('.././dashboard/project-type.php', null, 'popup');
+    })
+    $("#projectTypeButton").click(function () {
         window.open('.././dashboard/project-type.php', null, 'popup');
     })
 
@@ -81,13 +90,25 @@ $(function () {
     $("#biddingReports").click(function () {
         window.open('.././dashboard/bidding-information.php', null, 'popup');
     })
+    $("#biddingInformationButton").click(function () {
+        window.open('.././dashboard/bidding-information.php', null, 'popup');
+    })
     $("#POReports").click(function () {
+        window.open('.././dashboard/purchase-order.php', null, 'popup');
+    })
+    $("#purchaseOrderButton").click(function () {
         window.open('.././dashboard/purchase-order.php', null, 'popup');
     })
     $("#deliveryReports").click(function () {
         window.open('.././dashboard/deliveries.php', null, 'popup');
     })
+    $("#deliveriesButton").click(function () {
+        window.open('.././dashboard/deliveries.php', null, 'popup');
+    })
     $("#paymentReports").click(function () {
+        window.open('.././dashboard/payments.php', null, 'popup');
+    })
+    $("#accountsPaymentButton").click(function () {
         window.open('.././dashboard/payments.php', null, 'popup');
     })
     $("#timestamp").click(function () {
