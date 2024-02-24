@@ -54,7 +54,35 @@ if ($userId == 0) {
 
         <!-- Content Wrapper Start -->
         <div class="content-wrapper">
-            
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title m-0">Process Map</h6>
+                </div>
+                <div class="card-body">
+                    <button class="btn p-0 m-0" id="projectTypeButton">
+                        <img src="../dist/buttons/project-type-master.jpg" alt="Project Type Button">
+                    </button>
+                    <button class="btn p-0 m-0" id="municipalityButton">
+                        <img src="../dist/buttons/municipality-master.jpg" alt="Municipality bUTTON">
+                    </button>
+                    <button class="btn p-0 m-0" id="LGUButton">
+                        <img src="../dist/buttons/lgu-master.jpg" alt="LGU Button">
+                    </button>
+                    <button class="btn p-0 m-0" id="biddingInformationButton">
+                        <img src="../dist/buttons/bidding-information.jpg" alt="Bidding Information Button">
+                    </button>
+                    <button class="btn p-0 m-0" id="purchaseOrderButton">
+                        <img src="../dist/buttons/purchase-order.jpg" alt="Purchase Order Button">
+                    </button>
+                    <button class="btn p-0 m-0" id="deliveriesButton">
+                        <img src="../dist/buttons/deliveries.jpg" alt="Deliveries Button">
+                    </button>
+                    <button class="btn p-0 m-0" id="accountsPaymentButton">
+                        <img src="../dist/buttons/accounts-payment.jpg" alt="Accounts Payment Button">
+                    </button>
+                </div>
+            </div>
+
         </div>
         <!-- Content Wrapper End -->
     </div>
