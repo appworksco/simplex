@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2024 at 04:29 PM
+-- Generation Time: Feb 25, 2024 at 07:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -476,13 +476,6 @@ CREATE TABLE `bd_payments` (
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bd_payments`
---
-
-INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `remaining_balance`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
-(46, 10, 'ELECTRONIC ENHANCEMENT FOR ICT OFFICE', 'BM20240', 5, '64', '12323', '09/23/23', '3', '1500', '1500', '', '', '3', 1500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -546,7 +539,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '0');
+(1, '8');
 
 -- --------------------------------------------------------
 
@@ -944,7 +937,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -968,19 +961,19 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
