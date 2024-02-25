@@ -27,6 +27,12 @@ class PaymentFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchPaymentByBMNo($BMNumber) {
+        $sql = $this->connect()->prepare("SELECT (payment_amount + 1st_payment_amount + 2nd_payment_amount + 3rd_payment_amount + 4th_payment_amount + 5th_payment_amount) AS total FROM bd_payments WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function verifyProjectTypeCode($projectTypeCode) {
         $sql = $this->connect()->prepare("SELECT * FROM bd_project_type WHERE project_type_code = ?");
         $sql->execute([$projectTypeCode]);

@@ -143,16 +143,27 @@ if (isset($_POST["partial_payment"])) {
     // Verify payment to PO total amount if exact
     $fetchPOByPONumber = $POFacade->fetchPOByPONumber($PONumber);
     while ($row = $fetchPOByPONumber->fetch(PDO::FETCH_ASSOC)) {
+
+        // Insert data first
+        $remainingBalance = $row["total_amount"] - $totalPaid;
+        $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
+        if ($partialPayment) {
+            array_push($success, 'Bidding has been updated successfully');
+            // Update total paid on bidding information
+            $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
+        }
+
+        // Check total amount and total paid if greater than then set delivery and payment to delivered and paid if not insert data
         if ($row["total_amount"] <= $totalPaid) {
             // Update delivery if payment is fully paid
             $deliveriesFacade->isPaid($PONumber);
             $paymentFacade->isPaid($PONumber);
         } else {
+            $remainingBalance = $row["total_amount"] - $totalPaid;
             $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
             if ($partialPayment) {
                 array_push($success, 'Bidding has been updated successfully');
                 // Update total paid on bidding information
-                $remainingBalance = $row["total_amount"] - $totalPaid;
                 $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
             }
         }

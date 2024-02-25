@@ -2,8 +2,14 @@
 
 class BiddingInformationFacade extends DBConnection {
 
-    public function fetchBiddingInformation() {
+    public function fetchBiddingInformationReport() {
         $sql = $this->connect()->prepare("SELECT * FROM bd_project_information");
+        $sql->execute();
+        return $sql;
+    }
+
+    public function fetchBiddingInformation() {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE project_budget_amount != total_paid");
         $sql->execute();
         return $sql;
     }
@@ -53,13 +59,19 @@ class BiddingInformationFacade extends DBConnection {
     }
 
     public function updateTotalPaid($remainingBalance, $BMNumber) {
-        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid += '$remainingBalance' WHERE bm_no = '$BMNumber'");
+        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid = total_paid + '$remainingBalance' WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
+    public function updateTotalPaidPartial($totalPaid, $BMNumber) {
+        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid = '$totalPaid' WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }
 
     public function updateTotalDelivered($totalQuantity, $BMNumber) {
-        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_delivered = '$totalQuantity' WHERE bm_no = '$BMNumber'");
+        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_delivered = total_delivered + '$totalQuantity' WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }
