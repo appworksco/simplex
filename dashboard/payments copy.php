@@ -148,11 +148,11 @@ if (isset($_POST["partial_payment"])) {
             $deliveriesFacade->isPaid($PONumber);
             $paymentFacade->isPaid($PONumber);
         } else {
-            $remainingBalance = $row["total_amount"] - $totalPaid;
             $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
             if ($partialPayment) {
                 array_push($success, 'Bidding has been updated successfully');
                 // Update total paid on bidding information
+                $remainingBalance = $row["total_amount"] - $totalPaid;
                 $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
             }
         }

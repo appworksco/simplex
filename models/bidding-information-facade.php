@@ -53,7 +53,7 @@ class BiddingInformationFacade extends DBConnection {
     }
 
     public function updateTotalPaid($remainingBalance, $BMNumber) {
-        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid = '$remainingBalance' WHERE bm_no = '$BMNumber'");
+        $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid += '$remainingBalance' WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }

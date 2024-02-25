@@ -135,6 +135,9 @@ if (isset($_POST["update_bidding"])) {
                                 <h6 class="fw-semibold mb-0">Project Budget Amount</h6>
                             </th>
                             <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Budget Balance</h6>
+                            </th>
+                            <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Total SKU Quantity</h6>
                             </th>
                             <th class="border-bottom-0">
@@ -186,6 +189,9 @@ if (isset($_POST["update_bidding"])) {
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] - $row["total_paid"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
