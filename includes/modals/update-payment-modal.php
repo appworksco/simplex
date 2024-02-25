@@ -38,14 +38,13 @@
                                         <label for="billDate" class="form-label">Bill Date (mm/dd/yyyy)</label>
                                         <input type="text" class="form-control" id="billDate" name="bill_date">
                                     </div>
-
                                     <div class="mb-3">
                                         <label for="paymentDate" class="form-label">Payment Date (mm/dd/yyyy)</label>
                                         <input type="text" class="form-control" id="paymentDate" name="payment_date">
                                     </div>
                                     <div class="mb-3">
                                         <label for="paymentAmount" class="form-label">Payment Amount</label>
-                                        <input type="text" class="form-control" id="paymentAmount" name="payment_amount">
+                                        <input type="text" class="form-control" id="paymentAmount" name="payment_amount" value="<?= $row["bill_amount"] ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label for="paymentReceiptNumber" class="form-label">Payment Receipt Number</label>

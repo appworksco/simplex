@@ -42,6 +42,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="reports">
                             <li><a class="dropdown-item py-1" id="biddingReports">Bidding Reports</a></li>
+                            <li><a class="dropdown-item py-1" id="expensesReports">Expenses Reports</a></li>
                             <li><a class="dropdown-item py-1" id="POReports">PO Reports</a></li>
                             <li><a class="dropdown-item py-1" id="deliveryReports">Delivery Reports</a></li>
                             <li><a class="dropdown-item py-1" id="paymentReports">Payment Reports</a></li>

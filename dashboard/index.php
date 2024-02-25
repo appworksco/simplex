@@ -81,6 +81,10 @@ if ($userId == 0) {
                         <button class="btn p-0 m-0" id="accountsPaymentButton">
                             <img src="../dist/buttons/accounts-payment.jpg" alt="Accounts Payment Button" style="width: 120px;">
                         </button>
+                        <hr>
+                        <button class="btn p-0 m-0" id="expensesButton">
+                            <img src="../dist/buttons/expenses.jpg" alt="Expenses Button" style="width: 120px;">
+                        </button>
                     </div>
                 </div>
             </div>

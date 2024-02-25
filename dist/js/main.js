@@ -93,6 +93,12 @@ $(function () {
     $("#biddingInformationButton").click(function () {
         window.open('.././dashboard/bidding-information.php', null, 'popup');
     })
+    $("#expensesReports").click(function () {
+        window.open('.././dashboard/expenses.php', null, 'popup');
+    })
+    $("#expensesButton").click(function () {
+        window.open('.././dashboard/expenses.php', null, 'popup');
+    })
     $("#POReports").click(function () {
         window.open('.././dashboard/purchase-order.php', null, 'popup');
     })

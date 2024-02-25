@@ -9,6 +9,7 @@ include realpath(__DIR__ . '/../models/municipalities-facade.php');
 include realpath(__DIR__ . '/../models/lgu-facade.php');
 include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
+include realpath(__DIR__ . '/../models/payment-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -18,6 +19,7 @@ $municipalitiesFacade = new MunicipalitiesFacade;
 $LGUFacade = new LGUFacade;
 $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
+$paymentFacade = new PaymentFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -150,7 +152,7 @@ if (isset($_POST["update_bidding"])) {
                     </thead>
                     <tbody>
                         <?php
-                        $fetchBiddingInformation = $biddingInformationFacade->fetchBiddingInformation();
+                        $fetchBiddingInformation = $biddingInformationFacade->fetchBiddingInformationReport();
                         while ($row = $fetchBiddingInformation->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">

@@ -1,0 +1,1 @@
+For bidding department use bd_ for each file or database table
