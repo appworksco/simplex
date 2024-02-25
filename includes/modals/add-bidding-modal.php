@@ -41,6 +41,10 @@
                                 <label for="projectBudgetAmount" class="form-label">Project Budget Amount</label>
                                 <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount">
                             </div>
+                            <div class="mb-3">
+                                <label for="totalSKUQuantity" class="form-label">Total SKU Quantity</label>
+                                <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity">
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_bidding">Add Bidding</button>

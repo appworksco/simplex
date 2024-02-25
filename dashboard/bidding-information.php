@@ -53,6 +53,8 @@ if (isset($_POST["add_bidding"])) {
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
+    $projectBudgetAmount = $_POST["project_budget_amount"];
+    $totalSKUQuantity = $_POST["total_sku_quantity"];
     $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
     while ($row = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) {
         $projectType = $row["project_description"];
@@ -62,7 +64,7 @@ if (isset($_POST["add_bidding"])) {
             $series = $series["series"];
         }
         $bmno = 'BM' . date('Y') . $series;
-        $addBidding = $biddingInformationFacade->addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId);
+        $addBidding = $biddingInformationFacade->addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity);
         if ($addBidding) {
             array_push($success, 'Bidding has been added successfully');
             // Update latest project series
@@ -133,6 +135,9 @@ if (isset($_POST["update_bidding"])) {
                                 <h6 class="fw-semibold mb-0">Project Budget Amount</h6>
                             </th>
                             <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total SKU Quantity</h6>
+                            </th>
+                            <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Delivery Status</h6>
                             </th>
                             <th class="border-bottom-0">
@@ -181,6 +186,9 @@ if (isset($_POST["update_bidding"])) {
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal">
