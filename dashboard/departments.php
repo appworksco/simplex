@@ -96,7 +96,7 @@ if (isset($_POST["update_department"])) {
                 <?php include('../errors.php') ?>
             </div>
             <div class="table-responsive">
-                <table class="table table-striped table-striped text-nowrap mb-0 align-middle">
+                <table class="table table-striped data-table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                         <tr>
                             <?php if ($userRole == 1) { ?>

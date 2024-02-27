@@ -62,14 +62,9 @@ if (isset($_POST["add_purchase_order"])) {
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $verifyPOByName = $POFacade->verifyPOByName($projectName);
-    if ($verifyPOByName > 0) {
-        array_push($invalid, 'Purchase Order has already been added.');
-    } else {
-        $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
-        if ($addPO) {
-            array_push($success, 'Bidding has been added successfully');
-        }
+    $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
+    if ($addPO) {
+        array_push($success, 'Bidding has been added successfully');
     }
 }
 
@@ -105,7 +100,7 @@ if (isset($_POST["update_purchase_order"])) {
                 <?php include('../errors.php') ?>
             </div>
             <div class="table-responsive">
-                <table class="table data-table text-nowrap mb-0 align-middle">
+                <table class="table table-striped data-table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                         <tr>
                             <th class="border-bottom-0">

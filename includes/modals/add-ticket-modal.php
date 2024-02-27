@@ -19,8 +19,29 @@
                                     <?php } ?>    
                                 </select>
                             </div>
+
+                            <!-- Assisted by
                             <div class="mb-3">
-                                <textarea class="form-control" style="height: 40vh" placeholder="What is your problem?" name="description"></textarea>
+                                <label for="assistedBy" class="form-label">Assisted By</label>
+                                <select class="form-select" id="assistedBy" name="assistedBy">
+                                    
+                                    <?php 
+                                    /*
+                                    $fetchUsers = $usersFacade->fetchUsers();
+                                    while ($row = $fetchUsers->fetch(PDO::FETCH_ASSOC)) { ?>
+                                            <option value="<?= $row["first_name"] . " " . $row["last_name"] ?>">
+                                            <?= $row["first_name"] . " " . $row["last_name"] ?>
+                                            </option>
+                                    <?php }
+                                    */
+                                    ?>
+                                    
+                                </select>
+                            </div>
+                            -->
+                            
+                            <div class="mb-3">
+                                <textarea class="form-control" style="height: 20%" placeholder="What is your problem?" name="description"></textarea>
                             </div>
                             <label for="severity" class="form-label">Severity</label>
                             <select class="form-select" name="severity">
