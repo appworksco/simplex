@@ -7,6 +7,7 @@ include realpath(__DIR__ . '/../models/departments-facade.php');
 include realpath(__DIR__ . '/../models/services-facade.php');
 include realpath(__DIR__ . '/../models/municipalities-facade.php');
 include realpath(__DIR__ . '/../models/lgu-facade.php');
+include realpath(__DIR__ . '/../models/expenses-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -14,6 +15,7 @@ $departmentsFacade = new DepartmentsFacade;
 $servicesFacade = new ServicesFacade;
 $municipalitiesFacade = new MunicipalitiesFacade;
 $LGUFacade = new LGUFacade;
+$expensesFacade = new ExpensesFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -107,30 +109,54 @@ if (isset($_POST["update_lgu"])) {
                                 <h6 class="fw-semibold mb-0">Action</h6>
                             </th>
                             <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">LGU Code</h6>
+                                <h6 class="fw-semibold mb-0">Project Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Type</h6>
                             </th>
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
                             </th>
                             <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">Municipality</h6>
+                                <h6 class="fw-semibold mb-0">Expense Type</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Total Amount</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Remarks</h6>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $fetchLGU = $LGUFacade->fetchLGU();
-                        while ($row = $fetchLGU->fetch(PDO::FETCH_ASSOC)) { ?>
+                        $fetchExpenses = $expensesFacade->fetchExpenses();
+                        while ($row = $fetchExpenses->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">
                                     <a href="lgu?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
                                     <a href="delete-lgu?lgu_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["lgu_code"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["lgu_name"] ?></p>
+                                    <?php
+                                    $projectTypeId = $row["project_type_id"];
+                                    $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
+                                    while ($projectType = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $projectType["project_description"] ?></p>
+                                    <?php }
+                                    ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php
+                                    $LGUId = $row["lgu_id"];
+                                    $fetchLGUById = $LGUFacade->fetchLGUById($LGUId);
+                                    while ($LGU =  $fetchLGUById->fetch(PDO::FETCH_ASSOC)) { ?>
+                                        <p class="mb-0 fw-normal"><?= $LGU["lgu_name"] ?></p>
+                                    <?php }
+                                    ?>
                                 </td>
                                 <td class="border-bottom-0">
                                     <?php
@@ -140,6 +166,9 @@ if (isset($_POST["update_lgu"])) {
                                         <p class="mb-0 fw-normal"><?= $municipality["municipality_name"] ?></p>
                                     <?php }
                                     ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
                                 </td>
                             </tr>
                         <?php } ?>

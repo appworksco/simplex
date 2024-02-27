@@ -45,6 +45,10 @@
                                 <label for="totalSKUQuantity" class="form-label">Total SKU Quantity</label>
                                 <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity">
                             </div>
+                            <div class="mb-3">
+                                <label for="totalQuantity" class="form-label">Total Quantity</label>
+                                <input type="text" class="form-control" id="totalQuantity" name="total_quantity">
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_bidding">Add Bidding</button>

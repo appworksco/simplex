@@ -184,7 +184,7 @@ if (isset($_POST["partial_payment"])) {
                 <?php include('../errors.php') ?>
             </div>
             <div class="table-responsive">
-                <table class="table data-table text-nowrap mb-0 align-middle">
+                <table class="table table-striped data-table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                         <tr>
                             <th class="border-bottom-0">

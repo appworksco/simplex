@@ -57,6 +57,7 @@ if (isset($_POST["add_bidding"])) {
     $LGUId = $_POST["lgu_id"];
     $projectBudgetAmount = $_POST["project_budget_amount"];
     $totalSKUQuantity = $_POST["total_sku_quantity"];
+    $totalQuantity = $_POST["total_quantity"];
     $fetchProjectTypeById = $projectTypeFacade->fetchProjectTypeById($projectTypeId);
     while ($row = $fetchProjectTypeById->fetch(PDO::FETCH_ASSOC)) {
         $projectType = $row["project_description"];
@@ -66,7 +67,7 @@ if (isset($_POST["add_bidding"])) {
             $series = $series["series"];
         }
         $bmno = 'BM' . date('Y') . $series;
-        $addBidding = $biddingInformationFacade->addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity);
+        $addBidding = $biddingInformationFacade->addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity, $totalQuantity);
         if ($addBidding) {
             array_push($success, 'Bidding has been added successfully');
             // Update latest project series
@@ -109,7 +110,7 @@ if (isset($_POST["update_bidding"])) {
                 <?php include('../errors.php') ?>
             </div>
             <div class="table-responsive">
-                <table class="table data-table text-nowrap mb-0 align-middle">
+                <table class="table table-striped data-table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                         <tr>
                             <th class="border-bottom-0">
