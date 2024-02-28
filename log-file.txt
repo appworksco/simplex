@@ -32,6 +32,7 @@
 02/27/2024 11:30:10am : Adrian Pol Peligrino Added a ticket!, that has a ticket number of "79803237".
 02/27/2024 11:31:41am : Adrian Pol Peligrino assist a ticket!, that has a ticket number of "79803237".
 02/27/2024 11:41:33am : Adrian Pol Peligrino Added a ticket!, that has a ticket number of "51608175".
+<<<<<<< HEAD
 >>>>>>> 655b9d842008f3bdc7e9a5d968128a302cffcb2f
 02/27/2024 11:50:03am : Adrian Pol Peligrino has been logged in!
 02/27/2024 11:50:15am : Adrian Pol Peligrino Added a ticket!, that has a ticket number of "35975496".
@@ -39,3 +40,9 @@
 02/27/2024 12:00:08pm : Jared Christopher Cipriano Added a ticket!, that has a ticket number of "39247361".
 02/27/2024 12:00:36pm : Jared Christopher Cipriano assist a ticket!, that has a ticket number of "39247361".
 02/27/2024 12:01:42pm : Jared Christopher Cipriano Added a ticket!, that has a ticket number of "94215031".
+=======
+02/27/2024 12:34:39pm : Adrian Pol Peligrino Added a ticket!, that has a ticket number of "21897244".
+02/27/2024 02:12:33pm : Adrian Pol Peligrino has been logged out!
+02/27/2024 02:12:37pm : Adrian Pol Peligrino has been logged in!
+02/27/2024 03:21:41pm : Adrian Pol Peligrino created a ticket number of "72032624".
+>>>>>>> 1c0b3939cccf0b6dfe71afced4ed01895bd13de0
