@@ -55,9 +55,9 @@ class UsersFacade extends DBConnection
         return $sql;
     }
 
-    public function updateEmployee($employeeId, $companyId, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status)
+    public function updateEmployee($employeeId, $companyId, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $canCreate, $canUpdate, $canDelete, $status)
     {
-        $sql = $this->connect()->prepare("UPDATE users SET company_id = '$companyId', first_name = '$firstName', middle_name = '$middleName', last_name = '$lastName', birthdate = '$birthDate', blood_type = '$bloodType', address = '$address', contact_person = '$contactPerson', contact_person_number = '$contactPersonNumber', department = '$department', position = '$position', services = '$services', sss = '$sss', pag_ibig = '$pagIbig', phic = '$phic', tin = '$tin', status = '$status' WHERE id = '$employeeId'");
+        $sql = $this->connect()->prepare("UPDATE users SET company_id = '$companyId', first_name = '$firstName', middle_name = '$middleName', last_name = '$lastName', birthdate = '$birthDate', blood_type = '$bloodType', address = '$address', contact_person = '$contactPerson', contact_person_number = '$contactPersonNumber', department = '$department', position = '$position', services = '$services', sss = '$sss', pag_ibig = '$pagIbig', phic = '$phic', tin = '$tin', can_create = '$canCreate', can_update = '$canUpdate', can_delete = '$canDelete', status = '$status' WHERE id = '$employeeId'");
         $sql->execute();
         return $sql;
     }

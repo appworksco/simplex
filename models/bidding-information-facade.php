@@ -39,6 +39,12 @@ class BiddingInformationFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchBiddingByBMNO($BMNumber) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function verifyProjectTypeCode($projectTypeCode) {
         $sql = $this->connect()->prepare("SELECT * FROM bd_project_type WHERE project_type_code = ?");
         $sql->execute([$projectTypeCode]);
@@ -66,6 +72,12 @@ class BiddingInformationFacade extends DBConnection {
 
     public function updateTotalPaidPartial($totalPaid, $BMNumber) {
         $sql = $this->connect()->prepare("UPDATE bd_project_information SET total_paid = '$totalPaid' WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
+    public function updateProjectExpenseAmount($totalAmount, $BMNumber) {
+        $sql = $this->connect()->prepare("UPDATE bd_project_information SET project_expenses_amount = '$totalAmount' WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }

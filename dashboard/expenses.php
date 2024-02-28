@@ -38,8 +38,20 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
+if (isset($_SESSION["can_create"])) {
+    $canCreate = $_SESSION["can_create"];
+}
+if (isset($_SESSION["can_update"])) {
+    $canUpdate = $_SESSION["can_update"];
+}
+if (isset($_SESSION["can_delete"])) {
+    $canDelete = $_SESSION["can_delete"];
+}
+if (isset($_SESSION["department"])) {
+    $department = $_SESSION["department"];
+}
 if (isset($_GET["is_updated"])) {
-    $LGUId = $_GET["is_updated"];
+    $expenseId = $_GET["is_updated"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -53,33 +65,51 @@ if ($userId == 0) {
 
 if (isset($_POST["add_expense"])) {
     $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
     $expenseType = $_POST["expense_type"];
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $addExpense = $expensesFacade->addExpense($projectName, $projectTypeId, $LGUId, $expenseType, $totalAmount, $remarks);
-    if ($addExpense) {
-        array_push($success, 'Expense has been added successfully');
+    $fetchBiddingByBMNO = $biddingInformationFacade->fetchBiddingByBMNO($BMNumber);
+    while ($bidding = $fetchBiddingByBMNO->fetch(PDO::FETCH_ASSOC)) {
+        $projectBudgetAmount = $bidding["project_budget_amount"];
+        if ($projectBudgetAmount > $totalAmount) {
+            $addExpense = $expensesFacade->addExpense($projectName, $projectTypeId, $LGUId, $expenseType, $totalAmount, $remarks);
+            if ($addExpense) {
+                array_push($success, 'Expense has been added successfully');
+                // Update project expense amount in bidding
+                $biddingInformationFacade->updateProjectExpenseAmount($totalAmount, $BMNumber);
+            }
+        } else {
+            array_push($invalid, 'Amount has passed the allocated budget!');
+        }
     }
 }
 
-if (isset($_POST["update_lgu"])) {
+if (isset($_POST["update_expense"])) {
+    $expenseId = $_POST["expense_id"];
+    $projectName = $_POST["project_name"];
+    $BMNumber = $_POST["bm_no"];
+    $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
-    $LGUCode = $_POST["lgu_code"];
-    $LGUName = $_POST["lgu_name"];
-    $municipalityId = $_POST["municipality_id"];
+    $expenseType = $_POST["expense_type"];
+    $totalAmount = $_POST["total_amount"];
+    $remarks = $_POST["remarks"];
 
-    if (empty($LGUCode)) {
-        array_push($invalid, 'LGU Code should not be empty.');
-    }
-    if (empty($LGUName)) {
-        array_push($invalid, 'LGU Name should not be empty.');
-    } else {
-        $updateLGU = $LGUFacade->updateLGU($LGUCode, $LGUName, $municipalityId, $LGUId);
-        if ($updateLGU) {
-            array_push($success, 'LGU has been updated successfully');
+    $fetchBiddingByBMNO = $biddingInformationFacade->fetchBiddingByBMNO($BMNumber);
+    while ($bidding = $fetchBiddingByBMNO->fetch(PDO::FETCH_ASSOC)) {
+        $projectBudgetAmount = $bidding["project_budget_amount"];
+        if ($projectBudgetAmount > $totalAmount) {
+            $addExpense = $expensesFacade->updateExpense($projectName, $projectTypeId, $LGUId, $expenseType, $totalAmount, $remarks, $expenseId);
+            if ($addExpense) {
+                array_push($success, 'Expense has been added successfully');
+                // Update project expense amount in bidding
+                $biddingInformationFacade->updateProjectExpenseAmount($totalAmount, $BMNumber);
+            }
+        } else {
+            array_push($invalid, 'Amount has passed the allocated budget!');
         }
     }
 }
@@ -92,7 +122,9 @@ if (isset($_POST["update_lgu"])) {
         <div class="card-body p-4">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpensesModal">Add Expenses</button>
+                <?php if ($canCreate == 1) { ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpensesModal">Add Expenses</button>
+                <?php } ?>
             </div>
             <div class="py-2">
                 <?php include('../errors.php') ?>
@@ -130,8 +162,13 @@ if (isset($_POST["update_lgu"])) {
                         while ($row = $fetchExpenses->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">
-                                    <a href="lgu?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                    <a href="delete-lgu?lgu_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
+                                    <?php
+                                    if ($canUpdate == 1) { ?>
+                                        <a href="expenses?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <?php }
+                                    if ($canDelete == 1) { ?>
+                                        <a href="delete-expense?expense_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this municipality?');">Delete</a>
+                                    <?php } ?>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
@@ -155,16 +192,13 @@ if (isset($_POST["update_lgu"])) {
                                     ?>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <?php
-                                    $municipalityId = $row["municipality_id"];
-                                    $fetchMunicipalityById = $municipalitiesFacade->fetchMunicipalityById($municipalityId);
-                                    while ($municipality =  $fetchMunicipalityById->fetch(PDO::FETCH_ASSOC)) { ?>
-                                        <p class="mb-0 fw-normal"><?= $municipality["municipality_name"] ?></p>
-                                    <?php }
-                                    ?>
+                                    <p class="mb-0 fw-normal"><?= $row["expense_type"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["project_name"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -177,17 +211,17 @@ if (isset($_POST["update_lgu"])) {
 <!-- Content Wrapper End -->
 
 <?php include realpath(__DIR__ . '/../includes/modals/add-expenses-modal.php') ?>
-<?php include realpath(__DIR__ . '/../includes/modals/update-lgu-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/update-expense-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php
 // Open modal if add asset form is submitted
 if (isset($_GET["is_updated"])) {
-    $LGUId = $_GET["is_updated"];
-    if ($LGUId) {
+    $expenseId = $_GET["is_updated"];
+    if ($expenseId) {
         echo '<script type="text/javascript">
             $(document).ready(function(){
-                $("#updateLGUModal").modal("show");
+                $("#updateExpenseModal").modal("show");
             });
         </script>';
     } else {
@@ -235,6 +269,50 @@ if (isset($_GET["is_updated"])) {
                 success: function(data) {
                     $('#LGUId').html(data)
                 }
+            })
+        });
+    });
+
+    // update PO
+    $(document).ready(function() {
+        $('#updateProjectName').change(function() {
+            var projectName = $(this).val();
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateBMNoId').html(data)
+                }
+            })
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateProjectTypeId').html(data)
+                }
+            })
+
+            // // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#updateLGUId').html(data)
+                }
+
             })
         });
     });

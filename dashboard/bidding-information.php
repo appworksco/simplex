@@ -37,6 +37,15 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
+if (isset($_SESSION["can_create"])) {
+    $canCreate = $_SESSION["can_create"];
+}
+if (isset($_SESSION["can_update"])) {
+    $canUpdate = $_SESSION["can_update"];
+}
+if (isset($_SESSION["can_delete"])) {
+    $canDelete = $_SESSION["can_delete"];
+}
 if (isset($_GET["is_updated"])) {
     $biddingId = $_GET["is_updated"];
 }
@@ -104,7 +113,10 @@ if (isset($_POST["update_bidding"])) {
         <div class="card-body p-4">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title fw-semibold my-2">Bidding Information and Monitoring</h5>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBiddingModal">Add Bidding</button>
+                <?php
+                if ($canCreate == 1) { ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBiddingModal">Add Bidding</button>
+                <?php } ?>
             </div>
             <div class="py-2">
                 <?php include('../errors.php') ?>
@@ -141,6 +153,9 @@ if (isset($_POST["update_bidding"])) {
                                 <h6 class="fw-semibold mb-0">Project Budget Balance</h6>
                             </th>
                             <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">Project Expenses Amount</h6>
+                            </th>
+                            <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Total SKU Quantity</h6>
                             </th>
                             <th class="border-bottom-0">
@@ -157,8 +172,13 @@ if (isset($_POST["update_bidding"])) {
                         while ($row = $fetchBiddingInformation->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">
-                                    <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                    <a href="delete-bidding-information?bidding_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this bidding?');">Delete</a>
+                                    <?php
+                                    if ($canUpdate == 1) { ?>
+                                        <a href="bidding-information?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <?php }
+                                    if ($canDelete == 1) { ?>
+                                        <a href="delete-bidding-information?bidding_id=<?= $row["id"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this bidding?');">Delete</a>
+                                    <?php } ?>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["bm_no"] ?></p>
@@ -195,6 +215,9 @@ if (isset($_POST["update_bidding"])) {
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] - $row["total_paid"] ?></p>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <p class="mb-0 fw-normal"><?= $row["project_expenses_amount"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>

@@ -10,16 +10,16 @@ class ExpensesFacade extends DBConnection
         return $sql;
     }
 
-    public function fetchAssetsSeriesNumber()
+    public function fetchExpenseById($expenseId)
     {
-        $sql = $this->connect()->prepare("SELECT series_number FROM assets_series");
+        $sql = $this->connect()->prepare("SELECT * FROM bd_expense WHERE id = '$expenseId'");
         $sql->execute();
         return $sql;
     }
 
-    public function updateSeries($updatedSeries)
+    public function updateExpense($projectName, $projectTypeId, $LGUId, $expenseType, $totalAmount, $remarks, $expenseId)
     {
-        $sql = $this->connect()->prepare("UPDATE assets_series SET series_number = '$updatedSeries'");
+        $sql = $this->connect()->prepare("UPDATE bd_expense SET project_name = '$projectName', project_type_id = '$projectTypeId', lgu_id = '$LGUId', expense_type = '$expenseType', total_amount = '$totalAmount' WHERE id = '$expenseId'");
         $sql->execute();
         return $sql;
     }
@@ -31,9 +31,9 @@ class ExpensesFacade extends DBConnection
         return $sql;
     }
 
-    public function deleteAsset($assetNum)
+    public function deleteExpense($expenseId)
     {
-        $sql = $this->connect()->prepare("DELETE FROM assets WHERE id = $assetNum");
+        $sql = $this->connect()->prepare("DELETE FROM bd_expense WHERE id = $expenseId");
         $sql->execute();
         return $sql;
     }

@@ -41,6 +41,15 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
+if (isset($_SESSION["can_create"])) {
+    $canCreate = $_SESSION["can_create"];
+}
+if (isset($_SESSION["can_update"])) {
+    $canUpdate = $_SESSION["can_update"];
+}
+if (isset($_SESSION["can_delete"])) {
+    $canDelete = $_SESSION["can_delete"];
+}
 if (isset($_GET["is_updated"])) {
     $paymentId = $_GET["is_updated"];
 }
@@ -143,16 +152,6 @@ if (isset($_POST["partial_payment"])) {
     // Verify payment to PO total amount if exact
     $fetchPOByPONumber = $POFacade->fetchPOByPONumber($PONumber);
     while ($row = $fetchPOByPONumber->fetch(PDO::FETCH_ASSOC)) {
-
-        // Insert data first
-        // $remainingBalance = $row["total_amount"] - $totalPaid;
-        // $partialPayment = $paymentFacade->partialPayment($remainingBalance, $oneBillNumber, $onePaymentMode, $onePaymentDate, $onePaymentAmount, $onePaymentReceiptNumber, $twoBillNumber, $twoPaymentMode, $twoPaymentDate, $twoPaymentAmount, $twoPaymentReceiptNumber, $threeBillNumber, $threePaymentMode, $threePaymentDate, $threePaymentAmount, $threePaymentReceiptNumber, $fourBillNumber, $fourPaymentMode, $fourPaymentDate, $fourPaymentAmount, $fourPaymentReceiptNumber, $fiveBillNumber, $fivePaymentMode, $fivePaymentDate, $fivePaymentAmount, $fivePaymentReceiptNumber, $paymentId);
-        // if ($partialPayment) {
-        //     array_push($success, 'Bidding has been updated successfully');
-        //     // Update total paid on bidding information
-        //     $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
-        // }
-
         // Check total amount and total paid if greater than then set delivery and payment to delivered and paid if not insert data
         if ($row["total_amount"] <= $totalPaid) {
             // Update delivery if payment is fully paid
@@ -240,8 +239,13 @@ if (isset($_POST["partial_payment"])) {
                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">
-                                    <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                    <a href="delete-payment?payment_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this payments?');">Delete</a>
+                                    <?php
+                                    if ($canUpdate == 1) { ?>
+                                        <a href="payments?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <?php }
+                                    if ($canDelete == 1) { ?>
+                                        <a href="delete-payment?payment_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this payments?');">Delete</a>
+                                    <?php } ?>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>

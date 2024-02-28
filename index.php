@@ -34,6 +34,9 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
                 $_SESSION["last_name"] = $row["last_name"];
                 $_SESSION["department"] = $row["department"];
                 $_SESSION["position"] = $row["position"];
+                $_SESSION["can_create"] = $row["can_create"];
+                $_SESSION["can_update"] = $row["can_update"];
+                $_SESSION["can_delete"] = $row["can_delete"];
 
                 // Add login log
                 $logFile = fopen("log-file.txt", "a") or die("Unable to open file!");
