@@ -55,38 +55,42 @@ if ($userId == 0) {
         <!-- Content Wrapper Start -->
         <div class="content-wrapper">
             <div class="process-map">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="card-title m-0">Process Map</h6>
+                <?php
+                if ($department == 'BI') {
+                ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title m-0">Process Map</h6>
+                        </div>
+                        <div class="card-body">
+                            <button class="btn p-0 m-0" id="projectTypeButton">
+                                <img src="../dist/buttons/project-type-master.jpg" alt="Project Type Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="municipalityButton">
+                                <img src="../dist/buttons/municipality-master.jpg" alt="Municipality Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="LGUButton">
+                                <img src="../dist/buttons/lgu-master.jpg" alt="LGU Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="biddingInformationButton">
+                                <img src="../dist/buttons/bidding-information.jpg" alt="Bidding Information Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="purchaseOrderButton">
+                                <img src="../dist/buttons/purchase-order.jpg" alt="Purchase Order Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="deliveriesButton">
+                                <img src="../dist/buttons/deliveries.jpg" alt="Deliveries Button" style="width: 120px;">
+                            </button>
+                            <button class="btn p-0 m-0" id="accountsPaymentButton">
+                                <img src="../dist/buttons/accounts-payment.jpg" alt="Accounts Payment Button" style="width: 120px;">
+                            </button>
+                            <hr>
+                            <button class="btn p-0 m-0" id="expensesButton">
+                                <img src="../dist/buttons/expenses.jpg" alt="Expenses Button" style="width: 120px;">
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <button class="btn p-0 m-0" id="projectTypeButton">
-                            <img src="../dist/buttons/project-type-master.jpg" alt="Project Type Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="municipalityButton">
-                            <img src="../dist/buttons/municipality-master.jpg" alt="Municipality Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="LGUButton">
-                            <img src="../dist/buttons/lgu-master.jpg" alt="LGU Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="biddingInformationButton">
-                            <img src="../dist/buttons/bidding-information.jpg" alt="Bidding Information Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="purchaseOrderButton">
-                            <img src="../dist/buttons/purchase-order.jpg" alt="Purchase Order Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="deliveriesButton">
-                            <img src="../dist/buttons/deliveries.jpg" alt="Deliveries Button" style="width: 120px;">
-                        </button>
-                        <button class="btn p-0 m-0" id="accountsPaymentButton">
-                            <img src="../dist/buttons/accounts-payment.jpg" alt="Accounts Payment Button" style="width: 120px;">
-                        </button>
-                        <hr>
-                        <button class="btn p-0 m-0" id="expensesButton">
-                            <img src="../dist/buttons/expenses.jpg" alt="Expenses Button" style="width: 120px;">
-                        </button>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
         <!-- Content Wrapper End -->

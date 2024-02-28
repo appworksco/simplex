@@ -6,7 +6,6 @@ include realpath(__DIR__ . '/../models/services-facade.php');
 include realpath(__DIR__ . '/../models/issues-facade.php');
 include realpath(__DIR__ . '/../models/cts-facade.php');
 
-
 $positionsFacade = new PositionsFacade;
 $servicesFacade = new ServicesFacade;
 $issuesFacade = new IssuesFacade;
@@ -70,7 +69,7 @@ if (isset($_POST["add_ticket"])) {
             // Add Ticket log
             $logFilePath = "../log-file.txt"; // Gamitin ang ../ upang pumunta sa parent directory
             $logFile = fopen($logFilePath, "a") or die("Unable to open file!");
-            $txt = date("m/d/Y h:i:sa") . " : " . $firstName . ' ' . $lastName . ' Added a ticket!, that has a ticket number of "' . $ticketNo . '".' . "\n";
+            $txt = date("m/d/Y h:i:sa") . " : " . $firstName . ' ' . $lastName . ' created a ticket number of "' . $ticketNo . '".' . "\n";
             fwrite($logFile, $txt);
             fclose($logFile);
 
@@ -96,7 +95,7 @@ if (isset($_POST["update_ticket"])) {
             // Update ticket log
             $logFilePath = "../log-file.txt"; // Gamitin ang ../ upang pumunta sa parent directory
             $logFile = fopen($logFilePath, "a") or die("Unable to open file!");
-            $txt = date("m/d/Y h:i:sa") . " : " . $assistedBy . ' assist a ticket!, that has a ticket number of "' . $ticket_no . '".' . "\n";
+            $txt = date("m/d/Y h:i:sa") . " : " . $assistedBy . ' assisted a ticket number of "' . $ticket_no . '".' . "\n";
             fwrite($logFile, $txt);
             fclose($logFile);
 
@@ -154,8 +153,9 @@ if (isset($_POST["update_ticket"])) {
                                     <?php if ($row["status"] != 'Done' && $row["status"] != 'Undone') : ?>
                                         <a href="cts?is_updated=<?= $row["id"] ?>" class="btn btn-sm btn-info">Assist</a>
                                     <?php else : ?>
-                                        <button class="btn btn-sm btn-default">Assist</button>
+                                        <button class="btn btn-sm btn-default">Assisted</button>
                                     <?php endif; ?>
+                                    <a href="cts" class="btn btn-sm btn-info">Chat</a>
                                     <a href="delete-ticket?cts_id=<?= $row["id"] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this ticket?');">Delete</a>
                                 </td>
                                 <td class="border-bottom-0">
@@ -181,6 +181,10 @@ if (isset($_POST["update_ticket"])) {
                             ?>
                                 <tr>
                                     <td class="border-bottom-0">
+                                        <a href="cts?is_show=<?= $row["id"] ?>" class="btn btn-sm btn-success">Details</a>
+                                        <a href="cts" class="btn btn-sm btn-info">Chat</a>
+                                    </td>
+                                    <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal"><?= $row["requested_by"] ?> (<?= $row["department"] ?>)</p>
                                     </td>
                                     <td class="border-bottom-0">
@@ -194,9 +198,6 @@ if (isset($_POST["update_ticket"])) {
                                     </td>
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal"><?= $row["status"] ?></p>
-                                    </td>
-                                    <td class="border-bottom-0">
-                                        <a href="cts?is_show=<?= $row["id"] ?>" class="btn btn-sm btn-success">Details</a>
                                     </td>
                                 </tr>
                     <?php

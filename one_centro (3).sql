@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2024 at 04:43 AM
+-- Generation Time: Feb 28, 2024 at 03:46 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -382,9 +382,16 @@ CREATE TABLE `bd_expense` (
   `bm_no` varchar(50) NOT NULL,
   `lgu_id` int(11) NOT NULL,
   `expense_type` varchar(255) NOT NULL,
-  `expense_amount` double NOT NULL,
+  `total_amount` double NOT NULL,
   `remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_expense`
+--
+
+INSERT INTO `bd_expense` (`id`, `project_name`, `project_type_id`, `bm_no`, `lgu_id`, `expense_type`, `total_amount`, `remarks`) VALUES
+(1, 'test', 5, '', 5, 'NOTARIAL FEE', 100, 'qweqwe');
 
 -- --------------------------------------------------------
 
@@ -627,6 +634,13 @@ CREATE TABLE `cts` (
   `assistors_remark` text NOT NULL,
   `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cts`
+--
+
+INSERT INTO `cts` (`id`, `ticket_no`, `created_at`, `time_resolved`, `requested_by`, `department`, `issue`, `description`, `severity`, `assisted_by`, `assistors_remark`, `status`) VALUES
+(6, 72032624, '2024-02-27 15:21:41', '', 'Adrian Pol Peligrino', 'ICT', 'Barter', 'fghfgh', 'Low', '', '', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -972,7 +986,7 @@ ALTER TABLE `bd_deliveries`
 -- AUTO_INCREMENT for table `bd_expense`
 --
 ALTER TABLE `bd_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bd_lgu`
@@ -1020,7 +1034,7 @@ ALTER TABLE `bd_project_type`
 -- AUTO_INCREMENT for table `cts`
 --
 ALTER TABLE `cts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `departments`

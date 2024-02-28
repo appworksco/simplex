@@ -7,7 +7,10 @@ include realpath(__DIR__ . '/../models/departments-facade.php');
 include realpath(__DIR__ . '/../models/services-facade.php');
 include realpath(__DIR__ . '/../models/municipalities-facade.php');
 include realpath(__DIR__ . '/../models/lgu-facade.php');
+include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/expenses-facade.php');
+include realpath(__DIR__ . '/../models/bidding-information-facade.php');
+
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -15,7 +18,9 @@ $departmentsFacade = new DepartmentsFacade;
 $servicesFacade = new ServicesFacade;
 $municipalitiesFacade = new MunicipalitiesFacade;
 $LGUFacade = new LGUFacade;
+$projectTypeFacade = new ProjectTypeFacade;
 $expensesFacade = new ExpensesFacade;
+$biddingInformationFacade = new BiddingInformationFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -46,26 +51,17 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_lgu"])) {
-    $LGUCode = $_POST["lgu_code"];
-    $LGUName = $_POST["lgu_name"];
-    $municipalityId = $_POST["municipality_id"];
+if (isset($_POST["add_expense"])) {
+    $projectName = $_POST["project_name"];
+    $projectTypeId = $_POST["project_type_id"];
+    $LGUId = $_POST["lgu_id"];
+    $expenseType = $_POST["expense_type"];
+    $totalAmount = $_POST["total_amount"];
+    $remarks = $_POST["remarks"];
 
-    if (empty($LGUCode)) {
-        array_push($invalid, 'LGU Code should not be empty.');
-    }
-    if (empty($LGUName)) {
-        array_push($invalid, 'LGU Name should not be empty.');
-    } else {
-        $verifyLGUCodeName = $LGUFacade->verifyLGU($LGUCode, $LGUName);
-        if ($verifyLGUCodeName > 0) {
-            array_push($invalid, 'LGU has already been added.');
-        } else {
-            $addLGU = $LGUFacade->addLGU($LGUCode, $LGUName, $municipalityId);
-            if ($addLGU) {
-                array_push($success, 'LGU has been added successfully');
-            }
-        }
+    $addExpense = $expensesFacade->addExpense($projectName, $projectTypeId, $LGUId, $expenseType, $totalAmount, $remarks);
+    if ($addExpense) {
+        array_push($success, 'Expense has been added successfully');
     }
 }
 
@@ -96,7 +92,7 @@ if (isset($_POST["update_lgu"])) {
         <div class="card-body p-4">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title fw-semibold my-2">Overview</h5>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLGUModal">Add LGU</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExpensesModal">Add Expenses</button>
             </div>
             <div class="py-2">
                 <?php include('../errors.php') ?>
@@ -180,7 +176,7 @@ if (isset($_POST["update_lgu"])) {
 </div>
 <!-- Content Wrapper End -->
 
-<?php include realpath(__DIR__ . '/../includes/modals/add-lgu-modal.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/add-expenses-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-lgu-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
@@ -198,3 +194,48 @@ if (isset($_GET["is_updated"])) {
     }
 }
 ?>
+
+<script>
+    // add Expense
+    $(document).ready(function() {
+        $('#projectName').change(function() {
+            var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoId').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectTypeId').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#LGUId').html(data)
+                }
+            })
+        });
+    });
+</script>
