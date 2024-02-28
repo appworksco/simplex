@@ -41,6 +41,15 @@ if (isset($_SESSION["last_name"])) {
 if (isset($_SESSION["department"])) {
     $department = $_SESSION["department"];
 }
+if (isset($_SESSION["can_create"])) {
+    $canCreate = $_SESSION["can_create"];
+}
+if (isset($_SESSION["can_update"])) {
+    $canUpdate = $_SESSION["can_update"];
+}
+if (isset($_SESSION["can_delete"])) {
+    $canDelete = $_SESSION["can_delete"];
+}
 if (isset($_GET["is_updated"])) {
     $deliveryId = $_GET["is_updated"];
 }
@@ -117,7 +126,9 @@ if (isset($_POST["update_delivery"])) {
         <div class="card-body p-4">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title fw-semibold my-2">Delivery Reports</h5>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
+                <?php if ($canCreate == 1) { ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeliveryModal">Add Delivery</button>
+                <?php } ?>
             </div>
             <div class="py-2">
                 <?php include('../errors.php') ?>
@@ -161,8 +172,13 @@ if (isset($_POST["update_delivery"])) {
                         while ($row = $fetchDeliveries->fetch(PDO::FETCH_ASSOC)) { ?>
                             <tr>
                                 <td class="border-bottom-0">
-                                    <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
-                                    <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
+                                    <?php
+                                    if ($canUpdate == 1) { ?>
+                                        <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
+                                    <?php }
+                                    if ($canDelete == 1) { ?>
+                                        <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
+                                    <?php } ?>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>

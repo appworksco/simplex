@@ -108,6 +108,9 @@ if (isset($_POST["update_employee"])) {
     $pagIbig = $_POST["pag_ibig"];
     $phic = $_POST["phic"];
     $tin = $_POST["tin"];
+    $canCreate = $_POST["can_create"];
+    $canUpdate = $_POST["can_update"];
+    $canDelete = $_POST["can_delete"];
     $status = $_POST["status"];
 
     if (empty($firstName)) {
@@ -122,7 +125,7 @@ if (isset($_POST["update_employee"])) {
     if (empty($address)) {
         array_push($invalid, 'Address should not be empty.');
     } else {
-        $updateEmployee = $usersFacade->updateEmployee($employeeId, $companyId, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status);
+        $updateEmployee = $usersFacade->updateEmployee($employeeId, $companyId, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $canCreate, $canUpdate, $canDelete, $status);
         if ($updateEmployee) {
             array_push($success, 'Employee has been updated successfully');
         }
