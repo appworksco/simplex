@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2024 at 05:23 PM
+-- Generation Time: Feb 29, 2024 at 06:03 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -633,6 +633,7 @@ CREATE TABLE `cts` (
   `severity` varchar(20) NOT NULL,
   `assisted_by` varchar(50) NOT NULL,
   `assistors_remark` text NOT NULL,
+  `image` text NOT NULL,
   `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -640,8 +641,56 @@ CREATE TABLE `cts` (
 -- Dumping data for table `cts`
 --
 
-INSERT INTO `cts` (`id`, `ticket_no`, `created_at`, `time_resolved`, `requested_by`, `department`, `issue`, `description`, `severity`, `assisted_by`, `assistors_remark`, `status`) VALUES
-(6, 72032624, '2024-02-27 15:21:41', '', 'Adrian Pol Peligrino', 'ICT', 'Barter', 'fghfgh', 'Low', '', '', 'Pending');
+INSERT INTO `cts` (`id`, `ticket_no`, `created_at`, `time_resolved`, `requested_by`, `department`, `issue`, `description`, `severity`, `assisted_by`, `assistors_remark`, `image`, `status`) VALUES
+(7, 32612658, '2024-02-29 11:38:42', '', 'Test Test', 'HR', 'Monitor', 'tryrty', 'Low', '', '', 'uploads/65dffc42081ba_35-350824_green-arrow-green-right-arrow-icon.png', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cts_chat`
+--
+
+CREATE TABLE `cts_chat` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `cts_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cts_chat`
+--
+
+INSERT INTO `cts_chat` (`id`, `user_id`, `cts_id`, `message`, `created_at`) VALUES
+(5, 45, 5, 'kamusta sir', '2024-02-28 08:07:10'),
+(6, 45, 6, 'Hi ho', '2024-02-28 08:07:57'),
+(7, 45, 5, 'kamusta na man', '2024-02-28 08:08:39'),
+(8, 43, 5, 'okay lang sir', '2024-02-28 08:09:43'),
+(9, 43, 5, 'okay lang sir', '2024-02-28 08:12:48'),
+(10, 43, 5, 'hiiillloooo', '2024-02-28 08:13:13'),
+(11, 43, 6, 'goods lang sir', '2024-02-28 08:18:15'),
+(12, 43, 5, 'demo', '2024-02-28 08:21:08'),
+(13, 44, 5, 'dededededemo', '2024-02-28 08:23:14'),
+(14, 44, 5, 'aaaaaaaaa', '2024-02-28 08:25:18'),
+(15, 44, 5, 'bbbbbbbbb', '2024-02-28 08:26:08'),
+(16, 44, 5, 'ay sir unsaon deay pag delete ug message?', '2024-02-28 08:27:18'),
+(17, 45, 6, 'hello kier', '2024-02-28 08:38:55'),
+(18, 45, 6, 'kamusta na man', '2024-02-28 08:40:00'),
+(19, 45, 6, 'heeelll', '2024-02-28 08:40:11'),
+(20, 45, 5, 'kuan, kuhaa lang ang message para ma delete siya', '2024-02-29 00:34:42'),
+(21, 45, 5, 'hi', '2024-02-29 00:35:34'),
+(22, 43, 5, 'hello', '2024-02-29 00:36:47'),
+(23, 45, 6, 'hjsadjasdas', '2024-02-29 02:28:48'),
+(24, 43, 5, 'hoyy', '2024-02-29 02:30:00'),
+(25, 44, 6, 'kamusta sir', '2024-02-29 02:31:58'),
+(26, 45, 6, 'okay lang', '2024-02-29 02:32:38'),
+(27, 44, 6, 'ano po ba ang dapat na gawin', '2024-02-29 02:44:20'),
+(28, 45, 9, 'okay lang po ba?', '2024-02-29 02:47:25'),
+(29, 43, 11, 'pwedi padali-an ni sir, kay wala koy magamit. ', '2024-02-29 03:08:56'),
+(30, 45, 11, 'pwedi sir', '2024-02-29 03:20:34'),
+(31, 20, 7, 'Hi', '2024-02-29 03:39:25'),
+(32, 1, 7, 'Hello', '2024-02-29 03:39:47');
 
 -- --------------------------------------------------------
 
@@ -929,6 +978,14 @@ ALTER TABLE `cts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `cts_chat`
+--
+ALTER TABLE `cts_chat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_id` (`user_id`),
+  ADD KEY `fk_cts_id` (`cts_id`);
+
+--
 -- Indexes for table `departments`
 --
 ALTER TABLE `departments`
@@ -1038,7 +1095,13 @@ ALTER TABLE `bd_project_type`
 -- AUTO_INCREMENT for table `cts`
 --
 ALTER TABLE `cts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `cts_chat`
+--
+ALTER TABLE `cts_chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `departments`
