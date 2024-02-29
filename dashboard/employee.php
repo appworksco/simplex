@@ -142,7 +142,7 @@ if (isset($_POST["update_employee"])) {
                 <h5 class="card-title fw-semibold my-2">Manage Employee</h5>
                 <!-- Administrator View Start -->
                 <!-- HR Associate - Talent Acquisition and Retention can only see the button -->
-                <?php if ($position == 'HRATAR') { ?>
+                <?php if ($canCreate === 1) { ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
                 <?php } ?>
             </div>
