@@ -30,6 +30,15 @@ if (isset($_SESSION["department"])) {
 if (isset($_SESSION["position"])) {
     $position = $_SESSION["position"];
 }
+if (isset($_SESSION["can_create"])) {
+    $canCreate = $_SESSION["can_create"];
+}
+if (isset($_SESSION["can_update"])) {
+    $canUpdate = $_SESSION["can_update"];
+}
+if (isset($_SESSION["can_delete"])) {
+    $canDelete = $_SESSION["can_delete"];
+}
 if (isset($_GET["is_updated"])) {
     $employeeId = $_GET["is_updated"];
 }
