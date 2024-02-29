@@ -15,9 +15,9 @@ class CTSFacade extends DBConnection
         return $sql;
     }
 
-    public function addTicket($ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity) {
-        $sql = $this->connect()->prepare("INSERT INTO cts(ticket_no, created_at, requested_by, department, status, issue, description, severity) VALUES (?,?,?,?,?,?,?,?)");
-        $sql->execute([$ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity,]);
+    public function addTicket($ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity, $file_path) {
+        $sql = $this->connect()->prepare("INSERT INTO cts(ticket_no, created_at, requested_by, department, status, issue, description, severity, image) VALUES (?,?,?,?,?,?,?,?,?)");
+        $sql->execute([$ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity, $file_path,]); 
         return $sql;
     }
 
@@ -30,6 +30,18 @@ class CTSFacade extends DBConnection
     public function deleteTicket($ctsId) {
         $sql = $this->connect()->prepare("DELETE FROM cts WHERE id = $ctsId");
         $sql->execute();
+        return $sql;
+    }
+
+    public function fetchChatMessages($ctsId) {
+        $sql = $this->connect()->prepare("SELECT * FROM cts_chat WHERE cts_id = ? ORDER BY created_at ASC");
+        $sql->execute([$ctsId]);
+        return $sql;
+    }
+
+    public function addChatMessage($userId, $ctsId, $message) {
+        $sql = $this->connect()->prepare("INSERT INTO cts_chat (user_id, cts_id, message) VALUES (?, ?, ?)");
+        $sql->execute([$userId, $ctsId, $message]);
         return $sql;
     }
 }

@@ -5,11 +5,13 @@ include realpath(__DIR__ . '/../models/positions-facade.php');
 include realpath(__DIR__ . '/../models/services-facade.php');
 include realpath(__DIR__ . '/../models/issues-facade.php');
 include realpath(__DIR__ . '/../models/cts-facade.php');
+include realpath(__DIR__ . '/../models/users-facade.php');          
 
 $positionsFacade = new PositionsFacade;
 $servicesFacade = new ServicesFacade;
 $issuesFacade = new IssuesFacade;
 $ctsFacade = new CTSFacade;
+$usersFacade = new UsersFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -32,6 +34,9 @@ if (isset($_GET["is_updated"])) {
 }
 if (isset($_GET["is_show"])) {
     $ctsId = $_GET["is_show"];
+}
+if (isset($_GET["is_chat"])) {
+    $ctsId = $_GET["is_chat"];
 }
 if (isset($_GET["delete_msg"])) {
     $msg = $_GET["delete_msg"];
@@ -60,12 +65,20 @@ if (isset($_POST["add_ticket"])) {
     $description = $_POST["description"];
     $severity = $_POST["severity"];
 
+    // Kunin ang pangalan ng file at itakda ang file path para sa pag-upload
+    $file_name = uniqid() . '_' . $_FILES['image']['name'];
+    $file_tmp = $_FILES['image']['tmp_name'];
+    $file_path = "uploads/" . $file_name;
+
     if (empty($description)) {
         array_push($invalid, 'Description should not be empty.');
     } else {
         // Idagdag ang ticket sa database
-        $addTicket = $ctsFacade->addTicket($ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity);
+        $addTicket = $ctsFacade->addTicket($ticketNo, $created_at, $requestedBy, $department, $status, $issue, $description, $severity, $file_path);
         if ($addTicket) {
+            // I-upload ang larawan sa server
+            move_uploaded_file($file_tmp, $file_path);
+
             // Add Ticket log
             $logFilePath = "../log-file.txt"; // Gamitin ang ../ upang pumunta sa parent directory
             $logFile = fopen($logFilePath, "a") or die("Unable to open file!");
@@ -100,6 +113,25 @@ if (isset($_POST["update_ticket"])) {
             fclose($logFile);
 
             array_push($success, 'Ticket has been updated successfully');
+        }
+    }
+}
+
+if (isset($_POST["cts_chat"])) {
+    $userId = $_POST["user_id"];
+    $ctsId = $_POST["cts_id"];
+    $message = $_POST["message"];
+
+    if (empty($message)) {
+        array_push($invalid, 'at least say a word or phrase.');
+    } else {
+        $ctsChat = $ctsFacade->addChatMessage($userId, $ctsId, $message);
+        if ($ctsChat) {
+
+            array_push($success, 'Message sent');
+
+            header("Location: cts?is_chat=$ctsId");
+            exit();
         }
     }
 }
@@ -153,9 +185,9 @@ if (isset($_POST["update_ticket"])) {
                                     <?php if ($row["status"] != 'Done' && $row["status"] != 'Undone') : ?>
                                         <a href="cts?is_updated=<?= $row["id"] ?>" class="btn btn-sm btn-info">Assist</a>
                                     <?php else : ?>
-                                        <button class="btn btn-sm btn-default">Assisted</button>
+                                        <button class="btn btn-sm btn-default">solved</button>
                                     <?php endif; ?>
-                                    <a href="cts" class="btn btn-sm btn-info">Chat</a>
+                                    <a href="cts?is_chat=<?= $row["id"] ?>" class="btn btn-sm btn-primary">Chat</a>
                                     <a href="delete-ticket?cts_id=<?= $row["id"] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this ticket?');">Delete</a>
                                 </td>
                                 <td class="border-bottom-0">
@@ -177,15 +209,21 @@ if (isset($_POST["update_ticket"])) {
                             <?php
                         } else {
                             // Check kung ang department ng ticket ay katulad ng department ng user
-                            if ($department == $row["department"]) {
+                            if ($row["requested_by"] == "$firstName $lastName") {
                             ?>
                                 <tr>
                                     <td class="border-bottom-0">
                                         <a href="cts?is_show=<?= $row["id"] ?>" class="btn btn-sm btn-success">Details</a>
-                                        <a href="cts" class="btn btn-sm btn-info">Chat</a>
+                                        <?php
+                                        // Check if the logged-in user is the owner of the ticket before showing the chat button
+                                        $ticketOwnerId = $usersFacade->fetchUserIdById($userId); 
+                                        if ($userId == $ticketOwnerId) {
+                                            echo '<a href="cts?is_chat=' . $row["id"] . '" class="btn btn-sm btn-primary">Chat</a>';
+                                        }
+                                        ?>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <p class="mb-0 fw-normal"><?= $row["requested_by"] ?> (<?= $row["department"] ?>)</p>
+                                        <p class="mb-0 fw-normal">You</p>
                                     </td>
                                     <td class="border-bottom-0">
                                         <p class="mb-0 fw-normal"><?= $row["severity"] ?></p>
@@ -214,6 +252,7 @@ if (isset($_POST["update_ticket"])) {
 <?php include realpath(__DIR__ . '/../includes/modals/add-ticket-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/update-ticket-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/modals/view-ticket-details.php') ?>
+<?php include realpath(__DIR__ . '/../includes/modals/chat-modal.php') ?>
 <?php include realpath(__DIR__ . '/../includes/layout/dashboard-footer.php') ?>
 
 <?php
@@ -235,6 +274,18 @@ if (isset($_GET["is_show"])) {
         echo '<script type="text/javascript">
                 $(document).ready(function(){
                     $("#viewTicketDetails").modal("show");
+                });
+            </script>';
+    } else {
+    }
+}
+
+if (isset($_GET["is_chat"])) {
+    $ctsId = $_GET["is_chat"];
+    if ($ctsId) {
+        echo '<script type="text/javascript">
+                $(document).ready(function(){
+                    $("#chatModal").modal("show");
                 });
             </script>';
     } else {
