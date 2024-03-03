@@ -75,22 +75,14 @@ if (isset($_POST["full_payment"])) {
     $paymentReceiptNumber = $_POST["payment_receipt_number"];
     $isPaid = 1;
 
-    // Verify payment to PO total amount if exact
-    $fetchPOByPONumber = $POFacade->fetchPOByPONumber($PONumber);
-    while ($row = $fetchPOByPONumber->fetch(PDO::FETCH_ASSOC)) {
-        if ($row["id"] > $paymentAmount) {
-            array_push($invalid, 'The payment amount is not precise.');
-        } else {
-            $fullPayment = $paymentFacade->fullPayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $paymentId, $isPaid);
-            if ($fullPayment) {
-                array_push($success, 'Payment has been updated successfully');
-                // Update delivery if payment is fully paid
-                $deliveriesFacade->isPaid($PONumber);
-                // Update total paid on bidding information
-                $remainingBalance = $paymentAmount;
-                $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
-            }
-        }
+    $fullPayment = $paymentFacade->fullPayment($billNumber, $billDate, $paymentMode, $paymentDate, $paymentAmount, $paymentReceiptNumber, $paymentId, $isPaid);
+    if ($fullPayment) {
+        array_push($success, 'Payment has been updated successfully');
+        // Update delivery if payment is fully paid
+        $deliveriesFacade->isPaid($PONumber);
+        // Update total paid on bidding information
+        $remainingBalance = $paymentAmount;
+        $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
     }
 }
 

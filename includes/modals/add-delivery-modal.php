@@ -14,8 +14,8 @@
                                 <select class="form-select" id="projectName" name="project_name">
                                     <option value="">Please Select...</option>
                                     <?php
-                                    $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingInformation();
-                                    while ($row = $fetchBiddingInformaion->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    $fetchPO = $POFacade->fetchPO();
+                                    while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                         <option value="<?= $row["project_name"] ?>"><?= $row["project_name"] ?></option>
                                     <?php } ?>
                                 </select>
@@ -48,14 +48,40 @@
                                 <label for="DRDate" class="form-label">DR Date (mm/dd/yyyy)</label>
                                 <input type="text" class="form-control" id="DRDate" name="dr_date">
                             </div>
+
+                            <!-- Has multiple delivery -->
                             <div class="mb-3">
-                                <label for="totalQuantity" class="form-label">Total Quantity</label>
-                                <select class="form-select" id="totalQuantity" name="total_quantity"></select>
+                                <label for="hasMultipleDelivery" class="form-label">Has Multiple Delivery</label>
+                                <select class="form-select" id="hasMultipleDelivery" name="has_multiple_delivery">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="totalAmount" class="form-label">Total Amount</label>
-                                <select class="form-select" id="totalAmount" name="total_amount"></select>
+
+                            <!-- Has multiple delivery -->
+                            <div id="hasMultipleDeliveryYes">
+                                <div class="mb-3">
+                                    <label for="totalQuantityCustom" class="form-label">Total Quantity</label>
+                                    <input type="text" class="form-select" id="totalQuantityCustom" name="total_quantity_custom">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="totalAmountCustom" class="form-label">Total Amount</label>
+                                    <input type="text" class="form-select" id="totalAmountCustom" name="total_amount_custom">
+                                </div>
                             </div>
+
+                            <!-- No multiple delivery -->
+                            <div id="noMultipleDeliveryNo" style="display: none">
+                                <div class="mb-3">
+                                    <label for="totalQuantity" class="form-label">Total Quantity</label>
+                                    <select class="form-select" id="totalQuantity" name="total_quantity"></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="totalAmount" class="form-label">Total Amount</label>
+                                    <select class="form-select" id="totalAmount" name="total_amount"></select>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary" name="add_delivery">Add Delivery</button>

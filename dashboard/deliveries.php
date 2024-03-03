@@ -71,20 +71,32 @@ if (isset($_POST["add_delivery"])) {
     $PONumber = $_POST["po_number"];
     $DRNumber = $_POST["dr_number"];
     $DRDate = $_POST["dr_date"];
-    $totalQuantity = $_POST["total_quantity"];
-    $totalAmount = $_POST["total_amount"];
-    $billQuantity = $totalQuantity;
-    $billAmount = $totalAmount;
-    $remainingBalance = $totalAmount;
 
-    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-    if ($verifyDeliveryByName > 0) {
-        array_push($invalid, 'Delivery has already been added.');
-    } else {
+    $hasMultipleDelivery = $_POST["has_multiple_delivery"];
+    if ($hasMultipleDelivery == 'Yes') {
+        $totalQuantity = $_POST["total_quantity_custom"];
+        $totalAmount = $_POST["total_amount_custom"];
+        $billQuantity = $totalQuantity;
+        $billAmount = $totalAmount;
+        $remainingBalance = $totalAmount;
+        $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
         $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
         if ($addDelivery) {
-            // Update PO is_delivered
-            $POFacade->isDelivered($PONumber);
+            array_push($success, 'Delivery has been added successfully');
+            // Add payment when delivery is added
+            $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+            // Add total delivered in bidding information
+            $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+        }
+    } else {
+        $totalQuantity = $_POST["total_quantity"];
+        $totalAmount = $_POST["total_amount"];
+        $billQuantity = $totalQuantity;
+        $billAmount = $totalAmount;
+        $remainingBalance = $totalAmount;
+        $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+        $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+        if ($addDelivery) {
             array_push($success, 'Delivery has been added successfully');
             // Add payment when delivery is added
             $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
@@ -246,6 +258,18 @@ if (isset($_GET["is_updated"])) {
 
 <script>
     $(document).ready(function() {
+
+        // Has multiple delivery
+        $('#hasMultipleDelivery').on('change', function() {
+            if (this.value == 'Yes') {
+                $("#hasMultipleDeliveryYes").show();
+                $("#noMultipleDeliveryNo").hide();
+            } else {
+                $("#hasMultipleDeliveryYes").hide();
+                $("#noMultipleDeliveryNo").show();
+            }
+        });
+
         // Add delivery
         $('#projectName').change(function() {
             var projectName = $(this).val();

@@ -73,7 +73,7 @@ if (isset($_POST["add_purchase_order"])) {
 
     $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
     if ($addPO) {
-        array_push($success, 'Bidding has been added successfully');
+        array_push($success, 'Purchase Order has been added successfully');
     }
 }
 
@@ -91,7 +91,7 @@ if (isset($_POST["update_purchase_order"])) {
 
     $updatePO = $POFacade->updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
     if ($updatePO) {
-        array_push($success, 'Bidding has been updated successfully');
+        array_push($success, 'Purchase Order has been updated successfully');
     }
 }
 
