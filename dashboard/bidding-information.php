@@ -10,6 +10,7 @@ include realpath(__DIR__ . '/../models/lgu-facade.php');
 include realpath(__DIR__ . '/../models/project-type-facade.php');
 include realpath(__DIR__ . '/../models/bidding-information-facade.php');
 include realpath(__DIR__ . '/../models/payment-facade.php');
+include realpath(__DIR__ . '/../models/purchase-order-facade.php');
 
 $usersFacade = new UsersFacade;
 $positionsFacade = new PositionsFacade;
@@ -20,6 +21,7 @@ $LGUFacade = new LGUFacade;
 $projectTypeFacade = new ProjectTypeFacade;
 $biddingInformationFacade = new BiddingInformationFacade;
 $paymentFacade = new PaymentFacade;
+$POFacade = new PurchaseOrderFacade;
 
 $userId = 0;
 if (isset($_SESSION["user_id"])) {
@@ -223,7 +225,16 @@ if (isset($_POST["update_bidding"])) {
                                     <p class="mb-0 fw-normal"><?= $row["project_expenses_amount"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["total_paid"] ?></p>
+                                    <p class="mb-0 fw-normal">
+                                        <?php
+                                        echo $row["total_paid"];
+                                        // Update PO to paid if PO is totally paid
+                                        if ($row["project_budget_amount"] == $row["total_paid"]) {
+                                            $BMNumber = $row["bm_no"];
+                                            $POFacade->isPaid($BMNumber);
+                                        }
+                                        ?>
+                                    </p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["total_sku_quantity"] ?></p>

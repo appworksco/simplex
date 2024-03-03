@@ -20,6 +20,12 @@ class PurchaseOrderFacade extends DBConnection {
         return $sql;
     }
 
+    public function isPaid($BMNumber) {
+        $sql = $this->connect()->prepare("UPDATE bd_po SET is_delivered = 1 WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function fetchLatestBMNO() {
         $sql = $this->connect()->prepare("SELECT bm_no FROM bd_project_information");
         $sql->execute();
