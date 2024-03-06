@@ -77,7 +77,7 @@ if (isset($_POST["add_bidding"])) {
         foreach ($getProjectSeries as $series) {
             $series = $series["series"];
         }
-        $bmno = 'BM' . date('Y') . $series;
+        $bmno = date('Y') . $series;
         $addBidding = $biddingInformationFacade->addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity, $totalQuantity);
         if ($addBidding) {
             array_push($success, 'Bidding has been added successfully');
@@ -93,17 +93,34 @@ if (isset($_POST["update_bidding"])) {
     $projectName = $_POST["project_name"];
     $projectTypeId = $_POST["project_type_id"];
     $LGUId = $_POST["lgu_id"];
+    $series = $_POST["series"];
     $projectStatus = $_POST["project_status"];
-    $paymentStructure = $_POST["payment_structure"];
-    $projectBudgetAmount = $_POST["project_budget_amount"];
-    $totalSKUQuantity = $_POST["total_sku_quantity"];
-    $awardDate = $_POST["award_date"];
-    $deliveryTargetMonth = $_POST["delivery_target_month"];
-    $remarks = $_POST["remarks"];
-
-    $updateBidding = $biddingInformationFacade->updateBidding($biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
-    if ($updateBidding) {
-        array_push($success, 'Bidding has been updated successfully');
+    if ($projectStatus == 'Won') {
+        $bmno = 'BM' . $series;
+        $paymentStructure = $_POST["payment_structure"];
+        $projectBudgetAmount = $_POST["project_budget_amount"];
+        $totalSKUQuantity = $_POST["total_sku_quantity"];
+        $awardDate = $_POST["award_date"];
+        $deliveryTargetMonth = $_POST["delivery_target_month"];
+        $remarks = $_POST["remarks"];
+    
+        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
+        if ($updateBidding) {
+            array_push($success, 'Bidding has been updated successfully');
+        }
+    } else {
+        $bmno = trim($series, 'BM');
+        $paymentStructure = $_POST["payment_structure"];
+        $projectBudgetAmount = $_POST["project_budget_amount"];
+        $totalSKUQuantity = $_POST["total_sku_quantity"];
+        $awardDate = $_POST["award_date"];
+        $deliveryTargetMonth = $_POST["delivery_target_month"];
+        $remarks = $_POST["remarks"];
+    
+        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
+        if ($updateBidding) {
+            array_push($success, 'Bidding has been updated successfully');
+        }
     }
 }
 
@@ -153,9 +170,6 @@ if (isset($_POST["update_bidding"])) {
                             </th>
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Project Budget Balance</h6>
-                            </th>
-                            <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">Project Expenses Amount</h6>
                             </th>
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Total Settled Amount</h6>
@@ -222,10 +236,7 @@ if (isset($_POST["update_bidding"])) {
                                     <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] - $row["total_paid"] ?></p>
-                                </td>
-                                <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["project_expenses_amount"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] - $row["total_paid"] - $row["project_expenses_amount"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal">

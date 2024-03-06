@@ -60,7 +60,6 @@ if ($userId == 0) {
 }
 
 if (isset($_POST["add_purchase_order"])) {
-
     $projectName = $_POST["project_name"];
     $BMNumber = $_POST["bm_no"];
     $projectTypeId = $_POST["project_type_id"];
@@ -74,7 +73,7 @@ if (isset($_POST["add_purchase_order"])) {
     $fetchBiddingByBMNumber = $biddingInformationFacade->fetchBiddingByBMNumber($BMNumber);
     while ($bidding =  $fetchBiddingByBMNumber->fetch(PDO::FETCH_ASSOC)) {
         $biddingTotalQuantity = $bidding["total_quantity"] - $bidding["total_delivered"];
-        $biddingProjectBudgetAmount = $bidding["project_budget_amount"] - $bidding["total_paid"];
+        $biddingProjectBudgetAmount = $bidding["project_budget_amount"] - $bidding["total_paid"] - $bidding["project_expenses_amount"];
         if ($biddingTotalQuantity >= $totalQuantity && $biddingProjectBudgetAmount >= $totalAmount) {
             $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
             if ($addPO) {
