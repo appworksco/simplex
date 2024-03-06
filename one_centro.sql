@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 29, 2024 at 06:03 AM
+-- Generation Time: Mar 06, 2024 at 03:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -352,22 +352,25 @@ CREATE TABLE `bd_deliveries` (
   `project_name` varchar(255) NOT NULL,
   `bm_no` varchar(50) NOT NULL,
   `lgu_id` int(11) NOT NULL,
-  `po_no` varchar(255) NOT NULL,
+  `1st_po_no` varchar(255) NOT NULL,
+  `1st_total_quantity` varchar(255) NOT NULL,
+  `1st_total_amount` double NOT NULL,
+  `2nd_po_no` varchar(255) NOT NULL,
+  `2nd_total_quantity` varchar(255) NOT NULL,
+  `2nd_total_amount` double NOT NULL,
+  `3rd_po_no` varchar(255) NOT NULL,
+  `3rd_total_quantity` varchar(255) NOT NULL,
+  `3rd_total_amount` double NOT NULL,
+  `4th_po_no` varchar(255) NOT NULL,
+  `4th_total_quantity` varchar(255) NOT NULL,
+  `4th_total_amount` double NOT NULL,
+  `5th_po_no` varchar(255) NOT NULL,
+  `5th_total_quantity` varchar(255) NOT NULL,
+  `5th_total_amount` double NOT NULL,
   `dr_no` varchar(255) NOT NULL,
   `dr_date` varchar(10) NOT NULL,
-  `total_quantity` varchar(255) NOT NULL,
-  `total_amount` double NOT NULL,
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bd_deliveries`
---
-
-INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `total_quantity`, `total_amount`, `is_paid`) VALUES
-(82, 4, 'ioyuiyui', 'BM202429', 5, '97', '12323', '09/23/23', '1', 500, 1),
-(83, 4, 'ioyuiyui', 'BM202429', 5, '98', '12323', '09/23/23', '1', 500, 1),
-(84, 7, 'akdad', 'BM202430', 5, '99', '12323', '09/23/23', '1', 500, 1);
 
 -- --------------------------------------------------------
 
@@ -385,13 +388,6 @@ CREATE TABLE `bd_expense` (
   `total_amount` double NOT NULL,
   `remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bd_expense`
---
-
-INSERT INTO `bd_expense` (`id`, `project_name`, `project_type_id`, `bm_no`, `lgu_id`, `expense_type`, `total_amount`, `remarks`) VALUES
-(6, 'test', 5, '', 5, 'NOTARIAL FEE', 500, '');
 
 -- --------------------------------------------------------
 
@@ -495,15 +491,6 @@ CREATE TABLE `bd_payments` (
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bd_payments`
---
-
-INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `remaining_balance`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
-(77, 4, 'ioyuiyui', 'BM202429', 5, '97', '12323', '09/23/23', '1', 500, '0', '', '', '1', 500, '', '', 0, '', '123', 'Partial Payment', '123', 250, '123', '456456', 'Partial Payment', '56464', 250, '78678678', '', 'Advance Payment', '', 0, '', 'Advance Payment', '', '', 0, '', '', 'Advance Payment', '', 0, '', 1),
-(78, 4, 'ioyuiyui', 'BM202429', 5, '98', '12323', '09/23/23', '1', 500, '500', '123', '123', '1', 500, 'Full Payment', '123', 500, '123', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1),
-(79, 7, 'akdad', 'BM202430', 5, '99', '12323', '09/23/23', '1', 500, '0', '', '', '1', 500, '', '', 0, '', '123', 'Partial Payment', '123', 250, '123', '456456', 'Partial Payment', '56464', 250, '78678678', '', 'Advance Payment', '', 0, '', 'Advance Payment', '', '', 0, '', '', 'Advance Payment', '', 0, '', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -524,15 +511,6 @@ CREATE TABLE `bd_po` (
   `is_delivered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bd_po`
---
-
-INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
-(97, 4, 'ioyuiyui', 'BM202429', 5, '02/22/2024', 1, 1, 500, '', 1),
-(98, 4, 'ioyuiyui', 'BM202429', 5, '02/22/2024', 1, 1, 500, '', 1),
-(99, 7, 'akdad', 'BM202430', 5, '02/22/2024', 1, 1, 500, '', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -551,6 +529,7 @@ CREATE TABLE `bd_project_information` (
   `project_expenses_amount` double NOT NULL,
   `delivery_target_month` varchar(20) NOT NULL,
   `total_sku_quantity` double NOT NULL,
+  `total_quantity` varchar(255) NOT NULL,
   `expense_type` varchar(50) NOT NULL,
   `bid_date` varchar(10) NOT NULL,
   `award_date` varchar(10) NOT NULL,
@@ -560,13 +539,6 @@ CREATE TABLE `bd_project_information` (
   `added_on` varchar(10) NOT NULL,
   `updated_on` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bd_project_information`
---
-
-INSERT INTO `bd_project_information` (`id`, `bm_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `project_expenses_amount`, `delivery_target_month`, `total_sku_quantity`, `expense_type`, `bid_date`, `award_date`, `remarks`, `total_delivered`, `total_paid`, `added_on`, `updated_on`) VALUES
-(47, 'BM202432', 5, 5, 'test', '', '', 1000, 500, '', 4, '', '09/23/23', '', '', 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -584,7 +556,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '33');
+(1, '9');
 
 -- --------------------------------------------------------
 
@@ -1041,7 +1013,7 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
@@ -1065,19 +1037,19 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`

@@ -79,7 +79,7 @@ if (isset($_POST["full_payment"])) {
     if ($fullPayment) {
         array_push($success, 'Payment has been updated successfully');
         // Update delivery if payment is fully paid
-        $deliveriesFacade->isPaid($PONumber);
+        $deliveriesFacade->isPaid($BMNumber);
         // Update total paid on bidding information
         $remainingBalance = $paymentAmount;
         $updateTotalPaid = $biddingInformationFacade->updateTotalPaid($remainingBalance, $BMNumber);
@@ -147,8 +147,8 @@ if (isset($_POST["partial_payment"])) {
         // Check total amount and total paid if greater than then set delivery and payment to delivered and paid if not insert data
         if ($row["total_amount"] <= $totalPaid) {
             // Update delivery if payment is fully paid
-            $deliveriesFacade->isPaid($PONumber);
-            $paymentFacade->isPaid($PONumber);
+            $deliveriesFacade->isPaid($BMNumber);
+            $paymentFacade->isPaid($BMNumber);
         }
         if ($row["total_amount"] >= $totalPaid) {
             $remainingBalance = $row["total_amount"] - $totalPaid;

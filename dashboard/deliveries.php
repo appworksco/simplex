@@ -63,46 +63,97 @@ if ($userId == 0) {
     header("Location: ../index?invalid=You do not have permission to access the page!");
 }
 
-if (isset($_POST["add_delivery"])) {
-    $projectName = $_POST["project_name"];
-    $BMNumber = $_POST["bm_no"];
-    $projectTypeId = $_POST["project_type_id"];
-    $LGUId = $_POST["lgu_id"];
-    $PONumber = $_POST["po_number"];
-    $DRNumber = $_POST["dr_number"];
-    $DRDate = $_POST["dr_date"];
+if (isset($_POST["add_delivery_spsd"])) {
+    $projectName = $_POST["project_name_spsd"];
+    $BMNumber = $_POST["bm_no_spsd"];
+    $projectTypeId = $_POST["project_type_id_spsd"];
+    $LGUId = $_POST["lgu_id_spsd"];
+    $PONumber = $_POST["po_number_spsd"];
+    $DRNumber = $_POST["dr_number_spsd"];
+    $DRDate = $_POST["dr_date_spsd"];
+    $totalQuantity = $_POST["total_quantity_spsd"];
+    $totalAmount = $_POST["total_amount_spsd"];
+    $billQuantity = $totalQuantity;
+    $billAmount = $totalAmount;
+    $remainingBalance = $totalAmount;
 
-    $hasMultipleDelivery = $_POST["has_multiple_delivery"];
-    if ($hasMultipleDelivery == 'Yes') {
-        $totalQuantity = $_POST["total_quantity_custom"];
-        $totalAmount = $_POST["total_amount_custom"];
-        $billQuantity = $totalQuantity;
-        $billAmount = $totalAmount;
-        $remainingBalance = $totalAmount;
-        $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-        $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-        if ($addDelivery) {
-            array_push($success, 'Delivery has been added successfully');
-            // Add payment when delivery is added
-            $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
-            // Add total delivered in bidding information
-            $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
-        }
-    } else {
-        $totalQuantity = $_POST["total_quantity"];
-        $totalAmount = $_POST["total_amount"];
-        $billQuantity = $totalQuantity;
-        $billAmount = $totalAmount;
-        $remainingBalance = $totalAmount;
-        $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-        $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-        if ($addDelivery) {
-            array_push($success, 'Delivery has been added successfully');
-            // Add payment when delivery is added
-            $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
-            // Add total delivered in bidding information
-            $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
-        }
+    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+    if ($addDelivery) {
+        array_push($success, 'Delivery has been added successfully');
+        // Add payment when delivery is added
+        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+        // Add total delivered in bidding information
+        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+    }
+}
+
+if (isset($_POST["add_delivery_spmd"])) {
+    $projectName = $_POST["project_name_spmd"];
+    $BMNumber = $_POST["bm_no_spmd"];
+    $projectTypeId = $_POST["project_type_id_spmd"];
+    $LGUId = $_POST["lgu_id_spmd"];
+    $PONumber = $_POST["po_number_spmd"];
+    $DRNumber = $_POST["dr_number_spmd"];
+    $DRDate = $_POST["dr_date_spmd"];
+    $totalQuantity = $_POST["total_quantity_spmd"];
+    $totalAmount = $_POST["total_amount_spmd"];
+    $billQuantity = $totalQuantity;
+    $billAmount = $totalAmount;
+    $remainingBalance = $totalAmount;
+
+    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+    if ($addDelivery) {
+        array_push($success, 'Delivery has been added successfully');
+        // Add payment when delivery is added
+        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+        // Add total delivered in bidding information
+        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+    }
+}
+
+if (isset($_POST["add_delivery_mpsd"])) {
+    $projectName = $_POST["project_name_mpsd"];
+    $BMNumber = $_POST["bm_no_mpsd"];
+    $projectTypeId = $_POST["project_type_id_mpsd"];
+    $LGUId = $_POST["lgu_id_mpsd"];
+
+    $onePONumber = $_POST["1st_po_number"];
+    $onePOQuantity = $_POST["1st_total_quantity"];
+    $onePOAmount = $_POST["1st_total_amount"];
+    $twoPONumber = $_POST["2nd_po_number"];
+    $twoPOQuantity = $_POST["2nd_total_quantity"];
+    $twoPOAmount = $_POST["2nd_total_amount"];
+    $threePONumber = $_POST["3rd_po_number"];
+    $threePOQuantity = $_POST["3rd_total_quantity"];
+    $threePOAmount = $_POST["3rd_total_amount"];
+    $fourPONumber = $_POST["4th_po_number"];
+    $fourPOQuantity = $_POST["4th_total_quantity"];
+    $fourPOAmount = $_POST["4th_total_amount"];
+    $fivePONumber = $_POST["5th_po_number"];
+    $fivePOQuantity = $_POST["5th_total_quantity"];
+    $fivePOAmount = $_POST["5th_total_amount"];
+
+    $PONumber = 0; // Set default value for this kind of transaction
+
+    $DRNumber = $_POST["dr_number_mpsd"];
+    $DRDate = $_POST["dr_date_mpsd"];
+    
+    $totalQuantity = $onePOQuantity + $twoPOQuantity + $threePOQuantity + $fourPOQuantity + $fivePOQuantity;
+    $totalAmount = $onePOAmount + $twoPOAmount + $threePOAmount + $fourPOAmount + $fivePOAmount;
+    $billQuantity = $totalQuantity;
+    $billAmount = $totalAmount;
+    $remainingBalance = $billAmount;
+
+    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    $addDelivery = $deliveriesFacade->addDeliveryMpsd($projectName, $BMNumber, $projectTypeId, $LGUId, $onePONumber, $onePOQuantity, $onePOAmount, $twoPONumber, $twoPOQuantity, $twoPOAmount, $threePONumber, $threePOQuantity, $threePOAmount, $fourPONumber, $fourPOQuantity, $fourPOAmount, $fivePONumber, $fivePOQuantity, $fivePOAmount, $DRNumber, $DRDate);
+    if ($addDelivery) {
+        array_push($success, 'Delivery has been added successfully');
+        // Add payment when delivery is added
+        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+        // Add total delivered in bidding information
+        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
     }
 }
 
@@ -152,9 +203,7 @@ if (isset($_POST["update_delivery"])) {
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Action</h6>
                             </th>
-                            <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">PO Number</h6>
-                            </th>
+
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">Project Type</h6>
                             </th>
@@ -165,16 +214,25 @@ if (isset($_POST["update_delivery"])) {
                                 <h6 class="fw-semibold mb-0">LGU Name</h6>
                             </th>
                             <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">1st PO</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">2nd PO</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">3rd PO</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">4th PO</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">5th PO</h6>
+                            </th>
+                            <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">DR Number</h6>
                             </th>
                             <th class="border-bottom-0">
                                 <h6 class="fw-semibold mb-0">DR Date</h6>
-                            </th>
-                            <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">Total Quantity</h6>
-                            </th>
-                            <th class="border-bottom-0">
-                                <h6 class="fw-semibold mb-0">Total Amount</h6>
                             </th>
                         </tr>
                     </thead>
@@ -189,11 +247,8 @@ if (isset($_POST["update_delivery"])) {
                                         <a href="deliveries?is_updated=<?= $row["id"] ?>" class="btn btn-info">Update</a>
                                     <?php }
                                     if ($canDelete == 1) { ?>
-                                        <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
+                                        <a href="delete-delivery?delivery_id=<?= $row["id"] ?>&po_no=<?= $row["1st_po_no"] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this delivery?');">Delete</a>
                                     <?php } ?>
-                                </td>
-                                <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["po_no"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <?php
@@ -217,16 +272,55 @@ if (isset($_POST["update_delivery"])) {
                                     ?>
                                 </td>
                                 <td class="border-bottom-0">
+                                    <?php if ($row["1st_po_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            PO No: <?= $row["1st_po_no"] ?> <br>
+                                            Total Quantity: <?= $row["1st_total_quantity"] ?> <br>
+                                            Total Amount: <?= $row["1st_total_amount"] ?> <br>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["2nd_po_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            PO No: <?= $row["2nd_po_no"] ?> <br>
+                                            Total Quantity: <?= $row["2nd_total_quantity"] ?> <br>
+                                            Total Amount: <?= $row["2nd_total_amount"] ?> <br>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["3rd_po_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            PO No: <?= $row["3rd_po_no"] ?> <br>
+                                            Total Quantity: <?= $row["3rd_total_quantity"] ?> <br>
+                                            Total Amount: <?= $row["3rd_total_amount"] ?> <br>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["4th_po_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            PO No: <?= $row["4th_po_no"] ?> <br>
+                                            Total Quantity: <?= $row["4th_total_quantity"] ?> <br>
+                                            Total Amount: <?= $row["4th_total_amount"] ?> <br>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
+                                    <?php if ($row["5th_po_no"] != NULL) { ?>
+                                        <p class="mb-0 fw-normal">
+                                            PO No: <?= $row["5th_po_no"] ?> <br>
+                                            Total Quantity: <?= $row["5th_total_quantity"] ?> <br>
+                                            Total Amount: <?= $row["5th_total_amount"] ?> <br>
+                                        </p>
+                                    <?php } ?>
+                                </td>
+                                <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["dr_no"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["dr_date"] ?></p>
-                                </td>
-                                <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["total_quantity"] ?></p>
-                                </td>
-                                <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -260,13 +354,21 @@ if (isset($_GET["is_updated"])) {
     $(document).ready(function() {
 
         // Has multiple delivery
-        $('#hasMultipleDelivery').on('change', function() {
-            if (this.value == 'Yes') {
-                $("#hasMultipleDeliveryYes").show();
-                $("#noMultipleDeliveryNo").hide();
+        $('#deliveryType').on('change', function() {
+            if (this.value == '1') {
+                $("#singlePOsingleDelivery").show();
             } else {
-                $("#hasMultipleDeliveryYes").hide();
-                $("#noMultipleDeliveryNo").show();
+                $("#singlePOsingleDelivery").hide();
+            }
+            if (this.value == '2') {
+                $("#multiplePOsingleDelivery").show();
+            } else {
+                $("#multiplePOsingleDelivery").hide();
+            }
+            if (this.value == '3') {
+                $("#singlePOmultipleDelivery").show();
+            } else {
+                $("#singlePOmultipleDelivery").hide();
             }
         });
 
@@ -319,6 +421,136 @@ if (isset($_GET["is_updated"])) {
                 },
                 success: function(data) {
                     $('#projectPOList').html(data)
+                }
+            })
+        });
+
+        // Add delivery
+        $('#projectNameMpsd').change(function() {
+            var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoIdMpsd').html(data)
+                }
+            })
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoIdMpsd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectTypeIdMpsd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#LGUIdMpsd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#1stPOList').html(data),
+                    $('#2ndPOList').html(data),
+                    $('#3rdPOList').html(data),
+                    $('#4thPOList').html(data),
+                    $('#5thPOList').html(data)
+                }
+            })
+        });
+
+        // Add delivery
+        $('#projectNameSpmd').change(function() {
+            var projectName = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoId').html(data)
+                }
+            })
+            $.ajax({
+                url: 'get-bo-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#BMNoIdSpmd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-project-type-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectTypeIdSpmd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-lgu-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#LGUIdSpmd').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-info.php',
+                type: 'POST',
+                data: {
+                    projectName: projectName
+                },
+                success: function(data) {
+                    $('#projectPOListSpmd').html(data)
                 }
             })
         });
@@ -416,6 +648,228 @@ if (isset($_GET["is_updated"])) {
                 },
                 success: function(data) {
                     $('#totalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery 1st PO
+        $('#1stPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#1stPONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#1stTotalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#1stTotalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery 2nd PO
+        $('#2ndPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#2ndPONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#2ndTotalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#2ndTotalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery 3rd PO
+        $('#3rdPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#3rdPONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#3rdTotalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#3rdTotalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery 4th PO
+        $('#4thPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#4thPONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#4thTotalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#4thTotalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery 5th PO
+        $('#5thPOList').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#5thPONumber').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-quantity-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#5thTotalQuantity').html(data)
+                }
+            })
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-total-amount-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#5thTotalAmount').html(data)
+                }
+            })
+        });
+
+        // Add delivery
+        $('#projectPOListSpmd').change(function() {
+            var projectPOList = $(this).val();
+
+            // Fetch items based on the selected category using AJAX
+            $.ajax({
+                url: 'get-po-num-info.php',
+                type: 'POST',
+                data: {
+                    projectPOList: projectPOList
+                },
+                success: function(data) {
+                    $('#PONumberSpmd').html(data)
                 }
             })
         });
