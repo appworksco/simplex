@@ -135,25 +135,50 @@ if (isset($_POST["add_delivery_mpsd"])) {
     $fivePOQuantity = $_POST["5th_total_quantity"];
     $fivePOAmount = $_POST["5th_total_amount"];
 
-    $PONumber = 0; // Set default value for this kind of transaction
+    if (
+        $onePONumber == $twoPONumber ||
+        $onePONumber == $threePONumber ||
+        $onePONumber == $fourPONumber ||
+        $onePONumber == $fivePONumber ||
+        $twoPONumber == $onePOAmount ||
+        $twoPONumber == $threePONumber ||
+        $twoPONumber == $fourPONumber ||
+        $twoPONumber == $fivePONumber ||
+        $threePONumber == $onePONumber ||
+        $threePONumber == $twoPONumber ||
+        $threePONumber == $fourPONumber ||
+        $threePONumber == $fivePONumber ||
+        $fourPONumber == $onePONumber ||
+        $fourPONumber == $twoPONumber ||
+        $fourPONumber == $threePONumber ||
+        $fourPONumber == $fivePONumber ||
+        $fivePONumber == $onePONumber ||
+        $fivePONumber == $twoPONumber ||
+        $fivePONumber == $threePONumber ||
+        $fivePONumber == $fourPONumber
+    ) {
+        array_push($invalid, 'PO Number should not be repeated!');
+    } else {
+        $PONumber = 0; // Set default value for this kind of transaction
 
-    $DRNumber = $_POST["dr_number_mpsd"];
-    $DRDate = $_POST["dr_date_mpsd"];
-    
-    $totalQuantity = $onePOQuantity + $twoPOQuantity + $threePOQuantity + $fourPOQuantity + $fivePOQuantity;
-    $totalAmount = $onePOAmount + $twoPOAmount + $threePOAmount + $fourPOAmount + $fivePOAmount;
-    $billQuantity = $totalQuantity;
-    $billAmount = $totalAmount;
-    $remainingBalance = $billAmount;
+        $DRNumber = $_POST["dr_number_mpsd"];
+        $DRDate = $_POST["dr_date_mpsd"];
 
-    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-    $addDelivery = $deliveriesFacade->addDeliveryMpsd($projectName, $BMNumber, $projectTypeId, $LGUId, $onePONumber, $onePOQuantity, $onePOAmount, $twoPONumber, $twoPOQuantity, $twoPOAmount, $threePONumber, $threePOQuantity, $threePOAmount, $fourPONumber, $fourPOQuantity, $fourPOAmount, $fivePONumber, $fivePOQuantity, $fivePOAmount, $DRNumber, $DRDate);
-    if ($addDelivery) {
-        array_push($success, 'Delivery has been added successfully');
-        // Add payment when delivery is added
-        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
-        // Add total delivered in bidding information
-        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+        $totalQuantity = $onePOQuantity + $twoPOQuantity + $threePOQuantity + $fourPOQuantity + $fivePOQuantity;
+        $totalAmount = $onePOAmount + $twoPOAmount + $threePOAmount + $fourPOAmount + $fivePOAmount;
+        $billQuantity = $totalQuantity;
+        $billAmount = $totalAmount;
+        $remainingBalance = $billAmount;
+
+        $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+        $addDelivery = $deliveriesFacade->addDeliveryMpsd($projectName, $BMNumber, $projectTypeId, $LGUId, $onePONumber, $onePOQuantity, $onePOAmount, $twoPONumber, $twoPOQuantity, $twoPOAmount, $threePONumber, $threePOQuantity, $threePOAmount, $fourPONumber, $fourPOQuantity, $fourPOAmount, $fivePONumber, $fivePOQuantity, $fivePOAmount, $DRNumber, $DRDate);
+        if ($addDelivery) {
+            array_push($success, 'Delivery has been added successfully');
+            // Add payment when delivery is added
+            $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+            // Add total delivered in bidding information
+            $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+        }
     }
 }
 
@@ -484,10 +509,10 @@ if (isset($_GET["is_updated"])) {
                 },
                 success: function(data) {
                     $('#1stPOList').html(data),
-                    $('#2ndPOList').html(data),
-                    $('#3rdPOList').html(data),
-                    $('#4thPOList').html(data),
-                    $('#5thPOList').html(data)
+                        $('#2ndPOList').html(data),
+                        $('#3rdPOList').html(data),
+                        $('#4thPOList').html(data),
+                        $('#5thPOList').html(data)
                 }
             })
         });
