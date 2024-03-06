@@ -14,6 +14,12 @@ class BiddingInformationFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchBiddingByBMNumber($BMNumber) {
+        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function fetchLatestBMNO() {
         $sql = $this->connect()->prepare("SELECT bm_no FROM bd_project_information");
         $sql->execute();
@@ -52,9 +58,9 @@ class BiddingInformationFacade extends DBConnection {
         return $count;
     }
 
-    public function addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity) {
-        $sql = $this->connect()->prepare("INSERT INTO bd_project_information(bm_no, project_name, bid_date, project_type_id, lgu_id, project_budget_amount, total_sku_quantity) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity]);
+    public function addBidding($bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity, $totalQuantity) {
+        $sql = $this->connect()->prepare("INSERT INTO bd_project_information(bm_no, project_name, bid_date, project_type_id, lgu_id, project_budget_amount, total_sku_quantity, total_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$bmno, $projectName, $biddingDate, $projectTypeId, $LGUId, $projectBudgetAmount, $totalSKUQuantity, $totalQuantity]);
         return $sql;
     }
 
