@@ -22,7 +22,7 @@ if (isset($_POST["projectName"])) {
         $out .= '<option value="' . $PO["id"] . '">' . $PO["id"] . ' | ' . $PO["po_date"] . ' | ' . $PO["total_amount"] . '</option>';
     }
 
-    echo '<option value="">Please Select...</option>' . $out;
+    echo '<option value="0">Please Select...</option>' . $out;
 }
 
 $conn->close();
