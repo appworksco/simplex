@@ -65,53 +65,55 @@ if ($userId == 0) {
 }
 
 if (isset($_POST["add_delivery_spsd"])) {
-    $projectName = $_POST["project_name_spsd"];
-    $BMNumber = $_POST["bm_no_spsd"];
-    $projectTypeId = $_POST["project_type_id_spsd"];
-    $LGUId = $_POST["lgu_id_spsd"];
-    $PONumber = $_POST["po_number_spsd"];
-    $DRNumber = $_POST["dr_number_spsd"];
-    $DRDate = $_POST["dr_date_spsd"];
-    $totalQuantity = $_POST["total_quantity_spsd"];
-    $totalAmount = $_POST["total_amount_spsd"];
-    $billQuantity = $totalQuantity;
-    $billAmount = $totalAmount;
-    $remainingBalance = $totalAmount;
+    echo 'Add Delivery SPSD';
+    // $projectName = $_POST["project_name_spsd"];
+    // $BMNumber = $_POST["bm_no_spsd"];
+    // $projectTypeId = $_POST["project_type_id_spsd"];
+    // $LGUId = $_POST["lgu_id_spsd"];
+    // $PONumber = $_POST["po_number_spsd"];
+    // $DRNumber = $_POST["dr_number_spsd"];
+    // $DRDate = $_POST["dr_date_spsd"];
+    // $totalQuantity = $_POST["total_quantity_spsd"];
+    // $totalAmount = $_POST["total_amount_spsd"];
+    // $billQuantity = $totalQuantity;
+    // $billAmount = $totalAmount;
+    // $remainingBalance = $totalAmount;
 
-    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-    $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-    if ($addDelivery) {
-        array_push($success, 'Delivery has been added successfully');
-        // Add payment when delivery is added
-        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
-        // Add total delivered in bidding information
-        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
-    }
+    // $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    // $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+    // if ($addDelivery) {
+    //     array_push($success, 'Delivery has been added successfully');
+    //     // Add payment when delivery is added
+    //     $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+    //     // Add total delivered in bidding information
+    //     $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+    // }
 }
 
 if (isset($_POST["add_delivery_spmd"])) {
-    $projectName = $_POST["project_name_spmd"];
-    $BMNumber = $_POST["bm_no_spmd"];
-    $projectTypeId = $_POST["project_type_id_spmd"];
-    $LGUId = $_POST["lgu_id_spmd"];
-    $PONumber = $_POST["po_number_spmd"];
-    $DRNumber = $_POST["dr_number_spmd"];
-    $DRDate = $_POST["dr_date_spmd"];
-    $totalQuantity = $_POST["total_quantity_spmd"];
-    $totalAmount = $_POST["total_amount_spmd"];
-    $billQuantity = $totalQuantity;
-    $billAmount = $totalAmount;
-    $remainingBalance = $totalAmount;
+    echo 'Add Delivery SPMD';
+    // $projectName = $_POST["project_name_spmd"];
+    // $BMNumber = $_POST["bm_no_spmd"];
+    // $projectTypeId = $_POST["project_type_id_spmd"];
+    // $LGUId = $_POST["lgu_id_spmd"];
+    // $PONumber = $_POST["po_number_spmd"];
+    // $DRNumber = $_POST["dr_number_spmd"];
+    // $DRDate = $_POST["dr_date_spmd"];
+    // $totalQuantity = $_POST["total_quantity_spmd"];
+    // $totalAmount = $_POST["total_amount_spmd"];
+    // $billQuantity = $totalQuantity;
+    // $billAmount = $totalAmount;
+    // $remainingBalance = $totalAmount;
 
-    $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
-    $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
-    if ($addDelivery) {
-        array_push($success, 'Delivery has been added successfully');
-        // Add payment when delivery is added
-        $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
-        // Add total delivered in bidding information
-        $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
-    }
+    // $verifyDeliveryByName = $deliveriesFacade->verifyDeliveryByName($projectName);
+    // $addDelivery = $deliveriesFacade->addDelivery($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount);
+    // if ($addDelivery) {
+    //     array_push($success, 'Delivery has been added successfully');
+    //     // Add payment when delivery is added
+    //     $paymentFacade->addPayment($projectName, $BMNumber, $projectTypeId, $LGUId, $PONumber, $DRNumber, $DRDate, $totalQuantity, $totalAmount, $billQuantity, $billAmount, $remainingBalance);
+    //     // Add total delivered in bidding information
+    //     $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
+    // }
 }
 
 if (isset($_POST["add_delivery_mpsd"])) {
@@ -120,96 +122,46 @@ if (isset($_POST["add_delivery_mpsd"])) {
     $projectTypeId = $_POST["project_type_id_mpsd"];
     $LGUId = $_POST["lgu_id_mpsd"];
 
-    $onePONumber = isset($_POST["1st_po_number"]);
-    $onePOQuantity = isset($_POST["1st_total_quantity"]);
-    $onePOAmount = isset($_POST["1st_total_amount"]);
-    $twoPONumber = isset($_POST["2nd_po_number"]);
-    $twoPOQuantity = isset($_POST["2nd_total_quantity"]);
-    $twoPOAmount = isset($_POST["2nd_total_amount"]);
-    $threePONumber = isset($_POST["3rd_po_number"]);
-    $threePOQuantity = isset($_POST["3rd_total_quantity"]);
-    $threePOAmount = isset($_POST["3rd_total_amount"]);
-    $fourPONumber = isset($_POST["4th_po_number"]);
-    $fourPOQuantity = isset($_POST["4th_total_quantity"]);
-    $fourPOAmount = isset($_POST["4th_total_amount"]);
-    $fivePONumber = isset($_POST["5th_po_number"]);
-    $fivePOQuantity = isset($_POST["5th_total_quantity"]);
-    $fivePOAmount = isset($_POST["5th_total_amount"]);
-
-    $onePO = $_POST["1st_po"];
-    $twoPO = $_POST["2nd_po"];
-    $threePO = $_POST["3rd_po"];
-    $fourPO = $_POST["4th_po"];
-    $fivePO = $_POST["5th_po"];
-
-    if ($onePO == 0) {
-        $onePONumber = 0;
-        $onePOQuantity = 0;
-        $onePOAmount = 0;
-    } else {
-        $onePONumber = $_POST["1st_po_number"];
-        $onePOQuantity = $_POST["1st_total_quantity"];
-        $onePOAmount = $_POST["1st_total_amount"];
-    }
-    if ($twoPO == 0) {
-        $twoPONumber = 0;
-        $twoPOQuantity = 0;
-        $twoPOAmount = 0;
-    } else {
-        $twoPONumber = $_POST["2nd_po_number"];
-        $twoPOQuantity = $_POST["2nd_total_quantity"];
-        $twoPOAmount = $_POST["2nd_total_amount"];
-    }
-    if ($threePO == 0) {
-        $twoPONumber = 0;
-        $twoPOQuantity = 0;
-        $twoPOAmount = 0;
-    } else {
-        $threePONumber = $_POST["3rd_po_number"];
-        $threePOQuantity = $_POST["3rd_total_quantity"];
-        $threePOAmount = $_POST["3rd_total_amount"];
-    }
-    if ($fourPO == 0) {
-        $fourPONumber = 0;
-        $fourPOQuantity = 0;
-        $fourPOAmount = 0;
-    } else {
-        $fourPONumber = $_POST["4th_po_number"];
-        $fourPOQuantity = $_POST["4th_total_quantity"];
-        $fourPOAmount = $_POST["4th_total_amount"];
-    }
-    if ($fivePO == 0) {
-        $fivePONumber = 0;
-        $fivePOQuantity = 0;
-        $fivePOAmount = 0;
-    } else {
-        $fivePONumber = $_POST["5th_po_number"];
-        $fivePOQuantity = $_POST["5th_total_quantity"];
-        $fivePOAmount = $_POST["5th_total_amount"];
-    }
+    $onePONumber = $_POST["1st_po_number"];
+    $onePOQuantity = $_POST["1st_total_quantity"];
+    $onePOAmount = $_POST["1st_total_amount"];
+    $twoPONumber = $_POST["2nd_po_number"];
+    $twoPOQuantity = $_POST["2nd_total_quantity"];
+    $twoPOAmount = $_POST["2nd_total_amount"];
+    $threePONumber = $_POST["3rd_po_number"];
+    $threePOQuantity = $_POST["3rd_total_quantity"];
+    $threePOAmount = $_POST["3rd_total_amount"];
+    $fourPONumber = $_POST["4th_po_number"];
+    $fourPOQuantity = $_POST["4th_total_quantity"];
+    $fourPOAmount = $_POST["4th_total_amount"];
+    $fivePONumber = $_POST["5th_po_number"];
+    $fivePOQuantity = $_POST["5th_total_quantity"];
+    $fivePOAmount = $_POST["5th_total_amount"];
 
     if (
-        $onePONumber != $twoPONumber ||
-        $onePONumber != $threePONumber ||
-        $onePONumber != $fourPONumber ||
-        $onePONumber != $fivePONumber ||
-        $twoPONumber != $onePOAmount ||
-        $twoPONumber != $threePONumber ||
-        $twoPONumber != $fourPONumber ||
-        $twoPONumber != $fivePONumber ||
-        $threePONumber != $onePONumber ||
-        $threePONumber != $twoPONumber ||
-        $threePONumber != $fourPONumber ||
-        $threePONumber != $fivePONumber ||
-        $fourPONumber != $onePONumber ||
-        $fourPONumber != $twoPONumber ||
-        $fourPONumber != $threePONumber ||
-        $fourPONumber != $fivePONumber ||
-        $fivePONumber != $onePONumber ||
-        $fivePONumber != $twoPONumber ||
-        $fivePONumber != $threePONumber ||
-        $fivePONumber != $fourPONumber
+        $onePONumber == $twoPONumber ||
+        $onePONumber == $threePONumber ||
+        $onePONumber == $fourPONumber ||
+        $onePONumber == $fivePONumber ||
+        $twoPONumber == $onePOAmount ||
+        $twoPONumber == $threePONumber ||
+        $twoPONumber == $fourPONumber ||
+        $twoPONumber == $fivePONumber ||
+        $threePONumber == $onePONumber ||
+        $threePONumber == $twoPONumber ||
+        $threePONumber == $fourPONumber ||
+        $threePONumber == $fivePONumber ||
+        $fourPONumber == $onePONumber ||
+        $fourPONumber == $twoPONumber ||
+        $fourPONumber == $threePONumber ||
+        $fourPONumber == $fivePONumber ||
+        $fivePONumber == $onePONumber ||
+        $fivePONumber == $twoPONumber ||
+        $fivePONumber == $threePONumber ||
+        $fivePONumber == $fourPONumber
     ) {
+        array_push($invalid, 'PO Number should not be repeated!');
+    } else {
         $PONumber = 0; // Set default value for this kind of transaction
 
         $DRNumber = $_POST["dr_number_mpsd"];
@@ -230,8 +182,6 @@ if (isset($_POST["add_delivery_mpsd"])) {
             // Add total delivered in bidding information
             $updateTotalDelivered = $biddingInformationFacade->updateTotalDelivered($totalQuantity, $BMNumber);
         }
-    } else {
-        array_push($invalid, 'PO Number should not be repeated!');
     }
 }
 

@@ -102,35 +102,35 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="1stPOList" class="form-label">1st PO</label>
-                                    <select class="form-select" id="1stPOList"></select>
+                                    <select class="form-select" id="1stPOList" name="1st_po"></select>
                                     <select class="d-none" id="1stPONumber" name="1st_po_number"></select>
                                     <select class="d-none" id="1stTotalQuantity" name="1st_total_quantity"></select>
                                     <select class="d-none" id="1stTotalAmount" name="1st_total_amount"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="2ndPOList" class="form-label">2nd PO</label>
-                                    <select class="form-select" id="2ndPOList"></select>
+                                    <select class="form-select" id="2ndPOList" name="2nd_po"></select>
                                     <select class="d-none" id="2ndPONumber" name="2nd_po_number"></select>
                                     <select class="d-none" id="2ndTotalQuantity" name="2nd_total_quantity"></select>
                                     <select class="d-none" id="2ndTotalAmount" name="2nd_total_amount"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="3rdPOList" class="form-label">3rd PO</label>
-                                    <select class="form-select" id="3rdPOList"></select>
+                                    <select class="form-select" id="3rdPOList" name="3rd_po"></select>
                                     <select class="d-none" id="3rdPONumber" name="3rd_po_number"></select>
                                     <select class="d-none" id="3rdTotalQuantity" name="3rd_total_quantity"></select>
                                     <select class="d-none" id="3rdTotalAmount" name="3rd_total_amount"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="4thPOList" class="form-label">4th PO</label>
-                                    <select class="form-select" id="4thPOList"></select>
+                                    <select class="form-select" id="4thPOList" name="4th_po"></select>
                                     <select class="d-none" id="4thPONumber" name="4th_po_number"></select>
                                     <select class="d-none" id="4thTotalQuantity" name="4th_total_quantity"></select>
                                     <select class="d-none" id="4thTotalAmount" name="4th_total_amount"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="5thPOList" class="form-label">5th PO</label>
-                                    <select class="form-select" id="5thPOList"></select>
+                                    <select class="form-select" id="5thPOList" name="5th_po"></select>
                                     <select class="d-none" id="5thPONumber" name="5th_po_number"></select>
                                     <select class="d-none" id="5thTotalQuantity" name="5th_total_quantity"></select>
                                     <select class="d-none" id="5thTotalAmount" name="5th_total_amount"></select>
@@ -174,7 +174,7 @@
                                     <select class="form-select" id="LGUIdSpmd" name="lgu_id_spmd"></select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="projectPOList" class="form-label">Project PO List</label>
+                                    <label for="projectPOListSpmd" class="form-label">Project PO List</label>
                                     <select class="form-select" id="projectPOListSpmd" name="project_po_list_spmd"></select>
                                 </div>
                                 <div class="mb-3">

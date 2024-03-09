@@ -21,7 +21,7 @@ if (isset($_POST["projectPOList"])) {
         $out .= '<option value="' . $PO["id"] . '">' . $PO["id"] . '</option>';
     }
 
-    echo $out;
+   echo $out;
 }
 
 $conn->close();
