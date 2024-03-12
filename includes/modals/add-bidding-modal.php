@@ -11,15 +11,15 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="biddingDate" class="form-label">Bidding Date (mm/dd/yyyy)</label>
-                                <input type="text" class="form-control" id="biddingDate" name="bidding_date">
+                                <input type="text" class="form-control" id="biddingDate" name="bidding_date" required>
                             </div>
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
-                                <input type="text" class="form-control" id="projectName" name="project_name">
+                                <input type="text" class="form-control" id="projectName" name="project_name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="projectTypeId" class="form-label">Project Type</label>
-                                <select class="form-select" id="projectTypeId" name="project_type_id">
+                                <select class="form-select" id="projectTypeId" name="project_type_id" required>
                                     <?php
                                     $fetchProjectType = $projectTypeFacade->fetchProjectType();
                                     while ($row = $fetchProjectType->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="LGUId" class="form-label">LGU Name</label>
-                                <select class="form-select" id="LGUId" name="lgu_id">
+                                <select class="form-select" id="LGUId" name="lgu_id" required>
                                     <?php
                                     $fetchLGU = $LGUFacade->fetchLGU();
                                     while ($row = $fetchLGU->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -39,15 +39,15 @@
                             </div>
                             <div class="mb-3">
                                 <label for="projectBudgetAmount" class="form-label">Project Budget Amount</label>
-                                <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount">
+                                <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount" required>
                             </div>
                             <div class="mb-3">
                                 <label for="totalSKUQuantity" class="form-label">Total SKU Quantity</label>
-                                <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity">
+                                <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity" required>
                             </div>
                             <div class="mb-3">
                                 <label for="totalQuantity" class="form-label">Total Quantity</label>
-                                <input type="text" class="form-control" id="totalQuantity" name="total_quantity">
+                                <input type="text" class="form-control" id="totalQuantity" name="total_quantity" required>
                             </div>
                         </div>
                         <div class="card-footer">

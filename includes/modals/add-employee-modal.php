@@ -13,7 +13,7 @@
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label for="firstName" class="form-label">First Name <span class="text-danger">&ast;</span></label>
-                                        <input type="text" class="form-control" id="firstName" name="first_name">
+                                        <input type="text" class="form-control" id="firstName" name="first_name" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="middleName" class="form-label">Middle Name</label>
@@ -21,11 +21,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="lastName" class="form-label">Last Name <span class="text-danger">&ast;</span></label>
-                                        <input type="text" class="form-control" id="lastName" name="last_name">
+                                        <input type="text" class="form-control" id="lastName" name="last_name" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="birthDate" class="form-label">Birth Date (mm/dd/yyyy)<span class="text-danger">&ast;</span></label>
-                                        <input type="text" class="form-control" id="birthDate" name="birth_date">
+                                        <input type="text" class="form-control" id="birthDate" name="birth_date" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="bloodType" class="form-label">Blood Type</label>
@@ -39,7 +39,7 @@
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label for="address" class="form-label">Address <span class="text-danger">&ast;</span></label>
-                                        <input type="text" class="form-control" id="address" name="address">
+                                        <input type="text" class="form-control" id="address" name="address" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="contactPerson" class="form-label">Contact Person</label>
@@ -51,34 +51,34 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="department" class="form-label">Department</label>
-                                        <select class="form-select" id="department" name="department">
-                                            <?php 
+                                        <select class="form-select" id="department" name="department" required>
+                                            <?php
                                             $fetchDepartments = $departmentsFacade->fetchDepartments();
                                             while ($row = $fetchDepartments->fetch(PDO::FETCH_ASSOC)) { ?>
                                                 <option value="<?= $row["department_code"] ?>"><?= $row["department_name"] ?></option>
-                                            <?php } ?>    
+                                            <?php } ?>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="position" class="form-label">Position</label>
-                                        <select class="form-select" id="position" name="position">
-                                            <?php 
+                                        <select class="form-select" id="position" name="position" required>
+                                            <?php
                                             $fetchPositions = $positionsFacade->fetchPositions();
                                             while ($row = $fetchPositions->fetch(PDO::FETCH_ASSOC)) { ?>
                                                 <option value="<?= $row["position_code"] ?>"><?= $row["position_name"] ?></option>
-                                            <?php } ?>    
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
                                         <label for="services" class="form-label">Services</label>
-                                        <select class="form-select" id="services" name="services">
-                                            <?php 
+                                        <select class="form-select" id="services" name="services" required>
+                                            <?php
                                             $fetchServices = $servicesFacade->fetchServices();
                                             while ($row = $fetchServices->fetch(PDO::FETCH_ASSOC)) { ?>
                                                 <option value="<?= $row["service_code"] ?>"><?= $row["service_name"] ?></option>
-                                            <?php } ?>    
+                                            <?php } ?>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -96,6 +96,29 @@
                                     <div class="mb-3">
                                         <label for="tin" class="form-label">TIN</label>
                                         <input type="text" class="form-control" id="tin" name="tin">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Account Access</p>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirm_password">
                                     </div>
                                 </div>
                             </div>

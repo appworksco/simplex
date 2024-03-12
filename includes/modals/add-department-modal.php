@@ -11,11 +11,11 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="departmentName" class="form-label">Department Name</label>
-                                <input type="text" class="form-control" id="departmentName" name="department_name">
+                                <input type="text" class="form-control" id="departmentName" name="department_name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="departmentCode" class="form-label">Department Code</label>
-                                <input type="text" class="form-control" id="departmentCode" name="department_code">
+                                <input type="text" class="form-control" id="departmentCode" name="department_code" required>
                             </div>
                         </div>
                         <div class="card-footer">
