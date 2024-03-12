@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="department" class="form-label">Department</label>
-                                        <select id="department" class="form-select" name="department">
+                                        <select id="department" class="form-select" name="department" required>
                                             <?php
                                             $fetchDepartments = $departmentsFacade->fetchDepartments();
                                             while ($row = $fetchDepartments->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -34,21 +34,21 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetName" class="form-label">Name of Item / Asset</label>
-                                        <input type="text" class="form-control" id="assetName" name="asset_name">
+                                        <input type="text" class="form-control" id="assetName" name="asset_name" required>
                                     </div>
                                 </div> 
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Description</label>
-                                        <input type="text" class="form-control" id="description" name="description">
+                                        <input type="text" class="form-control" id="description" name="description" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="qty" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control" id="qty" name="qty">
+                                        <input type="number" class="form-control" id="qty" name="qty" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="condition" class="form-label">Condition</label>
-                                        <select id="condition" class="form-select" name="condition">
+                                        <select id="condition" class="form-select" name="condition" required>
                                             <option value="">None</option>
                                             <option value="Good">Good</option>
                                             <option value="Fair">Fair</option>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="remarks" class="form-label">Remarks</label>
-                                <select id="remarks" class="form-select" name="remarks">
+                                <select id="remarks" class="form-select" name="remarks" required>
                                     <option value="">None</option>
                                     <option value="2007">2007</option>
                                     <option value="2008">2008</option>

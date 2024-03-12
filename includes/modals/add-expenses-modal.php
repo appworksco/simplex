@@ -11,7 +11,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>
-                                <select class="form-select" id="projectName" name="project_name">
+                                <select class="form-select" id="projectName" name="project_name" required>
                                     <option value="">Please Select...</option>
                                     <?php
                                     $fetchBiddingInformaion = $biddingInformationFacade->fetchBiddingInformation();
@@ -23,19 +23,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="BMNoId" class="form-label">BM Number</label>
-                                <select class="form-select" id="BMNoId" name="bm_no"></select>
+                                <select class="form-select" id="BMNoId" name="bm_no" required></select>
                             </div>
                             <div class="mb-3">
                                 <label for="projectTypeId" class="form-label">Project Type</label>
-                                <select class="form-select" id="projectTypeId" name="project_type_id"></select>
+                                <select class="form-select" id="projectTypeId" name="project_type_id" required></select>
                             </div>
                             <div class="mb-3">
                                 <label for="LGUId" class="form-label">LGU Name</label>
-                                <select class="form-select" id="LGUId" name="lgu_id"></select>
+                                <select class="form-select" id="LGUId" name="lgu_id" required></select>
                             </div>
                             <div class="mb-3">
                                 <label for="expenseType" class="form-label">Expense Type</label>
-                                <select class="form-select" id="expenseType" name="expense_type">
+                                <select class="form-select" id="expenseType" name="expense_type" required>
                                     <option value="BID DOCS">BID DOCS</option>
                                     <option value="NOTARIAL FEE">NOTARIAL FEE</option>
                                     <option value="PERFORMANCE BOND">PERFORMANCE BOND</option>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="totalAmount" class="form-label">Total Amount</label>
-                                <input type="text" class="form-control" id="totalAmount" name="total_amount">
+                                <input type="text" class="form-control" id="totalAmount" name="total_amount" required>
                             </div>
                             <div class="mb-3">
                                 <label for="remarks" class="form-label">Remarks</label>

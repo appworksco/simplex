@@ -63,6 +63,9 @@ if (isset($_POST["add_employee"])) {
     } else {
         $companyId = $_POST["company_id"];
     }
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $confirmPassword = $_POST["confirm_password"];
     $address = $_POST["address"];
     $contactPerson = $_POST["contact_person"];
     $contactPersonNumber = $_POST["contact_person_number"];
@@ -86,12 +89,15 @@ if (isset($_POST["add_employee"])) {
     }
     if (empty($address)) {
         array_push($invalid, 'Address should not be empty.');
+    }
+    if ($password != $confirmPassword) {
+        array_push($invalid, 'Password does not match.');
     } else {
         $verifyEmployee = $usersFacade->verifyEmployee($firstName, $middleName, $lastName);
         if ($verifyEmployee > 0) {
             array_push($invalid, 'Employee has already been added.');
         } else {
-            $addEmployee = $usersFacade->addEmployee($companyId, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status);
+            $addEmployee = $usersFacade->addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status);
             if ($addEmployee) {
                 array_push($success, 'Employee has been added successfully');
             }
@@ -151,7 +157,7 @@ if (isset($_POST["update_employee"])) {
                 <h5 class="card-title fw-semibold my-2">Manage Employee</h5>
                 <!-- Administrator View Start -->
                 <!-- HR Associate - Talent Acquisition and Retention can only see the button -->
-                <?php if ($canCreate === 1) { ?>
+                <?php if ($canCreate == 1) { ?>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
                 <?php } ?>
             </div>
