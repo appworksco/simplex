@@ -16,11 +16,11 @@
                                     <div class="col-4">
                                         <div class="mb-3">
                                             <label for="biddingDate" class="form-label">Bidding Date (mm/dd/yyyy)</label>
-                                            <input type="text" class="form-control" id="biddingDate" name="bidding_date" value="<?= $row["bid_date"] ?>">
+                                            <input type="text" class="form-control" id="biddingDate" name="bidding_date" value="<?= $row["bid_date"] ?>" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectName" class="form-label">Project Name</label>
-                                            <textarea class="w-100 p-2" id="project_name" name="project_name" style="height: 200px"><?= $row["project_name"] ?></textarea>
+                                            <textarea class="w-100 p-2" id="project_name" name="project_name" style="height: 200px" required><?= $row["project_name"] ?></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectTypeId" class="form-label">Project Type</label>
@@ -120,15 +120,15 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectBudgetAmount" class="form-label">Project Budget Amount</label>
-                                            <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount" value="<?= $row["project_budget_amount"] ?>">
+                                            <input type="text" class="form-control" id="projectBudgetAmount" name="project_budget_amount" value="<?= $row["project_budget_amount"] ?>" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="totalSKUQuantity" class="form-label">Total SKU Quantity</label>
-                                            <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity" value="<?= $row["total_sku_quantity"] ?>">
+                                            <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity" value="<?= $row["total_sku_quantity"] ?>" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="awardDate" class="form-label">Award Date (mm/dd/yyyy)</label>
-                                            <input type="text" class="form-control" id="awardDate" name="award_date" value="<?= $row["award_date"] ?>">
+                                            <input type="text" class="form-control" id="awardDate" name="award_date" value="<?= $row["award_date"] ?>" required>
                                         </div>
                                     </div>
                                     <div class="col-4">
@@ -151,10 +151,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="remarks" class="form-label">Remarks</label>
-                                            <textarea class="w-100 p-2" id="remarks" name="remarks" style="height: 200px"><?= $row["remarks"] ?></textarea>
+                                            <textarea class="w-100 p-2" id="remarks" name="remarks" style="height: 200px" required><?= $row["remarks"] ?></textarea>
                                         </div>
                                     </div>
-                                    <input type="hidden" value="<?= $row["bm_no"] ?>" name="series">
+                                    <input type="hidden" value="<?= $row["bm_no"] ?>" name="series" required>
                                 <?php } ?>
                                 <input type="hidden" value="<?= $biddingId ?>" name="bidding_id">
                                 </div>

@@ -55,10 +55,10 @@ class UsersFacade extends DBConnection
         return $sql;
     }
 
-    public function addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete)
+    public function addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status)
     {
-        $sql = $this->connect()->prepare("INSERT INTO users(company_id, username, password, first_name, middle_name, last_name, birthdate, blood_type, address, contact_person, contact_person_number, department, position, services, sss, pag_ibig, phic, tin, status, can_create, can_update, can_delete) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete]);
+        $sql = $this->connect()->prepare("INSERT INTO users(company_id, username, password, first_name, middle_name, last_name, birthdate, blood_type, address, contact_person, contact_person_number, department, position, services, sss, pag_ibig, phic, tin, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status]);
         return $sql;
     }
 
