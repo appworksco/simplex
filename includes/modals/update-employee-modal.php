@@ -122,59 +122,76 @@
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
-                            <input type="hidden" value="<?= $employeeId ?>" name="employee_id">
+                                <input type="hidden" value="<?= $employeeId ?>" name="employee_id">
                         </div>
                         <div class="card-body">
-                            <p>Account Permission</p>
+                            <p>Account Access</p>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label for="canCreate" class="form-label">Can Create</label>
-                                        <select class="form-select" id="canCreate" name="can_create">
-                                            <?php if ($employee["can_create"] === 0) { ?>
-                                                <option value="0" selected>No</option>
-                                                <option value="1">Yes</option>
-                                            <?php } else { ?>
-                                                <option value="0">No</option>
-                                                <option value="1" selected>Yes</option>
-                                            <?php } ?>
-                                        </select>
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" value="<?= $employee["username"] ?>">
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-3">
-                                        <label for="canUpdate" class="form-label">Can Update</label>
-                                        <select class="form-select" id="canUpdate" name="can_update">
-                                            <?php if ($employee["can_update"] === 0) { ?>
-                                                <option value="0" selected>No</option>
-                                                <option value="1">Yes</option>
-                                            <?php } else { ?>
-                                                <option value="0">No</option>
-                                                <option value="1" selected>Yes</option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mb-3">
-                                        <label for="canDelete" class="form-label">Can Delete</label>
-                                        <select class="form-select" id="canDelete" name="can_delete">
-                                            <?php if ($employee["can_delete"] === 0) { ?>
-                                                <option value="0" selected>No</option>
-                                                <option value="1">Yes</option>
-                                            <?php } else { ?>
-                                                <option value="0">No</option>
-                                                <option value="1" selected>Yes</option>
-                                            <?php } ?>
-                                        </select>
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" value="<?= $employee["password"] ?>">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-info" name="update_employee">Update Employee</button>
+                    <?php } ?>
+                    <div class="card-body">
+                        <p>Account Permission</p>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label for="canCreate" class="form-label">Can Create</label>
+                                    <select class="form-select" id="canCreate" name="can_create">
+                                        <?php if ($employee["can_create"] == 1) { ?>
+                                            <option value="0">No</option>
+                                            <option value="1" selected>Yes</option>
+                                        <?php } else { ?>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label for="canUpdate" class="form-label">Can Update</label>
+                                    <select class="form-select" id="canUpdate" name="can_update">
+                                        <?php if ($employee["can_update"] == 1) { ?>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        <?php } else { ?>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label for="canDelete" class="form-label">Can Delete</label>
+                                    <select class="form-select" id="canDelete" name="can_delete">
+                                        <?php if ($employee["can_delete"] == 1) { ?>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        <?php } else { ?>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info" name="update_employee">Update Employee</button>
+                    </div>
                     </form>
                 </div>
             </div>
