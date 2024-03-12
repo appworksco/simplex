@@ -116,6 +116,13 @@
 03/12/2024 09:40:28am : Adrian Pol Peligrino has been logged in!
 03/12/2024 09:44:07am : Adrian Pol Peligrino has been logged out!
 03/12/2024 09:44:11am : Adrian Pol Peligrino has been logged in!
+<<<<<<< HEAD
 >>>>>>> 2148e2a9e2c02e7607e54645e16b8db3429a4e85
 03/12/2024 10:25:56am : Jared Christopher Cipriano has been logged in!
 03/12/2024 10:26:36am : Adrian Pol Peligrino has been logged in!
+=======
+03/12/2024 10:31:36am : Adrian Pol Peligrino has been logged out!
+03/12/2024 10:31:40am : Adrian Pol Peligrino has been logged in!
+03/12/2024 10:42:27am : Adrian Pol Peligrino has been logged out!
+03/12/2024 10:42:31am : Adrian Pol Peligrino has been logged in!
+>>>>>>> ec5946ae4527abe26bf81ef21555817a32e27351
