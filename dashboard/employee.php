@@ -77,6 +77,9 @@ if (isset($_POST["add_employee"])) {
     $phic = $_POST["phic"];
     $tin = $_POST["tin"];
     $status = 'Probationary';
+    $canCreate = 1;
+    $canUpdate = 1;
+    $canDelete = 1;
 
     if (empty($firstName)) {
         array_push($invalid, 'First Name should not be empty.');
@@ -97,7 +100,7 @@ if (isset($_POST["add_employee"])) {
         if ($verifyEmployee > 0) {
             array_push($invalid, 'Employee has already been added.');
         } else {
-            $addEmployee = $usersFacade->addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status);
+            $addEmployee = $usersFacade->addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete);
             if ($addEmployee) {
                 array_push($success, 'Employee has been added successfully');
             }
@@ -125,10 +128,10 @@ if (isset($_POST["update_employee"])) {
     $pagIbig = $_POST["pag_ibig"];
     $phic = $_POST["phic"];
     $tin = $_POST["tin"];
+    $status = $_POST["status"];
     $canCreate = $_POST["can_create"];
     $canUpdate = $_POST["can_update"];
     $canDelete = $_POST["can_delete"];
-    $status = $_POST["status"];
 
     if (empty($firstName)) {
         array_push($invalid, 'First Name should not be empty.');
@@ -142,7 +145,7 @@ if (isset($_POST["update_employee"])) {
     if (empty($address)) {
         array_push($invalid, 'Address should not be empty.');
     } else {
-        $updateEmployee = $usersFacade->updateEmployee($employeeId, $companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $canCreate, $canUpdate, $canDelete, $status);
+        $updateEmployee = $usersFacade->updateEmployee($employeeId, $companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete);
         if ($updateEmployee) {
             array_push($success, 'Employee has been updated successfully');
         }

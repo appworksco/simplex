@@ -141,54 +141,61 @@
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
-                    <div class="card-body">
-                        <p>Account Permission</p>
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="mb-3">
-                                    <label for="canCreate" class="form-label">Can Create</label>
-                                    <select class="form-select" id="canCreate" name="can_create">
-                                        <?php if ($employee["can_create"] == 1) { ?>
-                                            <option value="0">No</option>
-                                            <option value="1" selected>Yes</option>
-                                        <?php } else { ?>
-                                            <option value="0">No</option>
+
+                        <div class="card-body">
+                            <p>Account Permission</p>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="canCreate" class="form-label">Can Create -
+                                            <?php if ($employee["can_create"] == 1) { ?>
+                                                <span class="text-success">Yes</span>
+                                            <?php } else { ?>
+                                                <span class="text-danger">No</span>
+                                            <?php } ?>
+                                        </label>
+                                        <select class="form-select" id="canCreate" name="can_create">
+                                            <option value="0">Please Select...</option>
                                             <option value="1">Yes</option>
-                                        <?php } ?>
-                                    </select>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="mb-3">
-                                    <label for="canUpdate" class="form-label">Can Update</label>
-                                    <select class="form-select" id="canUpdate" name="can_update">
-                                        <?php if ($employee["can_update"] == 1) { ?>
-                                            <option value="0">No</option>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="canUpdate" class="form-label">Can Update -
+                                            <?php if ($employee["can_update"] == 1) { ?>
+                                                <span class="text-success">Yes</span>
+                                            <?php } else { ?>
+                                                <span class="text-danger">No</span>
+                                            <?php } ?>
+                                        </label>
+                                        <select class="form-select" id="canUpdate" name="can_update">
+                                            <option value="0">Please Select...</option>
                                             <option value="1">Yes</option>
-                                        <?php } else { ?>
-                                            <option value="0">No</option>
-                                            <option value="1">Yes</option>
-                                        <?php } ?>
-                                    </select>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="mb-3">
-                                    <label for="canDelete" class="form-label">Can Delete</label>
-                                    <select class="form-select" id="canDelete" name="can_delete">
-                                        <?php if ($employee["can_delete"] == 1) { ?>
-                                            <option value="0">No</option>
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label for="canDelete" class="form-label">Can Delete -
+                                            <?php if ($employee["can_delete"] == 1) { ?>
+                                                <span class="text-success">Yes</span>
+                                            <?php } else { ?>
+                                                <span class="text-danger">No</span>
+                                            <?php } ?>
+                                        </label>
+                                        <select class="form-select" id="canDelete" name="can_delete">
+                                            <option value="0">Please Select...</option>
                                             <option value="1">Yes</option>
-                                        <?php } else { ?>
-                                            <option value="0">No</option>
-                                            <option value="1">Yes</option>
-                                        <?php } ?>
-                                    </select>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info" name="update_employee">Update Employee</button>
                     </div>

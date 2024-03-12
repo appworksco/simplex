@@ -55,16 +55,16 @@ class UsersFacade extends DBConnection
         return $sql;
     }
 
-    public function addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status)
+    public function addEmployee($companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete)
     {
-        $sql = $this->connect()->prepare("INSERT INTO users(company_id, username, password, first_name, middle_name, last_name, birthdate, blood_type, address, contact_person, contact_person_number, department, position, services, sss, pag_ibig, phic, tin, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $sql->execute([$companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status]);
+        $sql = $this->connect()->prepare("INSERT INTO users(company_id, username, password, first_name, middle_name, last_name, birthdate, blood_type, address, contact_person, contact_person_number, department, position, services, sss, pag_ibig, phic, tin, status, can_create, can_update, can_delete) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $sql->execute([$companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete]);
         return $sql;
     }
 
-    public function updateEmployee($employeeId, $companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $canCreate, $canUpdate, $canDelete, $status)
+    public function updateEmployee($employeeId, $companyId, $username, $password, $firstName, $middleName, $lastName, $birthDate, $bloodType, $address, $contactPerson, $contactPersonNumber, $department, $position, $services, $sss, $pagIbig, $phic, $tin, $status, $canCreate, $canUpdate, $canDelete)
     {
-        $sql = $this->connect()->prepare("UPDATE users SET company_id = '$companyId', username = '$username', password = '$password', first_name = '$firstName', middle_name = '$middleName', last_name = '$lastName', birthdate = '$birthDate', blood_type = '$bloodType', address = '$address', contact_person = '$contactPerson', contact_person_number = '$contactPersonNumber', department = '$department', position = '$position', services = '$services', sss = '$sss', pag_ibig = '$pagIbig', phic = '$phic', tin = '$tin', can_create = '$canCreate', can_update = '$canUpdate', can_delete = '$canDelete', status = '$status' WHERE id = '$employeeId'");
+        $sql = $this->connect()->prepare("UPDATE users SET company_id = '$companyId', username = '$username', password = '$password', first_name = '$firstName', middle_name = '$middleName', last_name = '$lastName', birthdate = '$birthDate', blood_type = '$bloodType', address = '$address', contact_person = '$contactPerson', contact_person_number = '$contactPersonNumber', department = '$department', position = '$position', services = '$services', sss = '$sss', pag_ibig = '$pagIbig', phic = '$phic', tin = '$tin', status = '$status', can_create = '$canCreate', can_update = '$canUpdate', can_delete = '$canDelete' WHERE id = '$employeeId'");
         $sql->execute();
         return $sql;
     }
