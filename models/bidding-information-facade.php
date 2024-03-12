@@ -9,7 +9,7 @@ class BiddingInformationFacade extends DBConnection {
     }
 
     public function fetchBiddingInformation() {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE project_budget_amount != total_paid");
+        $sql = $this->connect()->prepare("SELECT * FROM bd_project_information WHERE project_status = 'Won' AND project_budget_amount != total_paid");
         $sql->execute();
         return $sql;
     }
