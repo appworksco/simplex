@@ -151,10 +151,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="remarks" class="form-label">Remarks</label>
-                                            <textarea class="w-100 p-2" id="remarks" name="remarks" style="height: 200px" required><?= $row["remarks"] ?></textarea>
+                                            <textarea class="w-100 p-2" id="remarks" name="remarks" style="height: 200px"><?= $row["remarks"] ?></textarea>
                                         </div>
                                     </div>
-                                    <input type="hidden" value="<?= $row["bm_no"] ?>" name="series" required>
+                                    <input type="hidden" value="<?= $row["bm_no"] ?>" name="series">
                                 <?php } ?>
                                 <input type="hidden" value="<?= $biddingId ?>" name="bidding_id">
                                 </div>
