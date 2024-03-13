@@ -14,6 +14,12 @@ class PurchaseOrderFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchPOByBMNumber($BMNumber) {
+        $sql = $this->connect()->prepare("SELECT SUM(total_amount) as total_amount AND SUM(total_sku_quantity) as total_sku_quantity FROM bd_po WHERE bm_no = '$BMNumber'");
+        $sql->execute();
+        return $sql;
+    }
+
     public function isDelivered($PONumber) {
         $sql = $this->connect()->prepare("UPDATE bd_po SET is_delivered = 1 WHERE id = '$PONumber'");
         $sql->execute();
