@@ -101,10 +101,11 @@ if (isset($_POST["update_bidding"])) {
         $projectBudgetAmount = $_POST["project_budget_amount"];
         $totalSKUQuantity = $_POST["total_sku_quantity"];
         $awardDate = $_POST["award_date"];
-        $deliveryTargetMonth = $_POST["delivery_target_month"];
+        $deliveryTargetStartDate = $_POST["delivery_target_start_date"];
+        $deliveryTargetEndDate = $_POST["delivery_target_end_date"];
         $remarks = $_POST["remarks"];
     
-        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
+        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetStartDate, $deliveryTargetEndDate, $remarks, $biddingId);
         if ($updateBidding) {
             array_push($success, 'Bidding has been updated successfully');
         }
@@ -117,7 +118,7 @@ if (isset($_POST["update_bidding"])) {
         $deliveryTargetMonth = $_POST["delivery_target_month"];
         $remarks = $_POST["remarks"];
     
-        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetMonth, $remarks, $biddingId);
+        $updateBidding = $biddingInformationFacade->updateBidding($bmno, $biddingDate, $projectName, $projectTypeId, $LGUId, $projectStatus, $paymentStructure, $projectBudgetAmount, $totalSKUQuantity, $awardDate, $deliveryTargetStartDate, $deliveryTargetEndDate, $remarks, $biddingId);
         if ($updateBidding) {
             array_push($success, 'Bidding has been updated successfully');
         }

@@ -10,8 +10,15 @@
                     <form action="bidding-information" method="post">
                         <div class="card-body">
                             <div class="mb-3">
-                                <label for="biddingDate" class="form-label">Bidding Date (mm/dd/yyyy)</label>
-                                <input type="text" class="form-control" id="biddingDate" name="bidding_date" required>
+                                <label for="biddingDate" class="form-label">Bidding Date</label>
+                                <div class="input-group date datepicker">
+                                    <input type="text" class="form-control" id="biddingDate" name="bidding_date" required>
+                                    <span class="input-group-append">
+                                        <span class="input-group-text bg-light d-block">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="projectName" class="form-label">Project Name</label>

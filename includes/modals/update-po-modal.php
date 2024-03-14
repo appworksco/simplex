@@ -37,8 +37,15 @@
                                     <select class="form-select" id="updateLGUId" name="lgu_id"></select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="PODate" class="form-label">PO Date (mm/dd/yyyy)</label>
-                                    <input type="text" class="form-control" id="PODate" name="po_date" value="<?= $row["po_date"] ?>">
+                                    <label for="PODate" class="form-label">PO Date</label>
+                                    <div class="input-group date datepicker">
+                                        <input type="text" class="form-control" id="PODate" name="po_date" value="<?= $row["po_date"] ?>" required>
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalSKUAssortment" class="form-label">Total SKU Assortment</label>

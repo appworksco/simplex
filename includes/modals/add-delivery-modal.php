@@ -25,7 +25,7 @@
                             <div id="singlePOsingleDelivery" style="display: none;">
                                 <div class="mb-3">
                                     <label for="projectName" class="form-label">Project Name</label>
-                                    <select class="form-select" id="projectName" name="project_name_spsd" required>
+                                    <select class="form-select" id="projectName" name="project_name_spsd">
                                         <option value="">Please Select...</option>
                                         <?php
                                         $fetchPO = $POFacade->fetchPO();
@@ -36,39 +36,46 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="BMNoId" class="form-label">BM Number</label>
-                                    <select class="form-select" id="BMNoId" name="bm_no_spsd" required></select>
+                                    <select class="form-select" id="BMNoId" name="bm_no_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectTypeId" class="form-label">Project Type</label>
-                                    <select class="form-select" id="projectTypeId" name="project_type_id_spsd" required></select>
+                                    <select class="form-select" id="projectTypeId" name="project_type_id_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="LGUId" class="form-label">LGU Name</label>
-                                    <select class="form-select" id="LGUId" name="lgu_id_spsd" required></select>
+                                    <select class="form-select" id="LGUId" name="lgu_id_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectPOList" class="form-label">Project PO List</label>
-                                    <select class="form-select" id="projectPOList" name="project_po_list_spsd" required></select>
+                                    <select class="form-select" id="projectPOList" name="project_po_list_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="PONumber" class="form-label">PO Number</label>
-                                    <select class="form-select" id="PONumber" name="po_number_spsd" required></select>
+                                    <select class="form-select" id="PONumber" name="po_number_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="DRNumber" class="form-label">DR Number</label>
                                     <input type="text" class="form-control" id="DRNumber" name="dr_number_spsd" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="DRDate" class="form-label">DR Date (mm/dd/yyyy)</label>
-                                    <input type="text" class="form-control" id="DRDate" name="dr_date_spsd" required>
+                                    <label for="DRDateSpsd" class="form-label">DR Date</label>
+                                    <div class="input-group date datepicker">
+                                        <input type="text" class="form-control" id="DRDateSpsd" name="dr_date_spsd" required>
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalQuantity" class="form-label">Total Quantity</label>
-                                    <select class="form-select" id="totalQuantity" name="total_quantity_spsd" required></select>
+                                    <select class="form-select" id="totalQuantity" name="total_quantity_spsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalAmount" class="form-label">Total Amount</label>
-                                    <select class="form-select" id="totalAmount" name="total_amount_spsd" required></select>
+                                    <select class="form-select" id="totalAmount" name="total_amount_spsd"></select>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary" name="add_delivery_spsd">Add Delivery</button>
@@ -79,7 +86,7 @@
                             <div id="multiplePOsingleDelivery" style="display: none;">
                                 <div class="mb-3">
                                     <label for="projectName" class="form-label">Project Name</label>
-                                    <select class="form-select" id="projectNameMpsd" name="project_name_mpsd" required>
+                                    <select class="form-select" id="projectNameMpsd" name="project_name_mpsd">
                                         <option value="">Please Select...</option>
                                         <?php
                                         $fetchPO = $POFacade->fetchPO();
@@ -90,15 +97,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="BMNoId" class="form-label">BM Number</label>
-                                    <select class="form-select" id="BMNoIdMpsd" name="bm_no_mpsd" required></select>
+                                    <select class="form-select" id="BMNoIdMpsd" name="bm_no_mpsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectTypeId" class="form-label">Project Type</label>
-                                    <select class="form-select" id="projectTypeIdMpsd" name="project_type_id_mpsd" required></select>
+                                    <select class="form-select" id="projectTypeIdMpsd" name="project_type_id_mpsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="LGUId" class="form-label">LGU Name</label>
-                                    <select class="form-select" id="LGUIdMpsd" name="lgu_id_mpsd" required></select>
+                                    <select class="form-select" id="LGUIdMpsd" name="lgu_id_mpsd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="1stPOList" class="form-label">1st PO</label>
@@ -140,8 +147,15 @@
                                     <input type="text" class="form-control" id="DRNumber" name="dr_number_mpsd" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="DRDate" class="form-label">DR Date (mm/dd/yyyy)</label>
-                                    <input type="text" class="form-control" id="DRDate" name="dr_date_mpsd" required>
+                                    <label for="DRDateMpsd" class="form-label">DR Date</label>
+                                    <div class="input-group date datepicker">
+                                        <input type="text" class="form-control" id="DRDateMpsd" name="dr_date_mpsd" required>
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary" name="add_delivery_mpsd">Add Delivery</button>
@@ -152,7 +166,7 @@
                             <div id="singlePOmultipleDelivery" style="display: none;">
                                 <div class="mb-3">
                                     <label for="projectName" class="form-label">Project Name</label>
-                                    <select class="form-select" id="projectNameSpmd" name="project_name_spmd" required>
+                                    <select class="form-select" id="projectNameSpmd" name="project_name_spmd">
                                         <option value="">Please Select...</option>
                                         <?php
                                         $fetchPO = $POFacade->fetchPO();
@@ -163,31 +177,38 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="BMNoId" class="form-label">BM Number</label>
-                                    <select class="form-select" id="BMNoIdSpmd" name="bm_no_spmd" required></select>
+                                    <select class="form-select" id="BMNoIdSpmd" name="bm_no_spmd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectTypeId" class="form-label">Project Type</label>
-                                    <select class="form-select" id="projectTypeIdSpmd" name="project_type_id_spmd" required></select>
+                                    <select class="form-select" id="projectTypeIdSpmd" name="project_type_id_spmd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="LGUId" class="form-label">LGU Name</label>
-                                    <select class="form-select" id="LGUIdSpmd" name="lgu_id_spmd" required></select>
+                                    <select class="form-select" id="LGUIdSpmd" name="lgu_id_spmd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="projectPOListSpmd" class="form-label">Project PO List</label>
-                                    <select class="form-select" id="projectPOListSpmd" name="project_po_list_spmd" required></select>
+                                    <select class="form-select" id="projectPOListSpmd" name="project_po_list_spmd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="PONumber" class="form-label">PO Number</label>
-                                    <select class="form-select" id="PONumberSpmd" name="po_number_spmd" required></select>
+                                    <select class="form-select" id="PONumberSpmd" name="po_number_spmd"></select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="DRNumber" class="form-label">DR Number</label>
                                     <input type="text" class="form-control" id="DRNumberSpmd" name="dr_number_spmd" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="DRDate" class="form-label">DR Date (mm/dd/yyyy)</label>
-                                    <input type="text" class="form-control" id="DRDateSpmd" name="dr_date_spmd" required>
+                                    <label for="DRDateSpmd" class="form-label">DR Date</label>
+                                    <div class="input-group date datepicker">
+                                        <input type="text" class="form-control" id="DRDateSpmd" name="dr_date_spmd" required>
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="totalQuantitySpmd" class="form-label">Total Quantity</label>

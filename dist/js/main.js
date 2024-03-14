@@ -1,6 +1,11 @@
 // Load data from server
 var i = 0;
 
+// Initialize datepicker
+$(function () {
+    $('.datepicker').datepicker();
+});
+
 function move() {
     if (i == 0) {
         i = 1;
