@@ -15,8 +15,15 @@
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="mb-3">
-                                            <label for="biddingDate" class="form-label">Bidding Date (mm/dd/yyyy)</label>
-                                            <input type="text" class="form-control" id="biddingDate" name="bidding_date" value="<?= $row["bid_date"] ?>" required>
+                                            <label for="biddingDate" class="form-label">Bidding Date</label>
+                                            <div class="input-group date datepicker">
+                                                <input type="text" class="form-control" id="biddingDate" name="bidding_date" value="<?= $row["bid_date"] ?>" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-light d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="projectName" class="form-label">Project Name</label>
@@ -127,27 +134,39 @@
                                             <input type="text" class="form-control" id="totalSKUQuantity" name="total_sku_quantity" value="<?= $row["total_sku_quantity"] ?>" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="awardDate" class="form-label">Award Date (mm/dd/yyyy)</label>
-                                            <input type="text" class="form-control" id="awardDate" name="award_date" value="<?= $row["award_date"] ?>" required>
+                                            <label for="awardDate" class="form-label">Award Date</label>
+                                            <div class="input-group date datepicker">
+                                                <input type="text" class="form-control" id="awardDate" name="award_date" value="<?= $row["award_date"] ?>" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-light d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="mb-3">
-                                            <label for="deliveryTargetMonth" class="form-label">Delivery Target Month</label>
-                                            <select class="form-select" id="deliveryTargetMonth" name="delivery_target_month">
-                                                <option value="January">January</option>
-                                                <option value="February">February</option>
-                                                <option value="March">March</option>
-                                                <option value="April">April</option>
-                                                <option value="May">May</option>
-                                                <option value="June">June</option>
-                                                <option value="July">July</option>
-                                                <option value="August">August</option>
-                                                <option value="September">September</option>
-                                                <option value="October">October</option>
-                                                <option value="November">November</option>
-                                                <option value="December">December</option>
-                                            </select>
+                                            <label for="deliveryTargetStartDate" class="form-label">Delivery Target Start Date</label>
+                                            <div class="input-group date datepicker">
+                                                <input type="text" class="form-control" id="deliveryTargetStartDate" name="delivery_target_start_date" value="<?= $row["delivery_target_start_date"] ?>" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-light d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="deliveryTargetEndDate" class="form-label">Delivery Target End Date</label>
+                                            <div class="input-group date datepicker">
+                                                <input type="text" class="form-control" id="deliveryTargetStartDate" name="delivery_target_end_date" value="<?= $row["delivery_target_end_date"] ?>" required>
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-light d-block">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="remarks" class="form-label">Remarks</label>

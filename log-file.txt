@@ -131,15 +131,3 @@
 =======
 03/12/2024 03:19:18pm : Adrian Pol Peligrino has been logged out!
 03/12/2024 03:19:22pm : Adrian Pol Peligrino has been logged in!
->>>>>>> 157df776ca534e71e5e5c278d4ee710c6fb80067
-03/12/2024 03:42:59pm : LUCIL PURACAN has been logged in!
-03/13/2024 01:33:35pm : LUCIL PURACAN has been logged in!
-03/13/2024 01:43:27pm : LUCIL PURACAN has been logged out!
-03/13/2024 01:43:33pm : Jared Christopher Cipriano has been logged in!
-03/13/2024 01:44:02pm : Jared Christopher Cipriano has been logged out!
-03/13/2024 01:44:08pm : LUCIL PURACAN has been logged in!
-03/13/2024 02:14:03pm : LUCIL PURACAN has been logged out!
-03/13/2024 02:14:14pm : Jared Christopher Cipriano has been logged in!
-03/13/2024 02:17:25pm : Adrian Pol Peligrino has been logged in!
-03/13/2024 03:10:29pm : LUCIL PURACAN has been logged out!
-03/13/2024 03:10:39pm : Jared Christopher Cipriano has been logged in!
