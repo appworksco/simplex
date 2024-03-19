@@ -234,15 +234,15 @@ if (isset($_POST["update_bidding"])) {
                                     ?>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= number_format($row["project_budget_amount"], 2) ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["project_budget_amount"] - $row["total_paid"] - $row["project_expenses_amount"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= number_format($projectBudgetAmount = $row["project_budget_amount"] - $row["total_paid"] - $row["project_expenses_amount"], 2); ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal">
                                         <?php
-                                        echo $row["total_paid"];
+                                        echo number_format($row["total_paid"], 2);
                                         // Update PO to paid if PO is totally paid
                                         if ($row["project_budget_amount"] == $row["total_paid"]) {
                                             $BMNumber = $row["bm_no"];
