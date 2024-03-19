@@ -17,7 +17,7 @@ $out = '';
 if (isset($_POST["projectName"])) {
     $projectName = $_POST["projectName"];
 
-    $sql = "SELECT * FROM bd_project_information WHERE project_name = '$projectName'";
+    $sql = "SELECT * FROM bd_project_information WHERE project_name = '$projectName' AND total_paid = 0";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_assoc($result)) {
         $BMNumber = $row["bm_no"];

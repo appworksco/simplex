@@ -3,7 +3,7 @@
 class PaymentFacade extends DBConnection {
 
     public function fetchPayments() {
-        $sql = $this->connect()->prepare("SELECT * FROM bd_payments WHERE is_paid = 0");
+        $sql = $this->connect()->prepare("SELECT * FROM bd_payments WHERE is_paid != 1");
         $sql->execute();
         return $sql;
     }
@@ -89,7 +89,7 @@ class PaymentFacade extends DBConnection {
         return $sql;
     }
 
-    public function isPaid($BMNumber){
+    public function isPaid($BMNumber) {
         $sql = $this->connect()->prepare("UPDATE bd_payments SET is_paid = 1 WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;

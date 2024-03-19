@@ -195,7 +195,7 @@ if (isset($_POST["update_expense"])) {
                                     <p class="mb-0 fw-normal"><?= $row["expense_type"] ?></p>
                                 </td>
                                 <td class="border-bottom-0">
-                                    <p class="mb-0 fw-normal"><?= $row["total_amount"] ?></p>
+                                    <p class="mb-0 fw-normal"><?= number_format($row["total_amount"],2 ) ?></p>
                                 </td>
                                 <td class="border-bottom-0">
                                     <p class="mb-0 fw-normal"><?= $row["remarks"] ?></p>

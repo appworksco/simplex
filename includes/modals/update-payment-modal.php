@@ -18,29 +18,44 @@
                         </div>
                     </div>
 
-                    <form action="payments" method="post">
+                    <!-- <form action="payments" method="post"> -->
 
-                        <?php
-                        $fetchPaymentById = $paymentFacade->fetchPaymentById($paymentId);
-                        while ($row = $fetchPaymentById->fetch(PDO::FETCH_ASSOC)) { ?>
+                    <?php
+                    $fetchPaymentById = $paymentFacade->fetchPaymentById($paymentId);
+                    while ($row = $fetchPaymentById->fetch(PDO::FETCH_ASSOC)) { ?>
 
-                            <input type="hidden" value="<?= $row["po_no"] ?>" name="po_number">
-                            <input type="hidden" value="<?= $paymentId ?>" name="payment_id">
+                        <input type="hidden" value="<?= $row["po_no"] ?>" name="po_number">
+                        <input type="hidden" value="<?= $paymentId ?>" name="payment_id">
 
+                        <form action="add-payment-full" method="post">
                             <!-- If payment mode is full payment -->
                             <div id="fullPayment" style="display:none;">
                                 <div class="card-body">
                                     <div class="mb-3">
                                         <label for="billNumber" class="form-label">Bill Number</label>
-                                        <input type="text" class="form-control" id="billNumber" name="bill_number">
+                                        <input type="text" class="form-control" id="billNumber" name="bill_number" value="<?= $row["bill_no"] ?>" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="billDate" class="form-label">Bill Date (mm/dd/yyyy)</label>
-                                        <input type="text" class="form-control" id="billDate" name="bill_date">
+                                        <label for="billDate" class="form-label">Bill Date</label>
+                                        <div class="input-group date datepicker">
+                                            <input type="text" class="form-control" id="billDate" name="bill_date" value="<?= $row["bill_date"] ?>" required>
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-light d-block">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="paymentDate" class="form-label">Payment Date (mm/dd/yyyy)</label>
-                                        <input type="text" class="form-control" id="paymentDate" name="payment_date">
+                                        <label for="paymentDate" class="form-label">Payment Date</label>
+                                        <div class="input-group date datepicker">
+                                            <input type="text" class="form-control" id="paymentDate" name="payment_date" value="<?= $row["payment_date"] ?>" required>
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-light d-block">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="paymentAmount" class="form-label">Payment Amount</label>
@@ -48,7 +63,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="paymentReceiptNumber" class="form-label">Payment Receipt Number</label>
-                                        <input type="text" class="form-control" id="paymentReceiptNumber" name="payment_receipt_number">
+                                        <input type="text" class="form-control" id="paymentReceiptNumber" name="payment_receipt_number" value="<?= $row["payment_receipt_number"] ?>">
                                     </div>
                                     <input type="hidden" name="bm_no" value="<?= $row["bm_no"] ?>">
                                 </div>
@@ -56,7 +71,9 @@
                                     <button type="submit" class="btn btn-primary" name="full_payment">Update Payment</button>
                                 </div>
                             </div>
+                        </form>
 
+                        <form action="add-payment-partial" method="post">
                             <!-- If payment mode is partial payment -->
                             <div id="partialPayment" style="display:none;">
                                 <div class="card">
@@ -96,7 +113,14 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="1stPaymentDate" class="form-label">Payment Date (mm/dd/yyyy)</label>
-                                                            <input type="text" class="form-control" id="1stPaymentDate" name="1st_payment_date" value="<?= $row["1st_payment_date"] ?>">
+                                                            <div class="input-group date datepicker">
+                                                                <input type="text" class="form-control" id="1stPaymentDate" name="1st_payment_date" value="<?= $row["1st_payment_date"] ?>" required>
+                                                                <span class="input-group-append">
+                                                                    <span class="input-group-text bg-light d-block">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="1stPaymentAmount" class="form-label">Payment Amount</label>
@@ -300,17 +324,15 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card">
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary" name="partial_payment">Update Payment</button>
                                     </div>
                                 </div>
                             </div>
-
-                        <?php } ?>
-
-                    </form>
+                        </form>
+                    <?php } ?>
+                    <!-- </form> -->
                 </div>
             </div>
         </div>

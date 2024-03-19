@@ -7,21 +7,20 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <!-- <form action="deliveries" method="post"> -->
-                    <div class="card-body">
+                    <form action="deliveries" method="post">
+                        <div class="card-body">
 
-                        <!-- Delivery type -->
-                        <div class="mb-3">
-                            <label for="deliveryType" class="form-label">Delivery Type</label>
-                            <select class="form-select" id="deliveryType" name="delivery_type">
-                                <option value="0">Please Select...</option>
-                                <option value="1">Single PO - Single Delivery</option>
-                                <option value="2">Multiple PO - Single Delivery</option>
-                                <option value="3">Single PO - Multiple Delivery</option>
-                            </select>
-                        </div>
+                            <!-- Delivery type -->
+                            <div class="mb-3">
+                                <label for="deliveryType" class="form-label">Delivery Type</label>
+                                <select class="form-select" id="deliveryType" name="delivery_type">
+                                    <option value="0">Please Select...</option>
+                                    <option value="1">Single PO - Single Delivery</option>
+                                    <option value="2">Multiple PO - Single Delivery</option>
+                                    <option value="3">Single PO - Multiple Delivery</option>
+                                </select>
+                            </div>
 
-                        <form action="add-delivery-spsd" method="post">
                             <!-- Single PO - Single Delivery -->
                             <div id="singlePOsingleDelivery" style="display: none;">
                                 <div class="mb-3">
@@ -82,9 +81,7 @@
                                     <button type="submit" class="btn btn-primary" name="add_delivery_spsd">Add Delivery</button>
                                 </div>
                             </div>
-                        </form>
 
-                        <form action="add-delivery-mpsd" method="post">
                             <!-- Multiple PO - Single Delivery -->
                             <div id="multiplePOsingleDelivery" style="display: none;">
                                 <div class="mb-3">
@@ -164,9 +161,7 @@
                                     <button type="submit" class="btn btn-primary" name="add_delivery_mpsd">Add Delivery</button>
                                 </div>
                             </div>
-                        </form>
 
-                        <form action="add-delivery-spmd" method="post">
                             <!-- Single PO - Multiple Delivery -->
                             <div id="singlePOmultipleDelivery" style="display: none;">
                                 <div class="mb-3">
@@ -227,9 +222,8 @@
                                     <button type="submit" class="btn btn-primary" name="add_delivery_spmd">Add Delivery</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <!-- </form> -->
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

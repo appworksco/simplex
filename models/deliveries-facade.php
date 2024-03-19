@@ -52,8 +52,8 @@ class DeliveriesFacade extends DBConnection {
         return $sql;
     }
 
-    public function isPaid($PONumber){
-        $sql = $this->connect()->prepare("UPDATE bd_deliveries SET is_paid = 1 WHERE 1st_po_no = '$PONumber'");
+    public function isPaid($BMNumber) {
+        $sql = $this->connect()->prepare("UPDATE bd_deliveries SET is_paid = 1 WHERE bm_no = '$BMNumber'");
         $sql->execute();
         return $sql;
     }
