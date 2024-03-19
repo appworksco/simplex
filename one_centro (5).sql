@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 03:32 AM
+-- Generation Time: Mar 19, 2024 at 08:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -372,6 +372,14 @@ CREATE TABLE `bd_deliveries` (
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bd_deliveries`
+--
+
+INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `1st_po_no`, `1st_total_quantity`, `1st_total_amount`, `2nd_po_no`, `2nd_total_quantity`, `2nd_total_amount`, `3rd_po_no`, `3rd_total_quantity`, `3rd_total_amount`, `4th_po_no`, `4th_total_quantity`, `4th_total_amount`, `5th_po_no`, `5th_total_quantity`, `5th_total_amount`, `dr_no`, `dr_date`, `is_paid`) VALUES
+(118, 4, 'IT SUPPLIES', 'BM202420', 5, '168', '1', 500, '', '', 0, '', '', 0, '', '', 0, '', '', 0, '1', '03/21/2024', 1),
+(119, 4, 'IT SUPPLIES', 'BM202421', 5, '169', '1', 100, '171', '1', 100, '172', '1', 100, '170', '1', 100, '173', '1', 100, '123', '03/29/2024', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -491,6 +499,14 @@ CREATE TABLE `bd_payments` (
   `is_paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bd_payments`
+--
+
+INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `remaining_balance`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
+(108, 4, 'IT SUPPLIES', 'BM202420', 5, '168', '1', '03/21/2024', '1', 500, '500', '', '', '1', 500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1),
+(109, 4, 'IT SUPPLIES', 'BM202421', 5, '0', '123', '03/29/2024', '5', 500, '500', '', '', '5', 500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -511,6 +527,18 @@ CREATE TABLE `bd_po` (
   `is_delivered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bd_po`
+--
+
+INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
+(168, 4, 'IT SUPPLIES', 'BM202420', 5, '02/22/2024', 1, 1, 500, '', 1),
+(169, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(170, 4, 'IT SUPPLIES', 'BM202421', 5, '03/22/2024', 1, 1, 100, '', 1),
+(171, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(172, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(173, 4, 'IT SUPPLIES', 'BM202421', 5, '03/23/2024', 1, 1, 100, '', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -527,7 +555,8 @@ CREATE TABLE `bd_project_information` (
   `payment_structure` varchar(20) NOT NULL,
   `project_budget_amount` double NOT NULL,
   `project_expenses_amount` double NOT NULL,
-  `delivery_target_month` varchar(20) NOT NULL,
+  `delivery_target_start_date` varchar(20) NOT NULL,
+  `delivery_target_end_date` varchar(20) NOT NULL,
   `total_sku_quantity` double NOT NULL,
   `total_quantity` varchar(255) NOT NULL,
   `expense_type` varchar(50) NOT NULL,
@@ -556,7 +585,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '9');
+(1, '22');
 
 -- --------------------------------------------------------
 
@@ -1013,13 +1042,13 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
 --
 ALTER TABLE `bd_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `bd_lgu`
@@ -1037,19 +1066,19 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
