@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2024 at 08:24 AM
+-- Generation Time: Mar 20, 2024 at 05:00 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -569,6 +569,13 @@ CREATE TABLE `bd_project_information` (
   `updated_on` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bd_project_information`
+--
+
+INSERT INTO `bd_project_information` (`id`, `bm_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `project_expenses_amount`, `delivery_target_start_date`, `delivery_target_end_date`, `total_sku_quantity`, `total_quantity`, `expense_type`, `bid_date`, `award_date`, `remarks`, `total_delivered`, `total_paid`, `added_on`, `updated_on`) VALUES
+(71, 'BM202422', 5, 4, 'IT SUPPLIES', 'Won', 'Progressive', 500, 0, '03/29/2024', '03/30/2024', 5, '5', '', '08/23/2024', '03/22/2024', '', 0, 0, '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -585,7 +592,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '22');
+(1, '23');
 
 -- --------------------------------------------------------
 
@@ -1072,13 +1079,13 @@ ALTER TABLE `bd_payments`
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
