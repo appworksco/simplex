@@ -70,27 +70,25 @@ if (isset($_POST["add_purchase_order"])) {
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    // verify project budget amount
-
-
-
     $fetchBiddingByBMNumber = $biddingInformationFacade->fetchBiddingByBMNumber($BMNumber);
     while ($bidding =  $fetchBiddingByBMNumber->fetch(PDO::FETCH_ASSOC)) {
         $biddingTotalQuantity = $bidding["total_quantity"] - $bidding["total_delivered"];
         $biddingProjectBudgetAmount = $bidding["project_budget_amount"] - $bidding["total_paid"] - $bidding["project_expenses_amount"];
 
-
-        // Fetch all PO by BMNO
-        $fetchPOByBMNumber = $POFacade->fetchPOByBMNumber($BMNumber);
-        while ($POByBMNumber = $fetchPOByBMNumber->fetch(PDO::FETCH_ASSOC)) {
-            $POTotalAmount = $POByBMNumber["total_amount"];
-            $POTotalSKUQuantity = $POByBMNumber["total_sku_quantity"];
-            if ($biddingProjectBudgetAmount <= $POTotalAmount && $biddingTotalQuantity <= $POTotalSKUQuantity) {
-                array_push($invalid, 'The quantity or amount is greater than the allocated budget');
-            } else {
-                $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
-                if ($addPO) {
-                    array_push($success, 'Purchase Order has been added successfully');
+        if ($biddingProjectBudgetAmount < $totalAmount || $biddingTotalQuantity < $totalQuantity) {
+            array_push($invalid, 'The quantity or amount is greater than the allocated budget');
+        } else {
+            $fetchPOByBMNumber = $POFacade->fetchPOByBMNumber($BMNumber);
+            while ($POByBMNumber = $fetchPOByBMNumber->fetch(PDO::FETCH_ASSOC)) {
+                $biddingCurrentQuantity = $biddingTotalQuantity - $POByBMNumber["total_sku_quantity"];
+                $biddingCurrentAmount = $biddingProjectBudgetAmount - $POByBMNumber["total_amount"];
+                if ($biddingCurrentQuantity <= 0 || $biddingCurrentAmount <= 0) {
+                    array_push($invalid, 'The quantity or amount is greater than the allocated budget');
+                } else {
+                    $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
+                    if ($addPO) {
+                        array_push($success, 'Purchase Order has been added successfully');
+                    }
                 }
             }
         }
