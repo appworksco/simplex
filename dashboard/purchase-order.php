@@ -82,7 +82,11 @@ if (isset($_POST["add_purchase_order"])) {
             while ($POByBMNumber = $fetchPOByBMNumber->fetch(PDO::FETCH_ASSOC)) {
                 $biddingCurrentQuantity = $biddingTotalQuantity - $POByBMNumber["total_sku_quantity"];
                 $biddingCurrentAmount = $biddingProjectBudgetAmount - $POByBMNumber["total_amount"];
-                if ($biddingCurrentQuantity <= 0 || $biddingCurrentAmount <= 0) {
+
+                $newBiddingCurrentQuantity = $biddingTotalQuantity - $biddingCurrentQuantity + $totalQuantity;
+                $newBiddingCurrentAmount = $biddingProjectBudgetAmount - $biddingCurrentAmount + $totalAmount;
+
+                if ($newBiddingCurrentQuantity > $biddingTotalQuantity || $newBiddingCurrentAmount > $biddingProjectBudgetAmount) {
                     array_push($invalid, 'The quantity or amount is greater than the allocated budget');
                 } else {
                     $addPO = $POFacade->addPO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks);
