@@ -111,9 +111,32 @@ if (isset($_POST["update_purchase_order"])) {
     $totalAmount = $_POST["total_amount"];
     $remarks = $_POST["remarks"];
 
-    $updatePO = $POFacade->updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
-    if ($updatePO) {
-        array_push($success, 'Purchase Order has been updated successfully');
+    $fetchBiddingByBMNumber = $biddingInformationFacade->fetchBiddingByBMNumber($BMNumber);
+    while ($bidding =  $fetchBiddingByBMNumber->fetch(PDO::FETCH_ASSOC)) {
+        $biddingTotalQuantity = $bidding["total_quantity"] - $bidding["total_delivered"];
+        $biddingProjectBudgetAmount = $bidding["project_budget_amount"] - $bidding["total_paid"] - $bidding["project_expenses_amount"];
+
+        if ($biddingProjectBudgetAmount < $totalAmount || $biddingTotalQuantity < $totalQuantity) {
+            array_push($invalid, 'The quantity or amount is greater than the allocated budget');
+        } else {
+            $fetchPOByBMNumber = $POFacade->fetchPOByBMNumber($BMNumber);
+            while ($POByBMNumber = $fetchPOByBMNumber->fetch(PDO::FETCH_ASSOC)) {
+                $biddingCurrentQuantity = $biddingTotalQuantity - $POByBMNumber["total_sku_quantity"];
+                $biddingCurrentAmount = $biddingProjectBudgetAmount - $POByBMNumber["total_amount"];
+
+                $newBiddingCurrentQuantity = $biddingTotalQuantity - $biddingCurrentQuantity + $totalQuantity;
+                $newBiddingCurrentAmount = $biddingProjectBudgetAmount - $biddingCurrentAmount + $totalAmount;
+
+                if ($newBiddingCurrentQuantity <= $biddingTotalQuantity || $newBiddingCurrentAmount <= $biddingProjectBudgetAmount) {
+                    array_push($invalid, 'The quantity or amount is greater than the allocated budget');
+                } else {
+                    $updatePO = $POFacade->updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);
+                    if ($updatePO) {
+                        array_push($success, 'Purchase Order has been updated successfully');
+                    }
+                }
+            }
+        }
     }
 }
 

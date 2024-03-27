@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2024 at 05:00 AM
+-- Generation Time: Mar 27, 2024 at 07:30 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -532,12 +532,7 @@ CREATE TABLE `bd_po` (
 --
 
 INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
-(168, 4, 'IT SUPPLIES', 'BM202420', 5, '02/22/2024', 1, 1, 500, '', 1),
-(169, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
-(170, 4, 'IT SUPPLIES', 'BM202421', 5, '03/22/2024', 1, 1, 100, '', 1),
-(171, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
-(172, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
-(173, 4, 'IT SUPPLIES', 'BM202421', 5, '03/23/2024', 1, 1, 100, '', 1);
+(248, 4, 'IT SUPPLIES', 'BMBM202423', 4, '03/30/2024', 5, 5, 5000000, '', 0);
 
 -- --------------------------------------------------------
 
@@ -574,7 +569,7 @@ CREATE TABLE `bd_project_information` (
 --
 
 INSERT INTO `bd_project_information` (`id`, `bm_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `project_expenses_amount`, `delivery_target_start_date`, `delivery_target_end_date`, `total_sku_quantity`, `total_quantity`, `expense_type`, `bid_date`, `award_date`, `remarks`, `total_delivered`, `total_paid`, `added_on`, `updated_on`) VALUES
-(71, 'BM202422', 5, 4, 'IT SUPPLIES', 'Won', 'Progressive', 500, 0, '03/29/2024', '03/30/2024', 5, '5', '', '08/23/2024', '03/22/2024', '', 0, 0, '', '');
+(72, 'BMBM202423', 5, 4, 'IT SUPPLIES', 'Won', 'Progressive', 5000000, 0, '04/26/2024', '03/14/2024', 5, '5', '', '09/23/23', '03/23/2024', '', 0, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -592,7 +587,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '23');
+(1, '24');
 
 -- --------------------------------------------------------
 
@@ -650,7 +645,7 @@ CREATE TABLE `cts` (
 --
 
 INSERT INTO `cts` (`id`, `ticket_no`, `created_at`, `time_resolved`, `requested_by`, `department`, `issue`, `description`, `severity`, `assisted_by`, `assistors_remark`, `image`, `status`) VALUES
-(7, 32612658, '2024-02-29 11:38:42', '', 'Test Test', 'HR', 'Monitor', 'tryrty', 'Low', '', '', 'uploads/65dffc42081ba_35-350824_green-arrow-green-right-arrow-icon.png', 'Pending');
+(7, 32612658, '2024-02-29 11:38:42', '2024-03-21', 'Test Test', 'HR', 'Monitor', 'tryrty', 'Low', 'Adrian Pol Peligrino', 'Done', 'uploads/65dffc42081ba_35-350824_green-arrow-green-right-arrow-icon.png', 'Done');
 
 -- --------------------------------------------------------
 
@@ -754,6 +749,18 @@ INSERT INTO `issues` (`id`, `issue`) VALUES
 (9, 'Printer'),
 (12, 'One Centro'),
 (13, 'Barter');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -909,6 +916,206 @@ INSERT INTO `users` (`id`, `user_role`, `company_id`, `username`, `password`, `f
 (44, 1, '', 'intern2', 'intern2', 'Intern', '', '2', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0),
 (45, 1, '', 'intern3', 'Intern3', 'Intern', '', '3', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, 0, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_about`
+--
+
+CREATE TABLE `web_about` (
+  `id` int(11) NOT NULL,
+  `mission` text NOT NULL,
+  `vision` text NOT NULL,
+  `descript` text NOT NULL,
+  `text` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `web_about`
+--
+
+INSERT INTO `web_about` (`id`, `mission`, `vision`, `descript`, `text`, `created_at`, `updated_at`) VALUES
+(1, 'sdfsdfasda sd asd asd as', 'sdfsadasd asda sd asd asd asd', 'vcvbcvbasd asd asd a', 'hkjkhjk', '2024-03-25 05:36:09', '2024-03-26 05:21:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_career`
+--
+
+CREATE TABLE `web_career` (
+  `id` int(11) NOT NULL,
+  `job_position` varchar(50) NOT NULL,
+  `job_description` varchar(100) NOT NULL,
+  `job_requirement` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_contact`
+--
+
+CREATE TABLE `web_contact` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_events_allpartners`
+--
+
+CREATE TABLE `web_events_allpartners` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_events_carousel`
+--
+
+CREATE TABLE `web_events_carousel` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` int(150) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_events_pics`
+--
+
+CREATE TABLE `web_events_pics` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_events_upcoming`
+--
+
+CREATE TABLE `web_events_upcoming` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(150) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_home_carousel`
+--
+
+CREATE TABLE `web_home_carousel` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `web_home_carousel`
+--
+
+INSERT INTO `web_home_carousel` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
+(1, 'Banner 1', '../../../one-centro-web/public/webImages/65fe53e09aad2_Banner 1.jpg', 'Banner 1', '2024-03-23 04:00:32', '2024-03-23 04:00:32'),
+(2, 'Banner 2', '../../../one-centro-web/public/webImages/65fe53eac8479_2560x711 copy.jpg', 'Banner 2', '2024-03-23 04:00:42', '2024-03-23 04:00:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_home_partners`
+--
+
+CREATE TABLE `web_home_partners` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `web_home_partners`
+--
+
+INSERT INTO `web_home_partners` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
+(8, 'JM Shawarma', '../../../one-centro-web/public/webImages/66012e1613928_jm-shawarma-logo.png', 'JM Shawarma', '2024-03-25 07:56:06', '2024-03-25 07:56:06'),
+(9, 'JM Shawarma', '../../../one-centro-web/public/webImages/66012e36d70eb_jm-shawarma-logo.png', 'JM Shawarma', '2024-03-25 07:56:38', '2024-03-25 07:56:38'),
+(10, '4521x1921', '../../../one-centro-web/public/webImages/660298326d2e5_4521x1921.jpg', '4521x1921', '2024-03-26 09:41:06', '2024-03-26 09:41:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_home_whatsnew`
+--
+
+CREATE TABLE `web_home_whatsnew` (
+  `id` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `caption` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `web_home_whatsnew`
+--
+
+INSERT INTO `web_home_whatsnew` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
+(1, 'Image 1', '../../../one-centro-web/public/webImages/65fe4fb37eec8_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:42:43', '2024-03-23 03:42:43'),
+(2, 'Image 2', '../../../one-centro-web/public/webImages/65fe4fc1ec457_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:42:57', '2024-03-23 03:42:57'),
+(3, 'Image 3', '../../../one-centro-web/public/webImages/65fe4fcabb2c9_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:43:06', '2024-03-23 03:43:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `web_kasuki`
+--
+
+CREATE TABLE `web_kasuki` (
+  `id` int(11) NOT NULL,
+  `text_title` varchar(100) NOT NULL,
+  `text_body` text NOT NULL,
+  `image1` varchar(100) NOT NULL,
+  `image2` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -1006,6 +1213,12 @@ ALTER TABLE `issues`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `positions`
 --
 ALTER TABLE `positions`
@@ -1027,6 +1240,36 @@ ALTER TABLE `services`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `web_about`
+--
+ALTER TABLE `web_about`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `web_events_allpartners`
+--
+ALTER TABLE `web_events_allpartners`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `web_home_carousel`
+--
+ALTER TABLE `web_home_carousel`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `web_home_partners`
+--
+ALTER TABLE `web_home_partners`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `web_home_whatsnew`
+--
+ALTER TABLE `web_home_whatsnew`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1079,13 +1322,13 @@ ALTER TABLE `bd_payments`
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
@@ -1124,6 +1367,12 @@ ALTER TABLE `issues`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
@@ -1146,6 +1395,36 @@ ALTER TABLE `services`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT for table `web_about`
+--
+ALTER TABLE `web_about`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `web_events_allpartners`
+--
+ALTER TABLE `web_events_allpartners`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `web_home_carousel`
+--
+ALTER TABLE `web_home_carousel`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `web_home_partners`
+--
+ALTER TABLE `web_home_partners`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `web_home_whatsnew`
+--
+ALTER TABLE `web_home_whatsnew`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -50,29 +50,54 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle border-0 py-0" type="button" id="charts" data-bs-toggle="dropdown" aria-expanded="false">
-                            Charts
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="charts">
-                            <li><a class="dropdown-item py-1" href="bidding-information">Bidding Chart</a></li>
-                        </ul>
+                        <button class="btn dropdown-toggle border-0 py-0" type="button" id="webManager" data-bs-toggle="dropdown" aria-expanded="false">Web Manager</button>
+                        <div class="dropdown-menu mega-menu" aria-labelledby="webManager">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="dropdown-header">Home</h6>
+                                    <a class="dropdown-item py-1" href="web/home-carousel">Home Carousel</a>
+                                    <a class="dropdown-item py-1" href="web/home-whatsnew">Home What's New</a>
+                                    <a class="dropdown-item py-1" href="web/home-partners">Home Partners</a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-header" href="web/about">About</a>
+                                </div>
+                                <div class="col">
+                                    <h6 class="dropdown-header">Events</h6>
+                                    <a class="dropdown-item py-1" href="web/events-upcoming">Events Upcoming</a>
+                                    <a class="dropdown-item py-1" href="web/events-carousel">Events Carousel</a>
+                                    <a class="dropdown-item py-1" href="web/events-pics">Events Pics</a>
+                                    <a class="dropdown-item py-1" href="web/events-allpartners">Events All Partners</a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-header" href="web/careers">Career</a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-header" href="web/kasuki">Ka-Suki</a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-header" href="web/contact">Messages</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>
-            <div class="border-top border-bottom">
-                <button class="btn border-0 border-start border-end" id="infoButton">
-                    <img src=".././dist/icons/info.png" alt="" style="width: 40px;"> <br>
-                    <small>Info</small>
-                </button>
-                <button class="btn border-0 border-end" id="loadDataButton">
-                    <img src=".././dist/icons/refresh.png" alt="" style="width: 40px;"> <br>
-                    <small>Refresh</small>
-                </button>
-                <button class="btn border-0 border-end" id="logButton">
-                    <img src=".././dist/icons/log.png" alt="" style="width: 40px;"> <br>
-                    <small>Log</small>
-                </button>
-            </div>
+        </div>
+        <div class="border-top border-bottom">
+            <button class="btn border-0 border-start border-end" id="infoButton">
+                <img src=".././dist/icons/info.png" alt="" style="width: 40px;"> <br>
+                <small>Info</small>
+            </button>
+            <button class="btn border-0 border-end" id="loadDataButton">
+                <img src=".././dist/icons/refresh.png" alt="" style="width: 40px;"> <br>
+                <small>Refresh</small>
+            </button>
+            <button class="btn border-0 border-end" id="logButton">
+                <img src=".././dist/icons/log.png" alt="" style="width: 40px;"> <br>
+                <small>Log</small>
+            </button>
+        </div>
         </div>
     </header>
     <!--  Header End -->
