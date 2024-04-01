@@ -105,9 +105,9 @@
                                             $fetchLGUById = "SELECT * FROM bd_lgu WHERE id = '$LGUId'";
                                             $fetchLGUById= mysqli_query($conn, $fetchLGUById);
                                             while ($LGU = mysqli_fetch_assoc($fetchLGUById)) {
-                                                $out .= '<option value="' . $LGU["id"] . '">' . $LGU["project_description"] . '</option>';
+                                                $out .= '<option selected value="' . $LGU["id"] . '">' . $LGU["lgu_name"] . '</option>';
                                             }
-                                        
+
                                             echo $out;
 
                                             ?>

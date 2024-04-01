@@ -8,6 +8,12 @@ class PurchaseOrderFacade extends DBConnection {
         return $sql;
     }
 
+    public function fetchPODeliveries() {
+        $sql = $this->connect()->prepare("SELECT DISTINCT project_name FROM bd_po WHERE is_delivered = 0");
+        $sql->execute();
+        return $sql;
+    }
+
     public function fetchPOByPONumber($PONumber) {
         $sql = $this->connect()->prepare("SELECT * FROM bd_po WHERE id = '$PONumber'");
         $sql->execute();

@@ -127,7 +127,7 @@ if (isset($_POST["update_purchase_order"])) {
                 $newBiddingCurrentQuantity = $biddingTotalQuantity - $biddingCurrentQuantity + $totalQuantity;
                 $newBiddingCurrentAmount = $biddingProjectBudgetAmount - $biddingCurrentAmount + $totalAmount;
 
-                if ($newBiddingCurrentQuantity > $biddingTotalQuantity || $newBiddingCurrentAmount > $biddingProjectBudgetAmount) {
+                if ($newBiddingCurrentQuantity < $biddingTotalQuantity || $newBiddingCurrentAmount < $biddingProjectBudgetAmount) {
                     array_push($invalid, 'The quantity or amount is greater than the allocated budget');
                 } else {
                     $updatePO = $POFacade->updatePO($projectName, $BMNumber, $projectTypeId, $LGUId, $PODate, $totalSKUAssortment, $totalQuantity, $totalAmount, $remarks, $POId);

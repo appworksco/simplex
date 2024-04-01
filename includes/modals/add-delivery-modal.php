@@ -29,7 +29,7 @@
                                     <select class="form-select" id="projectName" name="project_name_spsd">
                                         <option value="">Please Select...</option>
                                         <?php
-                                        $fetchPO = $POFacade->fetchPO();
+                                        $fetchPO = $POFacade->fetchPODeliveries();
                                         while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value="<?= $row["project_name"] ?>"><?= $row["project_name"] ?></option>
                                         <?php } ?>
@@ -92,7 +92,7 @@
                                     <select class="form-select" id="projectNameMpsd" name="project_name_mpsd">
                                         <option value="">Please Select...</option>
                                         <?php
-                                        $fetchPO = $POFacade->fetchPO();
+                                        $fetchPO = $POFacade->fetchPODeliveries();
                                         while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value="<?= $row["project_name"] ?>"><?= $row["project_name"] ?></option>
                                         <?php } ?>
@@ -174,7 +174,7 @@
                                     <select class="form-select" id="projectNameSpmd" name="project_name_spmd">
                                         <option value="">Please Select...</option>
                                         <?php
-                                        $fetchPO = $POFacade->fetchPO();
+                                        $fetchPO = $POFacade->fetchPODeliveries();
                                         while ($row = $fetchPO->fetch(PDO::FETCH_ASSOC)) { ?>
                                             <option value="<?= $row["project_name"] ?>"><?= $row["project_name"] ?></option>
                                         <?php } ?>
