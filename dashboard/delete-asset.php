@@ -9,6 +9,6 @@ if (isset($_GET["asset_num"])) {
     $assetNum = $_GET["asset_num"];
     $deleteAsset = $assetsFacade->deleteAsset($assetNum);
     if ($deleteAsset) {
-        header("Location: asset-overview");
+        header("Location: fixed-asset-inventory.php");
     }
 }

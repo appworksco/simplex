@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2024 at 07:30 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.25
+-- Generation Time: Jun 20, 2024 at 04:50 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -378,7 +378,8 @@ CREATE TABLE `bd_deliveries` (
 
 INSERT INTO `bd_deliveries` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `1st_po_no`, `1st_total_quantity`, `1st_total_amount`, `2nd_po_no`, `2nd_total_quantity`, `2nd_total_amount`, `3rd_po_no`, `3rd_total_quantity`, `3rd_total_amount`, `4th_po_no`, `4th_total_quantity`, `4th_total_amount`, `5th_po_no`, `5th_total_quantity`, `5th_total_amount`, `dr_no`, `dr_date`, `is_paid`) VALUES
 (118, 4, 'IT SUPPLIES', 'BM202420', 5, '168', '1', 500, '', '', 0, '', '', 0, '', '', 0, '', '', 0, '1', '03/21/2024', 1),
-(119, 4, 'IT SUPPLIES', 'BM202421', 5, '169', '1', 100, '171', '1', 100, '172', '1', 100, '170', '1', 100, '173', '1', 100, '123', '03/29/2024', 1);
+(119, 4, 'IT SUPPLIES', 'BM202421', 5, '169', '1', 100, '171', '1', 100, '172', '1', 100, '170', '1', 100, '173', '1', 100, '123', '03/29/2024', 1),
+(120, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'BM202429', 5, '206', '250', 250000, '206', '250', 250000, '207', '220', 220000, '208', '30', 30000, '0', '0', 0, '51561', '03/31/2024', 0);
 
 -- --------------------------------------------------------
 
@@ -396,6 +397,13 @@ CREATE TABLE `bd_expense` (
   `total_amount` double NOT NULL,
   `remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bd_expense`
+--
+
+INSERT INTO `bd_expense` (`id`, `project_name`, `project_type_id`, `bm_no`, `lgu_id`, `expense_type`, `total_amount`, `remarks`) VALUES
+(9, 'RELOCATION SITE ', 7, '', 5, 'BID DOCS', 10000, '');
 
 -- --------------------------------------------------------
 
@@ -505,7 +513,8 @@ CREATE TABLE `bd_payments` (
 
 INSERT INTO `bd_payments` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_no`, `dr_no`, `dr_date`, `delivered_total_quantity`, `delivered_total_amount`, `remaining_balance`, `bill_no`, `bill_date`, `bill_quantity`, `bill_amount`, `payment_mode`, `payment_date`, `payment_amount`, `payment_receipt_number`, `1st_bill_no`, `1st_payment_mode`, `1st_payment_date`, `1st_payment_amount`, `1st_payment_receipt_number`, `2nd_bill_no`, `2nd_payment_mode`, `2nd_payment_date`, `2nd_payment_amount`, `2nd_payment_receipt_number`, `3rd_bill_no`, `3rd_payment_mode`, `3rd_payment_date`, `3rd_payment_amount`, `3rd_payment_receipt_number`, `4th_payment_mode`, `4th_bill_no`, `4th_payment_date`, `4th_payment_amount`, `4th_payment_receipt_number`, `5th_bill_no`, `5th_payment_mode`, `5th_payment_date`, `5th_payment_amount`, `5th_payment_receipt_number`, `is_paid`) VALUES
 (108, 4, 'IT SUPPLIES', 'BM202420', 5, '168', '1', '03/21/2024', '1', 500, '500', '', '', '1', 500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1),
-(109, 4, 'IT SUPPLIES', 'BM202421', 5, '0', '123', '03/29/2024', '5', 500, '500', '', '', '5', 500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1);
+(109, 4, 'IT SUPPLIES', 'BM202421', 5, '0', '123', '03/29/2024', '5', 500, '500', '', '', '5', 500, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 1),
+(110, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'BM202429', 5, '0', '51561', '03/31/2024', '750', 750000, '750000', '', '', '750', 750000, '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', '', '', '', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -532,7 +541,22 @@ CREATE TABLE `bd_po` (
 --
 
 INSERT INTO `bd_po` (`id`, `project_type_id`, `project_name`, `bm_no`, `lgu_id`, `po_date`, `total_sku_assortment`, `total_sku_quantity`, `total_amount`, `remarks`, `is_delivered`) VALUES
-(248, 4, 'IT SUPPLIES', 'BMBM202423', 4, '03/30/2024', 5, 5, 5000000, '', 0);
+(168, 4, 'IT SUPPLIES', 'BM202420', 5, '02/22/2024', 1, 1, 500, '', 1),
+(169, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(170, 4, 'IT SUPPLIES', 'BM202421', 5, '03/22/2024', 1, 1, 100, '', 1),
+(171, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(172, 4, 'IT SUPPLIES', 'BM202421', 5, '02/22/2024', 1, 1, 100, '', 1),
+(173, 4, 'IT SUPPLIES', 'BM202421', 5, '03/23/2024', 1, 1, 100, '', 1),
+(183, 7, 'RELOCATION SITE ', 'BM202426', 7, '02/07/2024', 25, 20000, 15000000, '', 0),
+(184, 7, 'RELOCATION SITE ', 'BM202426', 5, '02/19/2024', 120, 10000, 5000000, '', 0),
+(185, 7, 'RELOCATION SITE ', 'BM202426', 5, '03/27/2024', 100, 40000, 16000000, '', 0),
+(186, 4, 'Test', 'BM202427', 5, '03/28/2024', 5, 5, 500, '', 0),
+(203, 7, 'BUILDING ENHANCEMENT', 'BM202428', 5, '02/13/2024', 5, 5, 150000, '', 0),
+(204, 7, 'BUILDING ENHANCEMENT', 'BM202428', 5, '02/11/2024', 5, 52, 1000000, '', 0),
+(205, 7, 'BUILDING ENHANCEMENT', 'BM202428', 5, '02/29/2024', 2, 146, 850000, '', 0),
+(206, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'BM202429', 5, '02/11/2024', 5, 250, 250000, '', 1),
+(207, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'BM202429', 12, '02/25/2024', 5, 220, 220000, '', 1),
+(208, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'BM202429', 5, '03/27/2024', 5, 30, 30000, 'WITIK', 1);
 
 -- --------------------------------------------------------
 
@@ -569,7 +593,13 @@ CREATE TABLE `bd_project_information` (
 --
 
 INSERT INTO `bd_project_information` (`id`, `bm_no`, `lgu_id`, `project_type_id`, `project_name`, `project_status`, `payment_structure`, `project_budget_amount`, `project_expenses_amount`, `delivery_target_start_date`, `delivery_target_end_date`, `total_sku_quantity`, `total_quantity`, `expense_type`, `bid_date`, `award_date`, `remarks`, `total_delivered`, `total_paid`, `added_on`, `updated_on`) VALUES
-(72, 'BMBM202423', 5, 4, 'IT SUPPLIES', 'Won', 'Progressive', 5000000, 0, '04/26/2024', '03/14/2024', 5, '5', '', '09/23/23', '03/23/2024', '', 0, 0, '', '');
+(72, 'BM202423', 5, 12, 'FEEDING PROGRAM', 'Won', 'Progressive', 500000, 0, '02/01/2024', '02/29/2024', 5, '1000', '', '01/02/2024', '01/15/2024', '', 0, 0, '', ''),
+(73, 'BM202424', 5, 7, 'HOSPITAL FACILITY UPGRADE', 'Won', 'Progressive', 10000000, 0, '02/20/2024', '03/15/2024', 25, '10000', '', '01/05/2024', '02/05/2024', '', 0, 0, '', ''),
+(74, '202425', 5, 7, 'HOME FOR THE ELDERS', '', '', 25000000, 0, '', '', 50, '50000', '', '02/05/2024', '', '', 0, 0, '', ''),
+(75, 'BM202426', 5, 7, 'RELOCATION SITE ', 'Won', 'Progressive', 35000000, 10000, '02/06/2024', '03/31/2024', 150, '50000', '', '02/05/2024', '02/05/2024', '', 0, 0, '', ''),
+(76, 'BM202427', 5, 4, 'Test', 'Won', 'Progressive', 500, 0, '03/20/2024', '03/27/2024', 5, '5', '', '03/19/2024', '03/22/2024', '', 0, 0, '', ''),
+(77, 'BM202428', 5, 7, 'BUILDING ENHANCEMENT', 'Won', 'Upon Completion', 2000000, 0, '02/01/2024', '03/31/2024', 15, '200', '', '01/01/2024', '01/15/2024', '', 0, 0, '', ''),
+(78, 'BM202429', 5, 12, 'SUPPLEMENTAL FOOD FOR THE ELDERS', 'Won', 'Progressive', 500000, 0, '02/05/2024', '03/31/2024', 5, '500', '', '02/01/2024', '02/05/2024', '', 750, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -587,7 +617,7 @@ CREATE TABLE `bd_project_series` (
 --
 
 INSERT INTO `bd_project_series` (`id`, `series`) VALUES
-(1, '24');
+(1, '30');
 
 -- --------------------------------------------------------
 
@@ -645,7 +675,7 @@ CREATE TABLE `cts` (
 --
 
 INSERT INTO `cts` (`id`, `ticket_no`, `created_at`, `time_resolved`, `requested_by`, `department`, `issue`, `description`, `severity`, `assisted_by`, `assistors_remark`, `image`, `status`) VALUES
-(7, 32612658, '2024-02-29 11:38:42', '2024-03-21', 'Test Test', 'HR', 'Monitor', 'tryrty', 'Low', 'Adrian Pol Peligrino', 'Done', 'uploads/65dffc42081ba_35-350824_green-arrow-green-right-arrow-icon.png', 'Done');
+(7, 32612658, '2024-02-29 11:38:42', '', 'Test Test', 'HR', 'Monitor', 'tryrty', 'Low', '', '', 'uploads/65dffc42081ba_35-350824_green-arrow-green-right-arrow-icon.png', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -749,18 +779,6 @@ INSERT INTO `issues` (`id`, `issue`) VALUES
 (9, 'Printer'),
 (12, 'One Centro'),
 (13, 'Barter');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -879,7 +897,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_role`, `company_id`, `username`, `password`, `first_name`, `middle_name`, `last_name`, `birthdate`, `blood_type`, `address`, `contact_person`, `contact_person_number`, `department`, `position`, `services`, `time_in`, `break_out`, `break_in`, `time_out`, `sss`, `pag_ibig`, `phic`, `tin`, `status`, `can_create`, `can_update`, `can_delete`, `is_operation`) VALUES
 (1, 1, '00004001', 'AdrianPol27', 'admin107', 'Adrian Pol', 'Sano', 'Peligrino', '09/27/1999', 'O', 'P6 - Dologon, Maramag, Bukidnon', 'Jane Adtoon Adlaw', '09262130312', 'ICT', 'ITOS', 'TGCB', '', '', '', '', '08-3119589-6', '1213-1202-1350', '15-251581055-7', '611-376-341-000', 'Regular', 1, 1, 1, 0),
-(2, 1, '00000113', 'jared123', 'jared123', 'Jared Christopher', 'Bulasa', 'Cipriano', '12/23/1989', 'O+', 'Amante Village, P8 - North Poblacion, Maramag', 'Ruizzandra Cipriano', '09758882394', 'ICT', 'ITMI', 'TBGC', '', '', '', '', '819666787', '1211-0866-4617', '150503251827', '', 'Regular', 0, 0, 0, 0),
+(2, 1, '00000113', 'jared123', 'jared123', 'Jared Christopher', 'Bulasa', 'Cipriano', '12/23/1989', 'O+', 'Amante Village, P8 - North Poblacion, Maramag', 'Ruizzandra Cipriano', '09758882394', 'ICT', 'ITMI', 'TGCB', '', '', '', '', '819666787', '1211-0866-4617', '150503251827', '', 'Regular', 1, 1, 1, 0),
 (3, 0, '00003211', 'ian123', 'ian123', 'Ian Carlo', 'Cabalan', 'Handayan', '06/18/1997', 'O', 'P2 - Norte, Don Carlos', 'Joan Barioga', '09368965654', 'ICT', 'ITSI', 'TGCB', '', '', '', '', '943403463', '1212-7530-4725', '152530496095', '379-694-488-000', 'Regular', 0, 0, 0, 0),
 (4, 0, '00000252', 'nas123', 'nas123', 'Nasario', 'Dicdican', 'Edullantes', '03/12/1996', 'O', 'P5 - South Poblacion, Maramag', '', '', 'ICT', 'ITAS', 'TBGC', '', '', '', '', '08-3023301-8', '1212-6825-6671', '15-025552292-4', '364-212-611-000', 'Regular', 0, 0, 0, 0),
 (13, 0, '29460308', '', '', 'Gil', 'Montano', 'Concepcion Jr.', '7/10/1984', 'B+', 'P-3  Mailag, Valencia City', 'Fabelle D. Concepcion', '09700544579', 'AC', 'CCSS', 'TGCB', '', '', '', '', '08-16653-11-7', '1820-0057-6257', '15-025216741-4', '408-290-770', 'Probationary', 0, 0, 0, 0),
@@ -937,7 +955,7 @@ CREATE TABLE `web_about` (
 --
 
 INSERT INTO `web_about` (`id`, `mission`, `vision`, `descript`, `text`, `created_at`, `updated_at`) VALUES
-(1, 'sdfsdfasda sd asd asd as', 'sdfsadasd asda sd asd asd asd', 'vcvbcvbasd asd asd a', 'hkjkhjk', '2024-03-25 05:36:09', '2024-03-26 05:21:59');
+(1, 'sdfsdfasda sd asd asd as', 'sdfsadasd asda sd asd asd asd', 'vcvbcvbasd asd asd a', 'hkjkhjk', '2024-03-24 21:36:09', '2024-03-25 21:21:59');
 
 -- --------------------------------------------------------
 
@@ -1049,8 +1067,8 @@ CREATE TABLE `web_home_carousel` (
 --
 
 INSERT INTO `web_home_carousel` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
-(1, 'Banner 1', '../../../one-centro-web/public/webImages/65fe53e09aad2_Banner 1.jpg', 'Banner 1', '2024-03-23 04:00:32', '2024-03-23 04:00:32'),
-(2, 'Banner 2', '../../../one-centro-web/public/webImages/65fe53eac8479_2560x711 copy.jpg', 'Banner 2', '2024-03-23 04:00:42', '2024-03-23 04:00:42');
+(1, 'Banner 1', '../../../one-centro-web/public/webImages/65fe53e09aad2_Banner 1.jpg', 'Banner 1', '2024-03-22 20:00:32', '2024-03-22 20:00:32'),
+(2, 'Banner 2', '../../../one-centro-web/public/webImages/65fe53eac8479_2560x711 copy.jpg', 'Banner 2', '2024-03-22 20:00:42', '2024-03-22 20:00:42');
 
 -- --------------------------------------------------------
 
@@ -1067,15 +1085,6 @@ CREATE TABLE `web_home_partners` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `web_home_partners`
---
-
-INSERT INTO `web_home_partners` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
-(8, 'JM Shawarma', '../../../one-centro-web/public/webImages/66012e1613928_jm-shawarma-logo.png', 'JM Shawarma', '2024-03-25 07:56:06', '2024-03-25 07:56:06'),
-(9, 'JM Shawarma', '../../../one-centro-web/public/webImages/66012e36d70eb_jm-shawarma-logo.png', 'JM Shawarma', '2024-03-25 07:56:38', '2024-03-25 07:56:38'),
-(10, '4521x1921', '../../../one-centro-web/public/webImages/660298326d2e5_4521x1921.jpg', '4521x1921', '2024-03-26 09:41:06', '2024-03-26 09:41:06');
-
 -- --------------------------------------------------------
 
 --
@@ -1090,15 +1099,6 @@ CREATE TABLE `web_home_whatsnew` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `web_home_whatsnew`
---
-
-INSERT INTO `web_home_whatsnew` (`id`, `name`, `image`, `caption`, `created_at`, `updated_at`) VALUES
-(1, 'Image 1', '../../../one-centro-web/public/webImages/65fe4fb37eec8_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:42:43', '2024-03-23 03:42:43'),
-(2, 'Image 2', '../../../one-centro-web/public/webImages/65fe4fc1ec457_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:42:57', '2024-03-23 03:42:57'),
-(3, 'Image 3', '../../../one-centro-web/public/webImages/65fe4fcabb2c9_img-1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare eros orci, nec ullamcorper enim tincidunt at. Sed ut risus eu eros rutrum laoreet et vitae quam.', '2024-03-23 03:43:06', '2024-03-23 03:43:06');
 
 -- --------------------------------------------------------
 
@@ -1213,12 +1213,6 @@ ALTER TABLE `issues`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `positions`
 --
 ALTER TABLE `positions`
@@ -1243,36 +1237,6 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `web_about`
---
-ALTER TABLE `web_about`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `web_events_allpartners`
---
-ALTER TABLE `web_events_allpartners`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `web_home_carousel`
---
-ALTER TABLE `web_home_carousel`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `web_home_partners`
---
-ALTER TABLE `web_home_partners`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `web_home_whatsnew`
---
-ALTER TABLE `web_home_whatsnew`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1292,13 +1256,13 @@ ALTER TABLE `assets_series`
 -- AUTO_INCREMENT for table `bd_deliveries`
 --
 ALTER TABLE `bd_deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `bd_expense`
 --
 ALTER TABLE `bd_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `bd_lgu`
@@ -1316,19 +1280,19 @@ ALTER TABLE `bd_municipality`
 -- AUTO_INCREMENT for table `bd_payments`
 --
 ALTER TABLE `bd_payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `bd_po`
 --
 ALTER TABLE `bd_po`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `bd_project_information`
 --
 ALTER TABLE `bd_project_information`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `bd_project_series`
@@ -1367,12 +1331,6 @@ ALTER TABLE `issues`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
@@ -1395,36 +1353,6 @@ ALTER TABLE `services`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
-
---
--- AUTO_INCREMENT for table `web_about`
---
-ALTER TABLE `web_about`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `web_events_allpartners`
---
-ALTER TABLE `web_events_allpartners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `web_home_carousel`
---
-ALTER TABLE `web_home_carousel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `web_home_partners`
---
-ALTER TABLE `web_home_partners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `web_home_whatsnew`
---
-ALTER TABLE `web_home_whatsnew`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
